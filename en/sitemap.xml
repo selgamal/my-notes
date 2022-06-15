@@ -2,80 +2,80 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/tags/basics/</loc>
+    <loc>/my-notes/tags/basics/</loc>
   </url><url>
-    <loc>/tags/digital-financial-reporting/</loc>
+    <loc>/my-notes/tags/digital-financial-reporting/</loc>
   </url><url>
-    <loc>/tags/financial-reporting/</loc>
+    <loc>/my-notes/tags/financial-reporting/</loc>
   </url><url>
-    <loc>/post/notes-on-xbrl-specs/</loc>
+    <loc>/my-notes/post/notes-on-xbrl-specs/</loc>
   </url><url>
-    <loc>/post/</loc>
+    <loc>/my-notes/post/</loc>
   </url><url>
-    <loc>/search/</loc>
+    <loc>/my-notes/search/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="/ar/search/"
+                href="/my-notes/ar/search/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/search/"
+                href="/my-notes/search/"
                 />
   </url><url>
-    <loc>/series/</loc>
+    <loc>/my-notes/series/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="/ar/series/"
+                href="/my-notes/ar/series/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/series/"
+                href="/my-notes/series/"
                 />
   </url><url>
-    <loc>/</loc>
+    <loc>/my-notes/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="/ar/"
+                href="/my-notes/ar/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/"
+                href="/my-notes/"
                 />
   </url><url>
-    <loc>/tags/</loc>
+    <loc>/my-notes/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="/ar/tags/"
+                href="/my-notes/ar/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/tags/"
+                href="/my-notes/tags/"
                 />
   </url><url>
-    <loc>/topics/</loc>
+    <loc>/my-notes/topics/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="/ar/topics/"
+                href="/my-notes/ar/topics/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/topics/"
+                href="/my-notes/topics/"
                 />
   </url><url>
-    <loc>/topics/xbrl/</loc>
+    <loc>/my-notes/topics/xbrl/</loc>
   </url><url>
-    <loc>/tags/xbrl/</loc>
+    <loc>/my-notes/tags/xbrl/</loc>
   </url><url>
-    <loc>/tags/xml/</loc>
+    <loc>/my-notes/tags/xml/</loc>
   </url>
 </urlset>

@@ -2,64 +2,64 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/ar/series/</loc>
+    <loc>/my-notes/ar/series/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/series/"
+                href="/my-notes/series/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="/ar/series/"
+                href="/my-notes/ar/series/"
                 />
   </url><url>
-    <loc>/ar/tags/</loc>
+    <loc>/my-notes/ar/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/tags/"
+                href="/my-notes/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="/ar/tags/"
+                href="/my-notes/ar/tags/"
                 />
   </url><url>
-    <loc>/ar/topics/</loc>
+    <loc>/my-notes/ar/topics/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/topics/"
+                href="/my-notes/topics/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="/ar/topics/"
+                href="/my-notes/ar/topics/"
                 />
   </url><url>
-    <loc>/ar/search/</loc>
+    <loc>/my-notes/ar/search/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/search/"
+                href="/my-notes/search/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="/ar/search/"
+                href="/my-notes/ar/search/"
                 />
   </url><url>
-    <loc>/ar/</loc>
+    <loc>/my-notes/ar/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="/"
+                href="/my-notes/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="ar"
-                href="/ar/"
+                href="/my-notes/ar/"
                 />
   </url>
 </urlset>
