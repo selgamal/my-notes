@@ -1,0 +1,28 @@
+text,url,attr,Description
+Yeti Taxonomy Viewer,https://bigfoot.corefiling.com/yeti,target=_blank,Browse collection of publicly available taxonomies from allover the world - Requires free registration
+US GAAP Taxonomy 2021 and related architecture and guidance,https://www.fasb.org/jsp/FASB/Page/SectionPage&cid=1176175721628,target=_blank,US GAAP Taxonomy published by US Financial Accounting Standards Board (FASB)
+IFRS Taxonomy and related architecture and guidance,https://www.ifrs.org/issued-standards/ifrs-taxonomy/ifrs-taxonomy-2021/,target=_blank,IFRS taxonomy published by International Accounting Standards Board (IASB)
+ESEF Taxonomy and related architecture and guidance,https://www.esma.europa.eu/document/esma-esef-taxonomy-2020,target=_blank,European Single Electronic Filing Taxonomy (ESEF) published by (European Securities And Market Authority)
+XBRL International Website,https://www.xbrl.org/,target=_blank,"XBRL International is a global not for profit operating in the public interest. Our purpose is to improve the accountability and transparency of business performance globally, by providing the open data exchange standard for business reporting."
+Taxonomy Development Handbook,https://xbrlus.github.io/docs/tdh.html,target=_blank,"The Taxonomy Development Handbook (TDH) is a comprehensive guide that directs regulators, industry experts, and businesses through a practical, consistent roadmap to building high quality data standards using XBRL."
+XBRL is a set of specifications,https://specifications.xbrl.org/specifications.html,target=_blank,"List of XBRL technical specifications"
+W3Schools XML Tutorial,https://www.w3schools.com/xml/xml_validator.asp,target=_blank,"Tutorial explaining basics of XML"
+XML W3C recommendation,https://www.w3.org/XML/Schema,target=_blank,"XML Schema specifications"
+Derivation in XML,https://www.xml.com/pub/a/2001/08/22/easyschema.html,target=_blank,"A good explanation of derivation in XML"
+XLink W3C recommendation,https://www.w3.org/TR/xlink11/,target=_blank,"XLink specifications"
+XPointer W3C recommendation,https://www.w3.org/TR/xptr/,target=_blank,"XPointer specifications"
+XBRL Glossary,https://www.xbrl.org/guidance/xbrl-glossary/,target=_blank,"Glossary of XBRL terms"
+XBRL Specifications,https://specifications.xbrl.org/spec-group-index-group-base-spec.html,target=_blank,"Core XBRL Specs"
+Dimensions Specifications,https://specifications.xbrl.org/spec-group-index-group-dimensions.html,target=_blank,"The XBRL Dimensions specification enables the reporting of multi-dimensional facts against dimensions defined in an XBRL taxonomy."
+Extensible Enumerations,https://specifications.xbrl.org/spec-group-index-extensible-enumerations.html,target=_blank,"Allows for constraining the allowed values for primary reporting concepts (choices from specific list)."
+Formula Specifications,https://specifications.xbrl.org/spec-group-index-formula.html,target=_blank,"XBRL Formula provides a standard mechanism for defining rules in a taxonomy that can be applied against instance documents."
+Generic Links Specifications,https://specifications.xbrl.org/spec-group-index-generic-links.html,target=_blank,"A link type with no predefined semantics or constraints. This can be used used as a building block for other specifications."
+Generic Preferred Label Specifications,https://specifications.xbrl.org/spec-group-index-generic-preferred-label.html,target=_blank,"This specification introduces the preferred label feature for all relationships."
+Global Ledger Specifications,https://specifications.xbrl.org/spec-group-index-xbrl-gl.html,target=_blank," XBRL Specs for transactional reporting."
+Infrastructure Specifications,https://specifications.xbrl.org/spec-group-index-infrastructure.html,target=_blank,"Specifications in this section are used to support the development of XBRL specifications and registries."
+Inline XBRL Specifications,https://specifications.xbrl.org/spec-group-index-inline-xbrl.html,target=_blank,"Inline XBRL, or iXBRL, provides a mechanism for embedding XBRL tags in HTML documents."
+Registries Specifications,https://specifications.xbrl.org/spec-group-index-registries.html,target=_blank,"Registries provide a centralized list of definitions, allowing implementers to re-use suitable definitions created by others."
+Table Linkbase Specifications,https://specifications.xbrl.org/spec-group-index-table-linkbase.html,target=_blank,"Provides a mechanism for taxonomy authors to define a tabular layout of facts. The resulting tables can be used for both presentation and data entry."
+Taxonomy & Report Packages Specifications,https://specifications.xbrl.org/spec-group-index-taxonomy-packages.html,target=_blank,"Taxonomy Packages provide a standardized mechanism for providing documentation about the content of a taxonomy."
+Versioning Specifications,https://specifications.xbrl.org/spec-group-index-group-versioning.html,target=_blank,"Defines an XML syntax for an XBRL versioning Report."
+Full guide for XULE,https://xbrl.us/wp-content/uploads/2019/10/XuleV1.1.pdf,target=_blank,"Full guide for XULE used to validate and query XBRL instance documents."

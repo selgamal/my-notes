@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<link:linkbase xsi:schemaLocation="http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:link="http://www.xbrl.org/2003/linkbase">
+	<link:roleRef roleURI="http://xyz.abc/role/IncomeStatement" xlink:type="simple" xlink:href="is.xsd#roleType_IncomeStatement"/>
+	<link:calculationLink xlink:type="extended" xlink:role="http://xyz.abc/role/IncomeStatement">
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_GrossProfitConcept" xlink:label="example_GrossProfitConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_RevenueConcept" xlink:label="example_RevenueConcept"/>
+		<link:calculationArc order="1.0" weight="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/summation-item" xlink:from="example_GrossProfitConcept" xlink:to="example_RevenueConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_CostOfRevenueConcept" xlink:label="example_CostOfRevenueConcept"/>
+		<link:calculationArc order="1.0" weight="-1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/summation-item" xlink:from="example_GrossProfitConcept" xlink:to="example_CostOfRevenueConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_NetProfitConcept" xlink:label="example_NetProfitConcept"/>
+		<link:calculationArc order="1.0" weight="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/summation-item" xlink:from="example_NetProfitConcept" xlink:to="example_GrossProfitConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_ExpensesConcept" xlink:label="example_ExpensesConcept"/>
+		<link:calculationArc order="1.0" weight="-1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/summation-item" xlink:from="example_NetProfitConcept" xlink:to="example_ExpensesConcept"/>
+	</link:calculationLink>
+</link:linkbase>

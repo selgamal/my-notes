@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table>
+  <invoice CustomerName="abc" InvoiceNum="264" InvoiceDate="2000-01-05" InvoiceCurrency="CU">650.60</invoice>
+  <invoice CustomerName="abc" InvoiceNum="396" InvoiceDate="2000-01-24" InvoiceCurrency="CU">441.60</invoice>
+  <invoice CustomerName="abc" InvoiceNum="455" InvoiceDate="2000-04-18" InvoiceCurrency="CU">492.19</invoice>
+  <invoice CustomerName="abc" InvoiceNum="509" InvoiceDate="2000-07-30" InvoiceCurrency="CU">133.69</invoice>
+  <invoice CustomerName="mno" InvoiceNum="631" InvoiceDate="2000-09-15" InvoiceCurrency="CU">976.19</invoice>
+  <invoice CustomerName="mno" InvoiceNum="700" InvoiceDate="2000-10-09" InvoiceCurrency="CU">488.58</invoice>
+  <invoice CustomerName="mno" InvoiceNum="721" InvoiceDate="2000-10-24" InvoiceCurrency="CU">961.82</invoice>
+  <invoice CustomerName="abc" InvoiceNum="978" InvoiceDate="2000-11-09" InvoiceCurrency="CU">898.98</invoice>
+  <invoice CustomerName="xyz" InvoiceNum="981" InvoiceDate="2000-12-13" InvoiceCurrency="CU">675.98</invoice>
+  <invoice CustomerName="xyz" InvoiceNum="998" InvoiceDate="2000-12-25" InvoiceCurrency="CU">973.87</invoice>
+</table>

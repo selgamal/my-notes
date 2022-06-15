@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:inv="http://myproject.com/test2/1"
+	targetNamespace="http://myproject.com/test2/1"
+	elementFormDefault="qualified"
+	>
+	
+	<xs:simpleType name="currType">
+		<xs:annotation>
+			<xs:documentation>Currency type selection either "CU" or "CX"
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CU" /> 
+			<xs:enumeration value="CX" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:attributeGroup name="invoiceGrp">
+		<xs:annotation>
+			<xs:documentation>Type defining the invoice required information
+			</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="InvoiceNum" type="xs:unsignedShort"
+			use="required" />
+		<xs:attribute name="InvoiceDate" type="xs:date"
+			use="required" />
+		<xs:attribute name="InvoiceCurrency" type="inv:currType"
+			use="required" />
+		<xs:attribute name="CustomerName" type="xs:string"
+			use="required" />
+	</xs:attributeGroup>
+	<xs:simpleType name="positive_decimalType">
+		<xs:annotation>
+			<xs:documentation>Restriction on invoice amount to be always a
+				positive number.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="invoiceType">
+		<xs:annotation>
+			<xs:documentation>Invoice type based using declared positive decimal
+				type and invoice attributes group.</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="inv:positive_decimalType">
+				<xs:attributeGroup ref="inv:invoiceGrp" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:element name="table">
+		<xs:annotation>
+			<xs:documentation>Defines root node using declared invoiceType.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" name="invoice"
+					type="inv:invoiceType" minOccurs="1" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

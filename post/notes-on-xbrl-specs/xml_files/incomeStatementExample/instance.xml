@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--extracted from OIM C:\Users\Sherif\Desktop\XBRL related\TDH-v1.0-templates\MyTest\csvoim-metadata.json-->
+<xbrl
+  xmlns="http://www.xbrl.org/2003/instance"
+  xmlns:example="http://xyz.abc/IncomeStatementExample"
+  xmlns:iso4217="http://www.xbrl.org/2003/iso4217"
+  xmlns:link="http://www.xbrl.org/2003/linkbase"
+  xmlns:xbrldi="http://xbrl.org/2006/xbrldi"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+    <link:schemaRef xlink:href="is.xsd" xlink:type="simple"/>
+    <context id="c-01">
+        <entity>
+            <identifier scheme="http://www.any.gov/identifier">Example-IS</identifier>
+        </entity>
+        <period>
+            <startDate>2020-01-01</startDate>
+            <endDate>2020-12-30</endDate>
+        </period>
+    </context>
+    <unit id="u-01">
+        <measure>iso4217:EGP</measure>
+    </unit>
+    <unit id="u-02">
+        <divide>
+          <unitNumerator>
+              <measure>iso4217:EGP</measure>
+          </unitNumerator>
+          <unitDenominator>
+              <measure>shares</measure>
+          </unitDenominator>
+      </divide>
+    </unit>
+    <unit id="u-03">
+        <measure>shares</measure>
+    </unit>
+    <example:RevenueConcept
+      contextRef="c-01"
+      decimals="2"
+      id="facts.r_f001.value"
+      unitRef="u-01">5000</example:RevenueConcept>
+    <context id="c-02">
+        <entity>
+            <identifier scheme="http://www.any.gov/identifier">Example-IS</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="example:ProductServiceAxis">example:ProductMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2020-01-01</startDate>
+            <endDate>2020-12-30</endDate>
+        </period>
+    </context>
+    <example:RevenueConcept
+      contextRef="c-02"
+      decimals="2"
+      id="facts.r_f002.value"
+      unitRef="u-01">2000</example:RevenueConcept>
+    <context id="c-03">
+        <entity>
+            <identifier scheme="http://www.any.gov/identifier">Example-IS</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="example:ProductServiceAxis">example:ServiceMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2020-01-01</startDate>
+            <endDate>2020-12-30</endDate>
+        </period>
+    </context>
+    <example:RevenueConcept
+      contextRef="c-03"
+      decimals="2"
+      id="facts.r_f003.value"
+      unitRef="u-01">3000</example:RevenueConcept>
+    <example:CostOfRevenueConcept
+      contextRef="c-01"
+      decimals="2"
+      id="facts.r_f004.value"
+      unitRef="u-01">3000</example:CostOfRevenueConcept>
+    <example:CostOfRevenueConcept
+      contextRef="c-02"
+      decimals="2"
+      id="facts.r_f005.value"
+      unitRef="u-01">1000</example:CostOfRevenueConcept>
+    <example:CostOfRevenueConcept
+      contextRef="c-03"
+      decimals="2"
+      id="facts.r_f006.value"
+      unitRef="u-01">2000</example:CostOfRevenueConcept>
+    <example:GrossProfitConcept
+      contextRef="c-01"
+      decimals="2"
+      id="facts.r_f007.value"
+      unitRef="u-01">2000</example:GrossProfitConcept>
+    <example:GrossProfitConcept
+      contextRef="c-02"
+      decimals="2"
+      id="facts.r_f008.value"
+      unitRef="u-01">1000</example:GrossProfitConcept>
+    <example:GrossProfitConcept
+      contextRef="c-03"
+      decimals="2"
+      id="facts.r_f009.value"
+      unitRef="u-01">1000</example:GrossProfitConcept>
+    <example:ExpensesConcept
+      contextRef="c-01"
+      decimals="2"
+      id="facts.r_f010.value"
+      unitRef="u-01">500</example:ExpensesConcept>
+    <example:NetProfitConcept
+      contextRef="c-01"
+      decimals="2"
+      id="facts.r_f011.value"
+      unitRef="u-01">1500</example:NetProfitConcept>
+    <context id="c-04">
+        <entity>
+            <identifier scheme="http://www.any.gov/identifier">Example-IS</identifier>
+        </entity>
+        <period>
+            <startDate>2019-01-01</startDate>
+            <endDate>2019-12-30</endDate>
+        </period>
+    </context>
+    <example:RevenueConcept
+      contextRef="c-04"
+      decimals="2"
+      id="facts.r_f012.value"
+      unitRef="u-01">4000</example:RevenueConcept>
+    <context id="c-05">
+        <entity>
+            <identifier scheme="http://www.any.gov/identifier">Example-IS</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="example:ProductServiceAxis">example:ProductMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2019-01-01</startDate>
+            <endDate>2019-12-30</endDate>
+        </period>
+    </context>
+    <example:RevenueConcept
+      contextRef="c-05"
+      decimals="2"
+      id="facts.r_f013.value"
+      unitRef="u-01">2500</example:RevenueConcept>
+    <context id="c-06">
+        <entity>
+            <identifier scheme="http://www.any.gov/identifier">Example-IS</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="example:ProductServiceAxis">example:ServiceMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2019-01-01</startDate>
+            <endDate>2019-12-30</endDate>
+        </period>
+    </context>
+    <example:RevenueConcept
+      contextRef="c-06"
+      decimals="2"
+      id="facts.r_f014.value"
+      unitRef="u-01">1500</example:RevenueConcept>
+    <example:CostOfRevenueConcept
+      contextRef="c-04"
+      decimals="2"
+      id="facts.r_f015.value"
+      unitRef="u-01">2250</example:CostOfRevenueConcept>
+    <example:CostOfRevenueConcept
+      contextRef="c-05"
+      decimals="2"
+      id="facts.r_f016.value"
+      unitRef="u-01">1250</example:CostOfRevenueConcept>
+    <example:CostOfRevenueConcept
+      contextRef="c-06"
+      decimals="2"
+      id="facts.r_f017.value"
+      unitRef="u-01">1000</example:CostOfRevenueConcept>
+    <example:GrossProfitConcept
+      contextRef="c-04"
+      decimals="2"
+      id="facts.r_f018.value"
+      unitRef="u-01">1750</example:GrossProfitConcept>
+    <example:GrossProfitConcept
+      contextRef="c-05"
+      decimals="2"
+      id="facts.r_f019.value"
+      unitRef="u-01">1250</example:GrossProfitConcept>
+    <example:GrossProfitConcept
+      contextRef="c-06"
+      decimals="2"
+      id="facts.r_f020.value"
+      unitRef="u-01">500</example:GrossProfitConcept>
+    <example:ExpensesConcept
+      contextRef="c-04"
+      decimals="2"
+      id="facts.r_f021.value"
+      unitRef="u-01">420</example:ExpensesConcept>
+      <!-- To Test concept blocking -->
+    <!-- <example:BlockedConcept
+      contextRef="c-04"
+      decimals="2"
+      id="facts.r_f01000.value"
+      unitRef="u-01">10000</example:BlockedConcept>
+    <example:BlockedConcept
+      contextRef="c-01"
+      decimals="2"
+      id="facts.r_f01001.value"
+      unitRef="u-01">20000</example:BlockedConcept> -->
+    <example:NetProfitConcept
+      contextRef="c-04"
+      decimals="2"
+      id="facts.r_f022.value"
+      unitRef="u-01">1330</example:NetProfitConcept>
+    
+      <context id="c-07">
+        <entity>
+            <identifier scheme="http://www.any.gov/identifier">Example-IS</identifier>
+        </entity>
+        <period>
+          <instant>2020-12-31</instant>
+        </period>
+      </context>
+      <context id="c-08">
+        <entity>
+            <identifier scheme="http://www.any.gov/identifier">Example-IS</identifier>
+        </entity>
+        <period>
+          <instant>2019-12-31</instant>
+        </period>
+      </context>
+
+      <link:footnoteLink xlink:type="extended" xlink:title="fn_1" xlink:role="http://www.xbrl.org/2003/role/link">
+      <link:footnote xlink:type="resource" xlink:label="footnote1" xlink:title="fn_1" xml:lang="en">Total for products and services.</link:footnote>
+      <link:loc xlink:type="locator" xlink:label="expenses1" xlink:href="#facts.r_f010.value"/>
+      <link:loc xlink:type="locator" xlink:label="expenses2" xlink:href="#facts.r_f021.value"/>
+      <link:footnoteArc xlink:type="arc" xlink:from="expenses1" xlink:to="footnote1" xlink:title="expenses-footnote1" xlink:arcrole="http://www.xbrl.org/2003/arcrole/fact-footnote" xlink:show="replace" xlink:actuate="onRequest"/>
+      <link:footnoteArc xlink:type="arc" xlink:from="expenses2" xlink:to="footnote1" xlink:title="expenses-footnote1" xlink:arcrole="http://www.xbrl.org/2003/arcrole/fact-footnote" xlink:show="replace" xlink:actuate="onRequest"/>
+    </link:footnoteLink>
+</xbrl>

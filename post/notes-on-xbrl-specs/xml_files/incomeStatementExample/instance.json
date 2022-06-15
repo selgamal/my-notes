@@ -1,0 +1,280 @@
+{
+    "documentInfo": {
+        "documentType": "https://xbrl.org/CR/2021-02-03/xbrl-json",
+        "features": {
+            "xbrl:canonicalValues": true
+        },
+        "namespaces": {
+            "example": "http://xyz.abc/IncomeStatementExample",
+            "iso4217": "http://www.xbrl.org/2003/iso4217",
+            "scheme": "http://www.any.gov/identifier",
+            "xbrl": "https://xbrl.org/CR/2021-02-03",
+            "xbrli": "http://www.xbrl.org/2003/instance"
+        },
+        "linkTypes": {
+            "ftTyp_fact-footnote": "http://www.xbrl.org/2003/arcrole/fact-footnote"
+        },
+        "linkGroups": {
+            "ftGrp_default": "http://www.xbrl.org/2003/role/link"
+        },
+        "taxonomy": [
+            "is.xsd"
+        ]
+    },
+    "facts": {
+        "facts.r_f001.value": {
+            "value": "5000",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:RevenueConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2020-01-01T00:00:00/2020-12-31T00:00:00",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f002.value": {
+            "value": "2000",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:RevenueConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2020-01-01T00:00:00/2020-12-31T00:00:00",
+                "example:ProductServiceAxis": "example:ProductMember",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f003.value": {
+            "value": "3000",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:RevenueConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2020-01-01T00:00:00/2020-12-31T00:00:00",
+                "example:ProductServiceAxis": "example:ServiceMember",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f004.value": {
+            "value": "3000",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:CostOfRevenueConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2020-01-01T00:00:00/2020-12-31T00:00:00",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f005.value": {
+            "value": "1000",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:CostOfRevenueConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2020-01-01T00:00:00/2020-12-31T00:00:00",
+                "example:ProductServiceAxis": "example:ProductMember",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f006.value": {
+            "value": "2000",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:CostOfRevenueConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2020-01-01T00:00:00/2020-12-31T00:00:00",
+                "example:ProductServiceAxis": "example:ServiceMember",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f007.value": {
+            "value": "2000",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:GrossProfitConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2020-01-01T00:00:00/2020-12-31T00:00:00",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f008.value": {
+            "value": "1000",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:GrossProfitConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2020-01-01T00:00:00/2020-12-31T00:00:00",
+                "example:ProductServiceAxis": "example:ProductMember",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f009.value": {
+            "value": "1000",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:GrossProfitConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2020-01-01T00:00:00/2020-12-31T00:00:00",
+                "example:ProductServiceAxis": "example:ServiceMember",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f010.value": {
+            "value": "500",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:ExpensesConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2020-01-01T00:00:00/2020-12-31T00:00:00",
+                "unit": "iso4217:EGP"
+            },
+            "links": {
+                "ftTyp_fact-footnote": {
+                    "ftGrp_default": [
+                        "f1940"
+                    ]
+                }
+            }
+        },
+        "facts.r_f011.value": {
+            "value": "1500",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:NetProfitConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2020-01-01T00:00:00/2020-12-31T00:00:00",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f012.value": {
+            "value": "4000",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:RevenueConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2019-01-01T00:00:00/2019-12-31T00:00:00",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f013.value": {
+            "value": "2500",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:RevenueConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2019-01-01T00:00:00/2019-12-31T00:00:00",
+                "example:ProductServiceAxis": "example:ProductMember",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f014.value": {
+            "value": "1500",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:RevenueConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2019-01-01T00:00:00/2019-12-31T00:00:00",
+                "example:ProductServiceAxis": "example:ServiceMember",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f015.value": {
+            "value": "2250",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:CostOfRevenueConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2019-01-01T00:00:00/2019-12-31T00:00:00",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f016.value": {
+            "value": "1250",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:CostOfRevenueConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2019-01-01T00:00:00/2019-12-31T00:00:00",
+                "example:ProductServiceAxis": "example:ProductMember",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f017.value": {
+            "value": "1000",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:CostOfRevenueConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2019-01-01T00:00:00/2019-12-31T00:00:00",
+                "example:ProductServiceAxis": "example:ServiceMember",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f018.value": {
+            "value": "1750",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:GrossProfitConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2019-01-01T00:00:00/2019-12-31T00:00:00",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f019.value": {
+            "value": "1250",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:GrossProfitConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2019-01-01T00:00:00/2019-12-31T00:00:00",
+                "example:ProductServiceAxis": "example:ProductMember",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f020.value": {
+            "value": "500",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:GrossProfitConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2019-01-01T00:00:00/2019-12-31T00:00:00",
+                "example:ProductServiceAxis": "example:ServiceMember",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "facts.r_f021.value": {
+            "value": "420",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:ExpensesConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2019-01-01T00:00:00/2019-12-31T00:00:00",
+                "unit": "iso4217:EGP"
+            },
+            "links": {
+                "ftTyp_fact-footnote": {
+                    "ftGrp_default": [
+                        "f1940"
+                    ]
+                }
+            }
+        },
+        "facts.r_f022.value": {
+            "value": "1330",
+            "decimals": 2,
+            "dimensions": {
+                "concept": "example:NetProfitConcept",
+                "entity": "scheme:Example-IS",
+                "period": "2019-01-01T00:00:00/2019-12-31T00:00:00",
+                "unit": "iso4217:EGP"
+            }
+        },
+        "f1940": {
+            "value": "Total for products and services.",
+            "dimensions": {
+                "concept": "xbrl:note",
+                "noteId": "f1940",
+                "language": "en"
+            }
+        }
+    }
+}

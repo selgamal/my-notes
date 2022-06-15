@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<link:linkbase xsi:schemaLocation="http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:link="http://www.xbrl.org/2003/linkbase">
+	<link:documentation>Presentation linkbase for income statement example</link:documentation>
+	<link:roleRef roleURI="http://xyz.abc/role/IncomeStatement" xlink:type="simple" xlink:href="is.xsd#roleType_IncomeStatement"/>
+	<link:presentationLink xlink:type="extended" xlink:role="http://xyz.abc/role/IncomeStatement">
+		<link:presentationArc order="7.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_StatementLineItems" xlink:to="example_SharesOutstandingConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_SharesOutstandingConcept" xlink:label="example_SharesOutstandingConcept"/>
+		<link:presentationArc order="6.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_StatementLineItems" xlink:to="example_EarningPerShareConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_EarningPerShareConcept" xlink:label="example_EarningPerShareConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_IncomeStatementConceptAbstract" xlink:label="example_IncomeStatementConceptAbstract"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_IncomeStatementTable" xlink:label="example_IncomeStatementTable"/>
+		<link:presentationArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_IncomeStatementConceptAbstract" xlink:to="example_IncomeStatementTable"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_ProductServiceAxis" xlink:label="example_ProductServiceAxis"/>
+		<link:presentationArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_IncomeStatementTable" xlink:to="example_ProductServiceAxis"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_ProductServiceDomain" xlink:label="example_ProductServiceDomain"/>
+		<link:presentationArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_ProductServiceAxis" xlink:to="example_ProductServiceDomain"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_ProductMember" xlink:label="example_ProductMember"/>
+		<link:presentationArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_ProductServiceDomain" xlink:to="example_ProductMember"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_ServiceMember" xlink:label="example_ServiceMember"/>
+		<link:presentationArc order="2.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_ProductServiceDomain" xlink:to="example_ServiceMember"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_StatementLineItems" xlink:label="example_StatementLineItems"/>
+		<link:presentationArc order="2.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_IncomeStatementTable" xlink:to="example_StatementLineItems"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_RevenueConcept" xlink:label="example_RevenueConcept"/>
+		<link:presentationArc order="1.0" preferredLabel="http://www.xbrl.org/2003/role/totalLabel" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_StatementLineItems" xlink:to="example_RevenueConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_CostOfRevenueConcept" xlink:label="example_CostOfRevenueConcept"/>
+		<link:presentationArc order="2.0" preferredLabel="http://www.xbrl.org/2003/role/totalLabel" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_StatementLineItems" xlink:to="example_CostOfRevenueConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_GrossProfitConcept" xlink:label="example_GrossProfitConcept"/>
+		<link:presentationArc order="3.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_StatementLineItems" xlink:to="example_GrossProfitConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_ExpensesConcept" xlink:label="example_ExpensesConcept"/>
+		<link:presentationArc order="4.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_StatementLineItems" xlink:to="example_ExpensesConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is.xsd#example_NetProfitConcept" xlink:label="example_NetProfitConcept"/>
+		<link:presentationArc order="5.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="example_StatementLineItems" xlink:to="example_NetProfitConcept"/>
+	</link:presentationLink>
+</link:linkbase>

@@ -1,0 +1,70 @@
+1. Outcomes
+2 Introduction
+2.1 Few Notes
+2.2 Regulators and Data
+2.3 Data Collection and Processing
+2.4 What does XBRL provide?
+2.5 XBRL Reporting Overview
+2.6 SEC – Improving reporting process 
+2.7 Banking in the United States
+2.8 Business to Government Reporting
+2.9 Who is using XBRL?
+2.10 XBRL Implementation Map
+3 XBRL – How it works
+3.1 What is XBRL
+3.2 XML and Markup Languages
+3.2.1 Back in time
+3.2.2 XML Basics
+3.2.3 Storing Data in XML
+3.2.4 Schema, Namespaces and Validation
+3.2.5 XLink and XPointer 
+3.2.5 Conclusion
+3.3 XBRL
+3.3.1 XBRL Components
+3.3.2 XBRL Specifications
+3.3.2 XBRL Representation of Data
+3.3.2 XBRL Representation of Data (Cont.)
+3.3.3 XBRL Dimensions
+3.3.4 Terms Concept and Dimension
+3.3.5 Core Concept Dimension
+3.3.6 XBRL Data Types
+3.3.7 Creating Concept Core Dimension
+3.3.8 XBRL Instance Document
+3.3.10 Creating Context
+3.3.11 Creating Unit Core Dimension
+3.3.12 Creating Instance Fact
+3.3.13 Segment and Scenario Elements
+3.3.13 Segment and Scenario Elements (Cont.)
+3.3.14 Taxonomy Defined Dimensions
+3.3.14 Taxonomy Defined Dimensions (cont.)
+3.3.15 Link Types and XBRL
+3.3.16 XBRL Linkbases
+3.3.17 XBRL Linkbases Overview
+3.3.18 Linkbases XBRL References
+3.4 Example Income Statement
+3.4.1 Overview
+3.4.2 Income Statement Example
+3.4.3 Validation
+3.4.4 Validation – XBRL Formula
+3.4.5 Validation – XULE
+3.4.2 Table Linkbase
+3.5 Taxonomy  - Other Topics
+3.5.1 Inline XBRL (iXBRL)
+3.5.2 Taxonomy Entry Points
+3.5.3 Taxonomy Style Guides
+3.5.4 Open vs Closed Reporting System
+3.5.5 Open Information Model (OIM)
+3.5.6 Three Taxonomies
+3.6 XBRL Infrastructure
+3.6.1 Why XBRL Based Reporting Systems
+3.6.2 XBRL reporting system components
+3.6.3 Approach for XBRL Report Creation
+3.6.4 Tools and Software
+4 Taxonomy Development Project
+4.1 Six Components
+4.2 Taxonomy Governance
+4.3 Mechanics of Taxonomy Development
+4.4 Scope and Goals
+4.5 Building Transport model
+4.6 Validation
+4.7 Documentation

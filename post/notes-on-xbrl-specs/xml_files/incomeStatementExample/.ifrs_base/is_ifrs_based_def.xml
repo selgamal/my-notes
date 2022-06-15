@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<link:linkbase xsi:schemaLocation="http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xbrldt="http://xbrl.org/2005/xbrldt">
+	<link:arcroleRef arcroleURI="http://xbrl.org/int/dim/arcrole/hypercube-dimension" xlink:type="simple" xlink:href="http://www.xbrl.org/2005/xbrldt-2005.xsd#hypercube-dimension"/>
+	<link:arcroleRef arcroleURI="http://xbrl.org/int/dim/arcrole/dimension-domain" xlink:type="simple" xlink:href="http://www.xbrl.org/2005/xbrldt-2005.xsd#dimension-domain"/>
+	<link:arcroleRef arcroleURI="http://xbrl.org/int/dim/arcrole/domain-member" xlink:type="simple" xlink:href="http://www.xbrl.org/2005/xbrldt-2005.xsd#domain-member"/>
+	<link:arcroleRef arcroleURI="http://xbrl.org/int/dim/arcrole/all" xlink:type="simple" xlink:href="http://www.xbrl.org/2005/xbrldt-2005.xsd#all"/>
+	<link:arcroleRef arcroleURI="http://xbrl.org/int/dim/arcrole/dimension-default" xlink:type="simple" xlink:href="http://www.xbrl.org/2005/xbrldt-2005.xsd#dimension-default"/>
+	<link:roleRef roleURI="http://xyz.abc/role/IncomeStatement" xlink:type="simple" xlink:href="is_ifrs_based.xsd#roleType_IncomeStatement"/>
+	<link:definitionLink xlink:type="extended" xlink:role="http://xyz.abc/role/IncomeStatement">
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_IncomeStatementConceptAbstract" xlink:label="example_IncomeStatementConceptAbstract"/>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_StatementLineItems" xlink:label="example_StatementLineItems"/>
+		<link:definitionArc order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/int/dim/arcrole/domain-member" xlink:from="example_IncomeStatementConceptAbstract" xlink:to="example_StatementLineItems"/>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_IncomeStatementTable" xlink:label="example_IncomeStatementTable"/>
+		<link:definitionArc order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/int/dim/arcrole/all" xlink:from="example_StatementLineItems" xlink:to="example_IncomeStatementTable" xbrldt:closed="true" xbrldt:contextElement="segment"/>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_ProductServiceAxis" xlink:label="example_ProductServiceAxis"/>
+		<link:definitionArc order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/int/dim/arcrole/hypercube-dimension" xlink:from="example_IncomeStatementTable" xlink:to="example_ProductServiceAxis"/>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_ProductServiceDomain" xlink:label="example_ProductServiceDomain"/>
+		<link:definitionArc order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/int/dim/arcrole/dimension-domain" xlink:from="example_ProductServiceAxis" xlink:to="example_ProductServiceDomain"/>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_ProductMember" xlink:label="example_ProductMember"/>
+		<link:definitionArc order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/int/dim/arcrole/domain-member" xlink:from="example_ProductServiceDomain" xlink:to="example_ProductMember"/>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_ServiceMember" xlink:label="example_ServiceMember"/>
+		<link:definitionArc order="2.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/int/dim/arcrole/domain-member" xlink:from="example_ProductServiceDomain" xlink:to="example_ServiceMember"/>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_RevenueConcept" xlink:label="example_RevenueConcept"/>
+		<link:definitionArc order="2.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/int/dim/arcrole/domain-member" xlink:from="example_StatementLineItems" xlink:to="example_RevenueConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_CostOfRevenueConcept" xlink:label="example_CostOfRevenueConcept"/>
+		<link:definitionArc order="3.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/int/dim/arcrole/domain-member" xlink:from="example_StatementLineItems" xlink:to="example_CostOfRevenueConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_GrossProfitConcept" xlink:label="example_GrossProfitConcept"/>
+		<link:definitionArc order="4.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/int/dim/arcrole/domain-member" xlink:from="example_StatementLineItems" xlink:to="example_GrossProfitConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_ExpensesConcept" xlink:label="example_ExpensesConcept"/>
+		<link:definitionArc order="5.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/int/dim/arcrole/domain-member" xlink:from="example_StatementLineItems" xlink:to="example_ExpensesConcept"/>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_NetProfitConcept" xlink:label="example_NetProfitConcept"/>
+		<link:definitionArc order="6.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/int/dim/arcrole/domain-member" xlink:from="example_StatementLineItems" xlink:to="example_NetProfitConcept"/>
+	</link:definitionLink>
+	<link:definitionLink xlink:type="extended" xlink:role="http://xyz.abc/role/IncomeStatement">
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_ProductServiceAxis" xlink:label="example_ProductServiceAxis"/>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_ProductServiceDomain" xlink:label="example_ProductServiceDomain"/>
+		<link:definitionArc order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/int/dim/arcrole/dimension-default" xlink:from="example_ProductServiceAxis" xlink:to="example_ProductServiceDomain"/>
+	</link:definitionLink>
+</link:linkbase>

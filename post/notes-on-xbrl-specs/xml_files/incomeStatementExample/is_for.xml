@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<link:linkbase xsi:schemaLocation="http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd http://xbrl.org/2008/generic http://www.xbrl.org/2008/generic-link.xsd http://xbrl.org/2008/assertion/existence http://www.xbrl.org/2008/existence-assertion.xsd http://xbrl.org/2010/message http://www.xbrl.org/2010/generic-message.xsd http://xbrl.org/2008/variable http://www.xbrl.org/2008/variable.xsd http://xbrl.org/2008/filter/concept http://www.xbrl.org/2008/concept-filter.xsd http://xbrl.org/2008/filter/boolean http://www.xbrl.org/2008/boolean-filter.xsd http://xbrl.org/2008/label http://www.xbrl.org/2008/generic-label.xsd http://xbrl.org/2008/formula http://www.xbrl.org/2008/formula.xsd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:ea="http://xbrl.org/2008/assertion/existence" xmlns:bf="http://xbrl.org/2008/filter/boolean" xmlns:cf="http://xbrl.org/2008/filter/concept" xmlns:formula="http://xbrl.org/2008/formula" xmlns:gen="http://xbrl.org/2008/generic" xmlns:label="http://xbrl.org/2008/label" xmlns:variable="http://xbrl.org/2008/variable" xmlns:msg="http://xbrl.org/2010/message" xmlns:example="http://xyz.abc/IncomeStatementExample">
+	<link:arcroleRef arcroleURI="http://xbrl.org/arcrole/2016/assertion-unsatisfied-severity" xlink:type="simple" xlink:href="http://www.xbrl.org/2016/assertion-severity.xsd#assertion-unsatisfied-severity"/>
+	<link:arcroleRef arcroleURI="http://xbrl.org/arcrole/2008/boolean-filter" xlink:type="simple" xlink:href="http://www.xbrl.org/2008/boolean-filter.xsd#boolean-filter"/>
+	<link:arcroleRef arcroleURI="http://xbrl.org/arcrole/2008/element-label" xlink:type="simple" xlink:href="http://www.xbrl.org/2008/generic-label.xsd#element-label"/>
+	<link:roleRef roleURI="http://www.xbrl.org/2008/role/label" xlink:type="simple" xlink:href="http://www.xbrl.org/2008/generic-label.xsd#standard-label"/>
+	<link:arcroleRef arcroleURI="http://xbrl.org/arcrole/2008/variable-filter" xlink:type="simple" xlink:href="http://www.xbrl.org/2008/variable.xsd#variable-filter"/>
+	<link:arcroleRef arcroleURI="http://xbrl.org/arcrole/2008/variable-set" xlink:type="simple" xlink:href="http://www.xbrl.org/2008/variable.xsd#variable-set"/>
+	<link:arcroleRef arcroleURI="http://xbrl.org/arcrole/2010/assertion-unsatisfied-message" xlink:type="simple" xlink:href="http://www.xbrl.org/2010/validation-message.xsd#assertion-unsatisfied-message"/>
+	<link:roleRef roleURI="http://www.xbrl.org/2010/role/message" xlink:type="simple" xlink:href="http://www.xbrl.org/2010/generic-message.xsd#standard-message"/>
+	<link:roleRef roleURI="http://www.xbrl.org/2008/role/link" xlink:type="simple" xlink:href="http://www.xbrl.org/2008/generic-link.xsd#standard-link-role"/>
+	<gen:link xlink:type="extended" xlink:role="http://www.xbrl.org/2008/role/link">
+		<variable:variableFilterArc order="1.0" complement="false" cover="true" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2008/variable-filter" xlink:from="factVariable1" xlink:to="conceptName1"/>
+		<cf:conceptName id="conceptName1" xlink:type="resource" xlink:label="conceptName1">
+			<cf:concept>
+				<cf:qname>example:RevenueConcept</cf:qname>
+			</cf:concept>
+		</cf:conceptName>
+		<variable:variableFilterArc order="1.0" complement="false" cover="true" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2008/variable-filter" xlink:from="factVariable2" xlink:to="conceptName"/>
+		<cf:conceptName id="conceptName" xlink:type="resource" xlink:label="conceptName">
+			<cf:concept>
+				<cf:qname>example:GrossProfitConcept</cf:qname>
+			</cf:concept>
+		</cf:conceptName>
+		<gen:arc order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2008/element-label" xlink:from="factVariable2" xlink:to="label1"/>
+		<label:label id="label1" xlink:type="resource" xlink:role="http://www.xbrl.org/2008/role/label" xlink:label="label1" xml:lang="en">GP</label:label>
+		<variable:variableArc name="gp" order="2.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2008/variable-set" xlink:from="formula" xlink:to="factVariable2"/>
+		<variable:factVariable id="factVariable2" bindAsSequence="false" xlink:type="resource" xlink:label="factVariable2"/>
+		<gen:arc order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2008/element-label" xlink:from="factVariable1" xlink:to="label"/>
+		<label:label id="label" xlink:type="resource" xlink:role="http://www.xbrl.org/2008/role/label" xlink:label="label" xml:lang="en">Rev</label:label>
+		<variable:variableArc name="rev" order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2008/variable-set" xlink:from="formula" xlink:to="factVariable1"/>
+		<variable:factVariable id="factVariable1" bindAsSequence="false" xlink:type="resource" xlink:label="factVariable1"/>
+		<formula:formula id="formula" aspectModel="dimensional" implicitFiltering="true" value="($gp div $rev) * 100" source="rev" xlink:type="resource" xlink:label="formula">
+			<formula:decimals>2</formula:decimals>
+			<formula:aspects>
+				<formula:entityIdentifier/>
+				<formula:concept>
+					<formula:qname>example:GrossMarginPercentConcept</formula:qname>
+				</formula:concept>
+			</formula:aspects>
+		</formula:formula>
+		<gen:arc xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2016/assertion-unsatisfied-severity" xlink:from="existenceAssertion" xlink:to="ERROR"/>
+		<link:loc xlink:type="locator" xlink:href="http://www.xbrl.org/2016/severities.xml#ERROR" xlink:label="ERROR"/>
+		<variable:variableFilterArc order="2.0" complement="false" cover="true" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2008/boolean-filter" xlink:from="andFilter1" xlink:to="conceptName3"/>
+		<cf:conceptName id="conceptName3" xlink:type="resource" xlink:label="conceptName3">
+			<cf:concept>
+				<cf:qname>example:EarningPerShareConcept</cf:qname>
+			</cf:concept>
+		</cf:conceptName>
+		<variable:variableFilterArc order="1.0" complement="false" cover="true" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2008/boolean-filter" xlink:from="andFilter1" xlink:to="conceptName2"/>
+		<cf:conceptName id="conceptName2" xlink:type="resource" xlink:label="conceptName2">
+			<cf:concept>
+				<cf:qname>example:SharesOutstandingConcept</cf:qname>
+			</cf:concept>
+		</cf:conceptName>
+		<variable:variableFilterArc order="1.0" complement="false" cover="true" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2008/variable-filter" xlink:from="factVariable" xlink:to="andFilter1"/>
+		<bf:andFilter id="andFilter1" xlink:type="resource" xlink:label="andFilter1"/>
+		<gen:arc order="2.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2010/assertion-unsatisfied-message" xlink:from="existenceAssertion" xlink:to="message"/>
+		<msg:message id="message" xlink:type="resource" xlink:role="http://www.xbrl.org/2010/role/message" xlink:label="message" xml:lang="en">Missing Facts!!</msg:message>
+		<variable:variableArc name="var" order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2008/variable-set" xlink:from="existenceAssertion" xlink:to="factVariable"/>
+		<variable:factVariable id="factVariable" bindAsSequence="false" xlink:type="resource" xlink:label="factVariable"/>
+		<ea:existenceAssertion id="existenceAssertion" aspectModel="dimensional" implicitFiltering="true" xlink:type="resource" xlink:label="existenceAssertion"/>
+	</gen:link>
+</link:linkbase>

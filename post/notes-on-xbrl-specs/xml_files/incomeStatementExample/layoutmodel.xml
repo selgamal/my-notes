@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tableModel
+  xmlns="http://xbrl.org/2014/table/model"
+  xmlns:example="http://xyz.abc/IncomeStatementExample">
+    <!--Entry point file: instance.xml-->
+    <tableSet>
+        <!--TableSet linkbase file: is_tab.xml, line 43-->
+        <!--TableSet namespace: http://xbrl.org/2014/table-->
+        <!--TableSet linkrole: http://www.xbrl.org/2008/role/link-->
+        <label>Data Entry</label>
+        <table>
+            <headers axis="z">
+                <group>
+                    <!--Breakdown node file: is_tab.xml, line 21-->
+                    <header>
+                        <cell>
+                            <label/>
+                        </cell>
+                        <cell>
+                            <label>2019-01-01, 2019-12-30</label>
+                        </cell>
+                        <cell>
+                            <label>2020-01-01, 2020-12-30</label>
+                        </cell>
+                    </header>
+                </group>
+            </headers>
+            <headers axis="y">
+                <group>
+                    <!--Breakdown node file: is_tab.xml, line 38-->
+                    <label>Line Items</label>
+                    <header>
+                        <cell>
+                            <label>Revenue</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:RevenueConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Cost of Revenue</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:CostOfRevenueConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Gross Profit</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:GrossProfitConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Expenses</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:ExpensesConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Net Profit</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:NetProfitConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Earnings Per Share</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:EarningPerShareConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Shares Outstanding</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:SharesOutstandingConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Revenue</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:RevenueConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Cost of Revenue</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:CostOfRevenueConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Gross Profit</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:GrossProfitConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Expenses</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:ExpensesConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Net Profit</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:NetProfitConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Earnings Per Share</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:EarningPerShareConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Shares Outstanding</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:SharesOutstandingConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Revenue</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:RevenueConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Cost of Revenue</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:CostOfRevenueConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Gross Profit</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:GrossProfitConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Expenses</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:ExpensesConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Net Profit</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:NetProfitConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Earnings Per Share</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:EarningPerShareConcept</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Shares Outstanding</label>
+                            <constraint>
+                                <aspect>concept</aspect>
+                                <value>example:SharesOutstandingConcept</value>
+                            </constraint>
+                        </cell>
+                    </header>
+                </group>
+            </headers>
+            <headers axis="x">
+                <group>
+                    <!--Breakdown node file: is_tab.xml, line 40-->
+                    <header>
+                        <cell>
+                            <label>Product [Member]</label>
+                            <constraint>
+                                <aspect>example:ProductServiceAxis</aspect>
+                                <value>example:ProductMember</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Product [Member]</label>
+                            <constraint>
+                                <aspect>example:ProductServiceAxis</aspect>
+                                <value>example:ProductMember</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Product [Member]</label>
+                            <constraint>
+                                <aspect>example:ProductServiceAxis</aspect>
+                                <value>example:ProductMember</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Service [Member]</label>
+                            <constraint>
+                                <aspect>example:ProductServiceAxis</aspect>
+                                <value>example:ServiceMember</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Service [Member]</label>
+                            <constraint>
+                                <aspect>example:ProductServiceAxis</aspect>
+                                <value>example:ServiceMember</value>
+                            </constraint>
+                        </cell>
+                        <cell>
+                            <label>Service [Member]</label>
+                            <constraint>
+                                <aspect>example:ProductServiceAxis</aspect>
+                                <value>example:ServiceMember</value>
+                            </constraint>
+                        </cell>
+                        <cell span="3">
+                            <label>Product And Service [Domain]</label>
+                            <constraint>
+                                <aspect>example:ProductServiceAxis</aspect>
+                                <value>example:ProductServiceDomain</value>
+                            </constraint>
+                        </cell>
+                        <cell span="3">
+                            <label>Product And Service [Domain]</label>
+                            <constraint>
+                                <aspect>example:ProductServiceAxis</aspect>
+                                <value>example:ProductServiceDomain</value>
+                            </constraint>
+                        </cell>
+                        <cell span="3">
+                            <label>Product And Service [Domain]</label>
+                            <constraint>
+                                <aspect>example:ProductServiceAxis</aspect>
+                                <value>example:ProductServiceDomain</value>
+                            </constraint>
+                        </cell>
+                    </header>
+                </group>
+            </headers>
+            <cells axis="z">
+                <cells axis="y">
+                    <cells axis="x">
+                        <!--Cell concept example:RevenueConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <!--Fact was not matched example:RevenueConcept: context c-05, value 2,500.00, file instance.xml, line 145, aspects not matched: 4, dimensions expected to have been defaulted: -->
+                        <cell/>
+                        <!--Cell concept example:RevenueConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <!--Fact was not matched example:RevenueConcept: context c-03, value 3,000.00, file instance.xml, line 74, aspects not matched: 4, dimensions expected to have been defaulted: -->
+                        <cell/>
+                        <!--Cell concept example:RevenueConcept: segDims , scenDims -->
+                        <!--Fact was not matched example:RevenueConcept: context c-04, value 4,000.00, file instance.xml, line 128, aspects not matched: 4, dimensions expected to have been defaulted: -->
+                        <cell/>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:CostOfRevenueConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <!--Fact was not matched example:CostOfRevenueConcept: context c-02, value 1,000.00, file instance.xml, line 84, aspects not matched: 4, dimensions expected to have been defaulted: -->
+                        <cell/>
+                        <!--Cell concept example:CostOfRevenueConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <!--Fact was not matched example:CostOfRevenueConcept: context c-06, value 1,000.00, file instance.xml, line 177, aspects not matched: 4, dimensions expected to have been defaulted: -->
+                        <cell/>
+                        <!--Cell concept example:CostOfRevenueConcept: segDims , scenDims -->
+                        <!--Fact was not matched example:CostOfRevenueConcept: context c-04, value 2,250.00, file instance.xml, line 167, aspects not matched: 4, dimensions expected to have been defaulted: -->
+                        <cell/>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:GrossProfitConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <!--Fact was not matched example:GrossProfitConcept: context c-02, value 1,000.00, file instance.xml, line 99, aspects not matched: 4, dimensions expected to have been defaulted: -->
+                        <cell/>
+                        <!--Cell concept example:GrossProfitConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <!--Fact was not matched example:GrossProfitConcept: context c-03, value 1,000.00, file instance.xml, line 104, aspects not matched: 4, dimensions expected to have been defaulted: -->
+                        <cell/>
+                        <!--Cell concept example:GrossProfitConcept: segDims , scenDims -->
+                        <!--Fact was not matched example:GrossProfitConcept: context c-01, value 2,000.00, file instance.xml, line 94, aspects not matched: 4, dimensions expected to have been defaulted: -->
+                        <cell/>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:ExpensesConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:ExpensesConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:ExpensesConcept: segDims , scenDims -->
+                        <!--Fact was not matched example:ExpensesConcept: context c-01, value 500.00, file instance.xml, line 109, aspects not matched: 4, dimensions expected to have been defaulted: -->
+                        <cell/>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:NetProfitConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:NetProfitConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:NetProfitConcept: segDims , scenDims -->
+                        <!--Fact was not matched example:NetProfitConcept: context c-01, value 1,500.00, file instance.xml, line 114, aspects not matched: 4, dimensions expected to have been defaulted: -->
+                        <cell/>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:EarningPerShareConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:EarningPerShareConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:EarningPerShareConcept: segDims , scenDims -->
+                        <cell/>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:SharesOutstandingConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:SharesOutstandingConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:SharesOutstandingConcept: segDims , scenDims -->
+                        <cell/>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:RevenueConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <!--example:RevenueConcept: context c-05, value 2,500.00, file instance.xml, line 145-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f013.value</fact>
+                        </cell>
+                        <!--Cell concept example:RevenueConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <!--example:RevenueConcept: context c-06, value 1,500.00, file instance.xml, line 162-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f014.value</fact>
+                        </cell>
+                        <!--Cell concept example:RevenueConcept: segDims , scenDims -->
+                        <!--example:RevenueConcept: context c-04, value 4,000.00, file instance.xml, line 128-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f012.value</fact>
+                        </cell>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:CostOfRevenueConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <!--example:CostOfRevenueConcept: context c-05, value 1,250.00, file instance.xml, line 172-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f016.value</fact>
+                        </cell>
+                        <!--Cell concept example:CostOfRevenueConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <!--example:CostOfRevenueConcept: context c-06, value 1,000.00, file instance.xml, line 177-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f017.value</fact>
+                        </cell>
+                        <!--Cell concept example:CostOfRevenueConcept: segDims , scenDims -->
+                        <!--example:CostOfRevenueConcept: context c-04, value 2,250.00, file instance.xml, line 167-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f015.value</fact>
+                        </cell>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:GrossProfitConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <!--example:GrossProfitConcept: context c-05, value 1,250.00, file instance.xml, line 187-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f019.value</fact>
+                        </cell>
+                        <!--Cell concept example:GrossProfitConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <!--example:GrossProfitConcept: context c-06, value 500.00, file instance.xml, line 192-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f020.value</fact>
+                        </cell>
+                        <!--Cell concept example:GrossProfitConcept: segDims , scenDims -->
+                        <!--example:GrossProfitConcept: context c-04, value 1,750.00, file instance.xml, line 182-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f018.value</fact>
+                        </cell>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:ExpensesConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:ExpensesConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:ExpensesConcept: segDims , scenDims -->
+                        <!--example:ExpensesConcept: context c-04, value 420.00, file instance.xml, line 197-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f021.value</fact>
+                        </cell>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:NetProfitConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:NetProfitConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:NetProfitConcept: segDims , scenDims -->
+                        <!--example:NetProfitConcept: context c-04, value 1,330.00, file instance.xml, line 213-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f022.value</fact>
+                        </cell>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:EarningPerShareConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:EarningPerShareConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:EarningPerShareConcept: segDims , scenDims -->
+                        <cell/>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:SharesOutstandingConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:SharesOutstandingConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:SharesOutstandingConcept: segDims , scenDims -->
+                        <cell/>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:RevenueConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <!--example:RevenueConcept: context c-02, value 2,000.00, file instance.xml, line 57-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f002.value</fact>
+                        </cell>
+                        <!--Cell concept example:RevenueConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <!--example:RevenueConcept: context c-03, value 3,000.00, file instance.xml, line 74-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f003.value</fact>
+                        </cell>
+                        <!--Cell concept example:RevenueConcept: segDims , scenDims -->
+                        <!--example:RevenueConcept: context c-01, value 5,000.00, file instance.xml, line 40-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f001.value</fact>
+                        </cell>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:CostOfRevenueConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <!--example:CostOfRevenueConcept: context c-02, value 1,000.00, file instance.xml, line 84-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f005.value</fact>
+                        </cell>
+                        <!--Cell concept example:CostOfRevenueConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <!--example:CostOfRevenueConcept: context c-03, value 2,000.00, file instance.xml, line 89-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f006.value</fact>
+                        </cell>
+                        <!--Cell concept example:CostOfRevenueConcept: segDims , scenDims -->
+                        <!--example:CostOfRevenueConcept: context c-01, value 3,000.00, file instance.xml, line 79-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f004.value</fact>
+                        </cell>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:GrossProfitConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <!--example:GrossProfitConcept: context c-02, value 1,000.00, file instance.xml, line 99-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f008.value</fact>
+                        </cell>
+                        <!--Cell concept example:GrossProfitConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <!--example:GrossProfitConcept: context c-03, value 1,000.00, file instance.xml, line 104-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f009.value</fact>
+                        </cell>
+                        <!--Cell concept example:GrossProfitConcept: segDims , scenDims -->
+                        <!--example:GrossProfitConcept: context c-01, value 2,000.00, file instance.xml, line 94-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f007.value</fact>
+                        </cell>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:ExpensesConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:ExpensesConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:ExpensesConcept: segDims , scenDims -->
+                        <!--example:ExpensesConcept: context c-01, value 500.00, file instance.xml, line 109-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f010.value</fact>
+                        </cell>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:NetProfitConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:NetProfitConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:NetProfitConcept: segDims , scenDims -->
+                        <!--example:NetProfitConcept: context c-01, value 1,500.00, file instance.xml, line 114-->
+                        <cell>
+                            <fact>instance.xml#facts.r_f011.value</fact>
+                        </cell>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:EarningPerShareConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:EarningPerShareConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:EarningPerShareConcept: segDims , scenDims -->
+                        <cell/>
+                    </cells>
+                    <cells axis="x">
+                        <!--Cell concept example:SharesOutstandingConcept: segDims (example:ProductServiceAxis=example:ProductMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:SharesOutstandingConcept: segDims (example:ProductServiceAxis=example:ServiceMember), scenDims -->
+                        <cell/>
+                        <!--Cell concept example:SharesOutstandingConcept: segDims , scenDims -->
+                        <cell/>
+                    </cells>
+                </cells>
+            </cells>
+        </table>
+    </tableSet>
+</tableModel>

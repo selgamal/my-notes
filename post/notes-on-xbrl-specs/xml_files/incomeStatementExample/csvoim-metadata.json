@@ -1,0 +1,45 @@
+{
+  "documentInfo": {
+    "documentType": "https://xbrl.org/CR/2021-02-03/xbrl-csv",
+    "namespaces": {
+      "iso4217": "http://www.xbrl.org/2003/iso4217",
+      "scheme": "http://www.any.gov/identifier",
+      "example": "http://xyz.abc/IncomeStatementExample",
+      "xbrl": "https://xbrl.org/CR/2021-02-03"
+    },
+    "taxonomy": [
+      "is.xsd"
+    ]
+  },
+  "tables": {
+    "facts": {
+      "template": "facts",
+      "url": "incstanceExampleFacts.csv"
+    }
+  },
+  "tableTemplates": {
+    "facts": {
+      "rowIdColumn": "id",
+      "dimensions": {
+        "concept": "$concept",
+        "entity": "$entity",
+        "period": "$period",
+        "unit": "$unit",
+        "example:ProductServiceAxis": "$example_ProductServiceAxis"
+      },
+      "columns": {
+        "id": {},
+        "concept": {},
+        "decimals": {},
+        "entity": {},
+        "period": {},
+        "unit": {},
+        "example_ProductServiceAxis": {},
+        "value": {
+          "dimensions": {}
+        }
+      },
+      "decimals": "$decimals"
+    }
+  }
+}

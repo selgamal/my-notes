@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Translation: IFRS Taxonomy 2013 in Arabic
+    **********************
+    Copyright © 2013 International Financial Reporting Standards (IFRS) Foundation
+    All rights reserved.  No part of this publication may be translated, reprinted or reproduced
+    or utilised in any form either in whole or in part without prior permission in writing from the IFRS Foundation.
+    For more information on the IFRS Foundation's copyright, please refer to http://www.ifrs.org/XBRL/Legal/
+    **********************
+--><link:linkbase xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd">
+
+<link:labelLink xlink:role="http://www.xbrl.org/2003/role/link" xlink:type="extended">
+<link:label id="ifrs_AccountingProfit_label" xlink:label="res_1" xlink:role="http://www.xbrl.org/2003/role/label" xlink:type="resource" xml:lang="ar">الربح المحاسبي</link:label>
+<link:loc xlink:href="is.xsd#example_IncomeStatementConceptAbstract" xlink:label="loc_1" xlink:type="locator"/>
+<link:labelArc xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="loc_1" xlink:to="res_1" xlink:type="arc"/>
+</link:labelLink></link:linkbase>

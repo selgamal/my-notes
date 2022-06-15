@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<link:linkbase xsi:schemaLocation="http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:link="http://www.xbrl.org/2003/linkbase">
+	<link:labelLink xlink:type="extended" xlink:role="http://www.xbrl.org/2003/role/link">
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_IncomeStatementConceptAbstract" xlink:label="example_IncomeStatementConceptAbstract"/>
+		<link:labelArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="example_IncomeStatementConceptAbstract" xlink:to="label_example_IncomeStatementConceptAbstract"/>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/label" xlink:label="label_example_IncomeStatementConceptAbstract" xml:lang="ar">قائمة الدخل [ملخص]</link:label>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_IncomeStatementTable" xlink:label="example_IncomeStatementTable"/>
+		<link:labelArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="example_IncomeStatementTable" xlink:to="label_example_IncomeStatementTable"/>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/label" xlink:label="label_example_IncomeStatementTable" xml:lang="ar">قائمة الدخل [جدول]</link:label>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_ProductServiceAxis" xlink:label="example_ProductServiceAxis"/>
+		<link:labelArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="example_ProductServiceAxis" xlink:to="label_example_ProductServiceAxis"/>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/label" xlink:label="label_example_ProductServiceAxis" xml:lang="ar">منتجات وخدمات [محور]</link:label>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_ProductServiceDomain" xlink:label="example_ProductServiceDomain"/>
+		<link:labelArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="example_ProductServiceDomain" xlink:to="label_example_ProductServiceDomain"/>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/label" xlink:label="label_example_ProductServiceDomain" xml:lang="ar">منتجات وخدمات [نطاق]</link:label>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_ProductMember" xlink:label="example_ProductMember"/>
+		<link:labelArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="example_ProductMember" xlink:to="label_example_ProductMember"/>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/label" xlink:label="label_example_ProductMember" xml:lang="ar">منتجات [عضو]</link:label>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_ServiceMember" xlink:label="example_ServiceMember"/>
+		<link:labelArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="example_ServiceMember" xlink:to="label_example_ServiceMember"/>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/label" xlink:label="label_example_ServiceMember" xml:lang="ar">خدمات [عضو]</link:label>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_StatementLineItems" xlink:label="example_StatementLineItems"/>
+		<link:labelArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="example_StatementLineItems" xlink:to="label_example_StatementLineItems"/>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/label" xlink:label="label_example_StatementLineItems" xml:lang="ar">قائمة [بنود]</link:label>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_RevenueConcept" xlink:label="example_RevenueConcept"/>
+		<link:labelArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="example_RevenueConcept" xlink:to="label_example_RevenueConcept"/>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/label" xlink:label="label_example_RevenueConcept" xml:lang="ar">ايرادات</link:label>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/totalLabel" xlink:label="label_example_RevenueConcept" xml:lang="ar">اجمالي الايرادات</link:label>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_CostOfRevenueConcept" xlink:label="example_CostOfRevenueConcept"/>
+		<link:labelArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="example_CostOfRevenueConcept" xlink:to="label_example_CostOfRevenueConcept"/>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/label" xlink:label="label_example_CostOfRevenueConcept" xml:lang="ar">تكلفة الايرادات</link:label>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/totalLabel" xlink:label="label_example_CostOfRevenueConcept" xml:lang="ar">اجمالي تكلفة الايرادات</link:label>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_GrossProfitConcept" xlink:label="example_GrossProfitConcept"/>
+		<link:labelArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="example_GrossProfitConcept" xlink:to="label_example_GrossProfitConcept"/>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/label" xlink:label="label_example_GrossProfitConcept" xml:lang="ar">مجمل الربح</link:label>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_ExpensesConcept" xlink:label="example_ExpensesConcept"/>
+		<link:labelArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="example_ExpensesConcept" xlink:to="label_example_ExpensesConcept"/>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/label" xlink:label="label_example_ExpensesConcept" xml:lang="ar">تكاليف</link:label>
+		<link:loc xlink:type="locator" xlink:href="is_ifrs_based.xsd#example_NetProfitConcept" xlink:label="example_NetProfitConcept"/>
+		<link:labelArc order="1.0" xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="example_NetProfitConcept" xlink:to="label_example_NetProfitConcept"/>
+		<link:label xlink:type="resource" xlink:role="http://www.xbrl.org/2003/role/label" xlink:label="label_example_NetProfitConcept" xml:lang="ar">صافي الربح</link:label>
+	</link:labelLink>
+</link:linkbase>

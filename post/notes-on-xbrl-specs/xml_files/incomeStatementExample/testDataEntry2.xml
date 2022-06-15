@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xbrl
+  xmlns="http://www.xbrl.org/2003/instance"
+  xmlns:example="http://xyz.abc/IncomeStatementExample"
+  xmlns:iso4217="http://www.xbrl.org/2003/iso4217"
+  xmlns:link="http://www.xbrl.org/2003/linkbase"
+  xmlns:xbrldi="http://xbrl.org/2006/xbrldi"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+    <link:schemaRef xlink:href="is.xsd" xlink:type="simple"/>
+    <context id="c-01">
+        <entity>
+            <identifier scheme="http://www.any.gov/identifier">Example-IS</identifier>
+            <segment>
+                <xbrldi:explicitMember dimension="example:ProductServiceAxis">example:ProductMember</xbrldi:explicitMember>
+            </segment>
+        </entity>
+        <period>
+            <startDate>2020-01-01</startDate>
+            <endDate>2020-06-30</endDate>
+        </period>
+    </context>
+    <unit id="u-01">
+        <measure>iso4217:EGP</measure>
+    </unit>
+    <unit id="u-02">
+        <measure>pure</measure>
+    </unit>
+    <unit id="u-03">
+        <measure>shares</measure>
+    </unit>
+    <example:RevenueConcept contextRef="c-01" decimals="2" unitRef="u-01">1000</example:RevenueConcept>
+    <example:CostOfRevenueConcept contextRef="c-01" decimals="2" unitRef="u-01">500</example:CostOfRevenueConcept>
+    <example:GrossProfitConcept contextRef="c-01" decimals="2" unitRef="u-01">500</example:GrossProfitConcept>
+    <example:ExpensesConcept contextRef="c-01" decimals="2" unitRef="u-01">100</example:ExpensesConcept>
+    <example:NetProfitConcept contextRef="c-01" decimals="2" unitRef="u-01">400</example:NetProfitConcept>
+    <example:EarningPerShareConcept contextRef="c-01" decimals="2" unitRef="u-02">0.40</example:EarningPerShareConcept>
+    <example:SharesOutstandingConcept contextRef="c-01" decimals="2" unitRef="u-03">1000</example:SharesOutstandingConcept>
+</xbrl>

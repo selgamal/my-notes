@@ -1,0 +1,23 @@
+id	concept	decimals	entity	period	unit	example_ProductServiceAxis	value
+f001	example:RevenueConcept	2	scheme:Example-IS	2020-01-01T00:00:00/2020-12-31T00:00:00	iso4217:EGP		5000	
+f002	example:RevenueConcept	2	scheme:Example-IS	2020-01-01T00:00:00/2020-12-31T00:00:00	iso4217:EGP	example:ProductMember	2000	0.5
+f003	example:RevenueConcept	2	scheme:Example-IS	2020-01-01T00:00:00/2020-12-31T00:00:00	iso4217:EGP	example:ServiceMember	3000	0.666666667
+f004	example:CostOfRevenueConcept	2	scheme:Example-IS	2020-01-01T00:00:00/2020-12-31T00:00:00	iso4217:EGP		3000	
+f005	example:CostOfRevenueConcept	2	scheme:Example-IS	2020-01-01T00:00:00/2020-12-31T00:00:00	iso4217:EGP	example:ProductMember	1000	
+f006	example:CostOfRevenueConcept	2	scheme:Example-IS	2020-01-01T00:00:00/2020-12-31T00:00:00	iso4217:EGP	example:ServiceMember	2000	
+f007	example:GrossProfitConcept	2	scheme:Example-IS	2020-01-01T00:00:00/2020-12-31T00:00:00	iso4217:EGP		2000	
+f008	example:GrossProfitConcept	2	scheme:Example-IS	2020-01-01T00:00:00/2020-12-31T00:00:00	iso4217:EGP	example:ProductMember	1000	
+f009	example:GrossProfitConcept	2	scheme:Example-IS	2020-01-01T00:00:00/2020-12-31T00:00:00	iso4217:EGP	example:ServiceMember	1000	
+f010	example:ExpensesConcept	2	scheme:Example-IS	2020-01-01T00:00:00/2020-12-31T00:00:00	iso4217:EGP		500	
+f011	example:NetProfitConcept	2	scheme:Example-IS	2020-01-01T00:00:00/2020-12-31T00:00:00	iso4217:EGP		1500	
+f012	example:RevenueConcept	2	scheme:Example-IS	2019-01-01T00:00:00/2019-12-31T00:00:00	iso4217:EGP		4000	
+f013	example:RevenueConcept	2	scheme:Example-IS	2019-01-01T00:00:00/2019-12-31T00:00:00	iso4217:EGP	example:ProductMember	2500	
+f014	example:RevenueConcept	2	scheme:Example-IS	2019-01-01T00:00:00/2019-12-31T00:00:00	iso4217:EGP	example:ServiceMember	1500	
+f015	example:CostOfRevenueConcept	2	scheme:Example-IS	2019-01-01T00:00:00/2019-12-31T00:00:00	iso4217:EGP		2250	
+f016	example:CostOfRevenueConcept	2	scheme:Example-IS	2019-01-01T00:00:00/2019-12-31T00:00:00	iso4217:EGP	example:ProductMember	1250	
+f017	example:CostOfRevenueConcept	2	scheme:Example-IS	2019-01-01T00:00:00/2019-12-31T00:00:00	iso4217:EGP	example:ServiceMember	1000	
+f018	example:GrossProfitConcept	2	scheme:Example-IS	2019-01-01T00:00:00/2019-12-31T00:00:00	iso4217:EGP		1750	
+f019	example:GrossProfitConcept	2	scheme:Example-IS	2019-01-01T00:00:00/2019-12-31T00:00:00	iso4217:EGP	example:ProductMember	1250	
+f020	example:GrossProfitConcept	2	scheme:Example-IS	2019-01-01T00:00:00/2019-12-31T00:00:00	iso4217:EGP	example:ServiceMember	500	
+f021	example:ExpensesConcept	2	scheme:Example-IS	2019-01-01T00:00:00/2019-12-31T00:00:00	iso4217:EGP		420	
+f022	example:NetProfitConcept	2	scheme:Example-IS	2019-01-01T00:00:00/2019-12-31T00:00:00	iso4217:EGP		1330	

@@ -1,0 +1,104 @@
+.share-buttons a svg.share-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.social-icons a svg.social-icon{
+    width: 1.7rem;
+    height: 1.7rem;
+
+}
+
+header.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+body#top nav.nav {
+    border-bottom: 1px solid rgb(234 234 234);
+}
+body#top.dark nav.nav {
+    border-bottom: 1px solid rgb(60 60 60);
+}
+
+main.main {
+    margin-top: 2em;
+}
+
+body#top.list header.header {
+    background: var(--code-bg);
+}
+
+
+body#top header.header,
+body#top.list.dark header.header {
+    background: var(--theme);
+}
+
+
+/* .icon-reddit {
+    color: #FF4500;
+}
+
+.icon-twitter {
+    color: #00abdc;
+}
+
+.icon-linkedin {
+    color: #007bb6;
+}
+.icon-facebook {
+    color: #325c94;
+}
+.icon-whatsapp {
+    color: #25D366;
+}
+.icon-telegram {
+    color: #0088cc;
+}
+.icon-envelope {
+    color: rgb(103, 151, 239);
+}
+.icon-globe {
+    color: #3cbee8;
+}*/
+.icon-rss {
+    color:#ee802f;
+}
+
+#menu .icon-rss {
+    font-size: 1.2em;
+}
+
+.logo a img {
+    margin-inline-end: 0.1em;
+}
+
+/* a {
+    color: steelblue;
+} */
+
+.post-content {
+    text-align: justify;
+}
+
+.section.level4 h4 {
+    font-size:1em; 
+    margin-bottom:0;
+    }
+
+/* 
+    :target::before {
+        content: "";
+        display: block;
+        height: 60px;
+        margin: -60px 0 0; 
+      }
+     */
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5em;
+}

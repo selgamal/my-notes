@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<link:linkbase xsi:schemaLocation="http://www.xbrl.org/2003/linkbase http://www.xbrl.org/2003/xbrl-linkbase-2003-12-31.xsd http://xbrl.org/2008/generic http://www.xbrl.org/2008/generic-link.xsd http://xbrl.org/2014/table http://www.xbrl.org/2014/table.xsd http://xbrl.org/2008/label http://www.xbrl.org/2008/generic-label.xsd http://xbrl.org/2010/filter/concept-relation http://www.xbrl.org/2010/concept-relation-filter.xsd http://xbrl.org/2008/filter/dimension http://www.xbrl.org/2008/dimension-filter.xsd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:gen="http://xbrl.org/2008/generic" xmlns:label="http://xbrl.org/2008/label" xmlns:table="http://xbrl.org/2014/table" xmlns:example="http://xyz.abc/IncomeStatementExample">
+	<link:arcroleRef arcroleURI="http://xbrl.org/arcrole/2014/aspect-node-filter" xlink:type="simple" xlink:href="http://www.xbrl.org/2014/table.xsd#aspect-node-filter" />
+	<link:arcroleRef arcroleURI="http://xbrl.org/arcrole/2014/definition-node-subtree" xlink:type="simple" xlink:href="http://www.xbrl.org/2014/table.xsd#definition-node-subtree" />
+	<link:arcroleRef arcroleURI="http://xbrl.org/arcrole/2014/breakdown-tree" xlink:type="simple" xlink:href="http://www.xbrl.org/2014/table.xsd#breakdown-tree" />
+	<link:arcroleRef arcroleURI="http://xbrl.org/arcrole/2014/table-filter" xlink:type="simple" xlink:href="http://www.xbrl.org/2014/table.xsd#table-filter" />
+	<link:arcroleRef arcroleURI="http://xbrl.org/arcrole/2014/table-breakdown" xlink:type="simple" xlink:href="http://www.xbrl.org/2014/table.xsd#table-breakdown" />
+	<link:arcroleRef arcroleURI="http://xbrl.org/arcrole/2008/element-label" xlink:type="simple" xlink:href="http://www.xbrl.org/2008/generic-label.xsd#element-label" />
+	<link:roleRef roleURI="http://www.xbrl.org/2008/role/label" xlink:type="simple" xlink:href="http://www.xbrl.org/2008/generic-label.xsd#standard-label" />
+	<link:roleRef roleURI="http://www.xbrl.org/2008/role/link" xlink:type="simple" xlink:href="http://www.xbrl.org/2008/generic-link.xsd#standard-link-role" />
+	<gen:link xlink:type="extended" xlink:role="http://www.xbrl.org/2008/role/link">
+
+		<!-- Create Table -->
+		<table:table id="table" xlink:type="resource" xlink:label="table" />
+		
+		<!-- Create first  break down for y axis-->
+		<table:breakdown id="y-axis-concepts" xlink:type="resource" xlink:label="y-axis-concepts" />
+		
+		<!-- Link break down to table  -->
+		<table:tableBreakdownArc order="2.0" axis="y" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2014/table-breakdown" xlink:from="table" xlink:to="y-axis-concepts" />
+
+		<!-- Create concept relation node for y axis (returns all parent-child relations for statementLineItems element) -->
+		<table:conceptRelationshipNode id="conceptRelationshipNode" xlink:type="resource" xlink:label="conceptRelationshipNode">
+			<table:relationshipSource>example:StatementLineItems</table:relationshipSource>
+			<table:linkrole>http://xyz.abc/role/IncomeStatement</table:linkrole>
+			<table:arcrole>http://www.xbrl.org/2003/arcrole/parent-child</table:arcrole>
+			<table:formulaAxis>child</table:formulaAxis>
+		</table:conceptRelationshipNode>
+
+		<!-- Link concept relation node to y axis breakdown -->
+		<table:breakdownTreeArc order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2014/breakdown-tree" xlink:from="y-axis-concepts" xlink:to="conceptRelationshipNode" />
+
+
+		<!-- create another break down for x axis -->
+		<table:breakdown id="x-axis-dims" parentChildOrder="children-first" xlink:type="resource" xlink:label="x-axis-dims" />
+		
+		<!-- Link table to x axis breakdown -->
+		<table:tableBreakdownArc order="1.0" axis="x" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2014/table-breakdown" xlink:from="table" xlink:to="x-axis-dims" />
+
+		<!-- Create dimension relation node to return ProductService Domain Members -->
+		<table:dimensionRelationshipNode id="dimensionRelationshipNode" xlink:type="resource" xlink:label="dimensionRelationshipNode">
+			<table:relationshipSource>example:ProductServiceDomain</table:relationshipSource>
+			<table:linkrole>http://xyz.abc/role/IncomeStatement</table:linkrole>
+			<table:dimension>example:ProductServiceAxis</table:dimension>
+			<table:formulaAxis>descendant-or-self</table:formulaAxis>
+		</table:dimensionRelationshipNode>
+
+		<!-- Link dimension relation node to x axis breakdown -->
+		<table:breakdownTreeArc order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2014/breakdown-tree" xlink:from="x-axis-dims" xlink:to="dimensionRelationshipNode" />
+
+		<!-- Create break down for z axis -->
+		<table:breakdown id="z-axis-period" xlink:type="resource" xlink:label="z-axis-period" />
+		<table:tableBreakdownArc order="3.0" axis="z" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2014/table-breakdown" xlink:from="table" xlink:to="z-axis-period" />
+
+		<!-- Create aspect node to return periods for z axis -->
+		<table:aspectNode id="aspectNode3" xlink:type="resource" xlink:label="aspectNode3">
+			<table:periodAspect />
+		</table:aspectNode>
+
+		<!-- Link aspect node to z-axis breakdown -->
+		<table:breakdownTreeArc order="2.0" use="optional" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2014/breakdown-tree" xlink:from="z-axis-period" xlink:to="aspectNode3" />
+
+		<!-- Create labels -->
+		<gen:arc order="2.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2008/element-label" xlink:from="y-axis-concepts" xlink:to="label1" />
+		<label:label id="label1" xlink:type="resource" xlink:role="http://www.xbrl.org/2008/role/label" xlink:label="label1" xml:lang="en">Line Items</label:label>
+		<gen:arc order="1.0" xlink:type="arc" xlink:arcrole="http://xbrl.org/arcrole/2008/element-label" xlink:from="table" xlink:to="label" />
+		<label:label id="label" xlink:type="resource" xlink:role="http://www.xbrl.org/2008/role/label" xlink:label="label" xml:lang="en">Data Entry</label:label>
+
+	</gen:link>
+</link:linkbase>

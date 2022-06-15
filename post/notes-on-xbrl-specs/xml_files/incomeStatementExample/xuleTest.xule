@@ -1,0 +1,17 @@
+namespace http://xyz.abc/IncomeStatementExample
+
+// Calculate gross margin by dimension
+output gross-margin
+$gross-profit=@GrossProfitConcept
+$revenue = @RevenueConcept
+$dims = $revenue.dimensions-explicit
+$lab = if (length($dims.values.label(None,'en').text)>0)
+		 ($dims.values.label(None,'en').text)[1]
+		else "Total"
+"Gross Margin for {$revenue.period} {$lab}= {round($gross-profit/$revenue,3)}%"
+
+// Query all facts with value more than EGP 2000
+output big-facts
+{@concept where $fact > 2000}
+
+

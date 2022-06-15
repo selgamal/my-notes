@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2021 rel. 3 (x64) (http://www.altova.com) by Sherif (None) -->
+<xs:schema targetNamespace="http://xyz.abc/IncomeStatementExample" attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xl="http://www.xbrl.org/2003/XLink" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:nonnum="http://www.xbrl.org/dtr/type/non-numeric" xmlns:xbrldt="http://xbrl.org/2005/xbrldt" xmlns:gen="http://xbrl.org/2008/generic" xmlns:label="http://xbrl.org/2008/label" xmlns:example="http://xyz.abc/IncomeStatementExample">
+	<xs:annotation>
+		<xs:documentation>
+        Schema/Taxonomy for Income Statement Example
+      </xs:documentation>
+		<xs:appinfo>
+			<link:roleType id="roleType_IncomeStatement" roleURI="http://xyz.abc/role/IncomeStatement">
+				<link:definition>10000 - Statement - Income Statement</link:definition>
+				<link:usedOn>link:presentationLink</link:usedOn>
+				<link:usedOn>link:definitionLink</link:usedOn>
+				<link:usedOn>link:calculationLink</link:usedOn>
+			</link:roleType>
+			<link:linkbaseRef xlink:type="simple" xlink:role="http://www.xbrl.org/2003/role/labelLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase" xlink:href="is_ifrs_based_lab_en.xml"/>
+			<link:linkbaseRef xlink:type="simple" xlink:role="http://www.xbrl.org/2003/role/labelLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase" xlink:href="is_ifrs_based_lab_ar.xml"/>
+			<link:linkbaseRef xlink:type="simple" xlink:role="http://www.xbrl.org/2003/role/presentationLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase" xlink:href="is_ifrs_based_pre.xml"/>
+			<link:linkbaseRef xlink:type="simple" xlink:role="http://www.xbrl.org/2003/role/definitionLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase" xlink:href="is_ifrs_based_def.xml"/>
+			<link:linkbaseRef xlink:type="simple" xlink:role="http://www.xbrl.org/2003/role/calculationLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase" xlink:href="is_ifrs_based_cal.xml"/>
+			<link:linkbaseRef xlink:type="simple" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase" xlink:href="gla_ar.xml"/>
+		</xs:appinfo>
+	</xs:annotation>
+	<xs:import namespace="http://www.xbrl.org/2003/instance" schemaLocation="http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd"/>
+	<xs:import namespace="http://www.xbrl.org/dtr/type/non-numeric" schemaLocation="http://www.xbrl.org/dtr/type/nonNumeric-2009-12-16.xsd"/>
+	<xs:import namespace="http://xbrl.org/2005/xbrldt" schemaLocation="http://www.xbrl.org/2005/xbrldt-2005.xsd"/>
+	<xs:element name="CostOfRevenueConcept" id="example_CostOfRevenueConcept" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" abstract="false" xbrli:balance="debit" xbrli:periodType="duration"/>
+	<xs:element name="ExpensesConcept" id="example_ExpensesConcept" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" abstract="false" xbrli:balance="debit" xbrli:periodType="duration"/>
+	<xs:element name="GrossProfitConcept" id="example_GrossProfitConcept" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" abstract="false" xbrli:balance="credit" xbrli:periodType="duration"/>
+	<xs:element name="IncomeStatementConceptAbstract" id="example_IncomeStatementConceptAbstract" type="xbrli:stringItemType" substitutionGroup="xbrli:item" nillable="true" abstract="true" xbrli:periodType="duration"/>
+	<xs:element name="IncomeStatementTable" id="example_IncomeStatementTable" type="xbrli:stringItemType" substitutionGroup="xbrldt:hypercubeItem" nillable="true" abstract="true" xbrli:periodType="duration"/>
+	<xs:element name="NetProfitConcept" id="example_NetProfitConcept" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" abstract="false" xbrli:balance="credit" xbrli:periodType="duration"/>
+	<xs:element name="ProductMember" id="example_ProductMember" type="nonnum:domainItemType" substitutionGroup="xbrli:item" nillable="true" abstract="true" xbrli:periodType="duration"/>
+	<xs:element name="ProductServiceAxis" id="example_ProductServiceAxis" type="xbrli:stringItemType" substitutionGroup="xbrldt:dimensionItem" nillable="true" abstract="true" xbrli:periodType="duration"/>
+	<xs:element name="ProductServiceDomain" id="example_ProductServiceDomain" type="nonnum:domainItemType" substitutionGroup="xbrli:item" nillable="true" abstract="true" xbrli:periodType="duration"/>
+	<xs:element name="RevenueConcept" id="example_RevenueConcept" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" abstract="false" xbrli:balance="credit" xbrli:periodType="duration"/>
+	<xs:element name="ServiceMember" id="example_ServiceMember" type="nonnum:domainItemType" substitutionGroup="xbrli:item" nillable="true" abstract="true" xbrli:periodType="duration"/>
+	<xs:element name="StatementLineItems" id="example_StatementLineItems" type="xbrli:stringItemType" substitutionGroup="xbrli:item" nillable="true" abstract="true" xbrli:periodType="duration"/>
+</xs:schema>
