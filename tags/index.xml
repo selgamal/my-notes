@@ -9,11 +9,30 @@
       <link>/my-notes/papermod-cover.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="/my-notes/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Tue, 14 Sep 2021 09:29:50 +0200</lastBuildDate><atom:link href="/my-notes/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Glossary</title>
+      <link>/my-notes/tags/glossary/</link>
+      <pubDate>Tue, 14 Sep 2021 09:29:50 +0200</pubDate>
+      
+      <guid>/my-notes/tags/glossary/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>XBRL</title>
+      <link>/my-notes/tags/xbrl/</link>
+      <pubDate>Tue, 14 Sep 2021 09:29:50 +0200</pubDate>
+      
+      <guid>/my-notes/tags/xbrl/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Basics</title>
       <link>/my-notes/tags/basics/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 15 Aug 2021 09:29:50 +0200</pubDate>
       
       <guid>/my-notes/tags/basics/</guid>
       <description></description>
@@ -22,7 +41,7 @@
     <item>
       <title>Digital Financial Reporting</title>
       <link>/my-notes/tags/digital-financial-reporting/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 15 Aug 2021 09:29:50 +0200</pubDate>
       
       <guid>/my-notes/tags/digital-financial-reporting/</guid>
       <description></description>
@@ -31,25 +50,16 @@
     <item>
       <title>Financial Reporting</title>
       <link>/my-notes/tags/financial-reporting/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 15 Aug 2021 09:29:50 +0200</pubDate>
       
       <guid>/my-notes/tags/financial-reporting/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>XBRL</title>
-      <link>/my-notes/tags/xbrl/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/my-notes/tags/xbrl/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>XML</title>
       <link>/my-notes/tags/xml/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 15 Aug 2021 09:29:50 +0200</pubDate>
       
       <guid>/my-notes/tags/xml/</guid>
       <description></description>

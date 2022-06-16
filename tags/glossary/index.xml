@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Glossary on Sherif ElGamal</title>
+    <link>/my-notes/tags/glossary/</link>
+    <description>Recent content in Glossary on Sherif ElGamal</description>
+    <image>
+      <url>/my-notes/papermod-cover.png</url>
+      <link>/my-notes/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 14 Sep 2021 09:29:50 +0200</lastBuildDate><atom:link href="/my-notes/tags/glossary/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>XBRL Glossary Collection</title>
+      <link>/my-notes/post/xbrl-glossary-collection/</link>
+      <pubDate>Tue, 14 Sep 2021 09:29:50 +0200</pubDate>
+      
+      <guid>/my-notes/post/xbrl-glossary-collection/</guid>
+      <description>XBRL glossary is vast, the objective of this page is to put together in one place a collection of XBRL terms extracted from multiple sources along with the translation of these terms if the translation is available.</description>
+    </item>
+    
+  </channel>
+</rss>

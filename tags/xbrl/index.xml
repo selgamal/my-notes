@@ -9,11 +9,21 @@
       <link>/my-notes/papermod-cover.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="/my-notes/tags/xbrl/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Tue, 14 Sep 2021 09:29:50 +0200</lastBuildDate><atom:link href="/my-notes/tags/xbrl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>XBRL Glossary Collection</title>
+      <link>/my-notes/post/xbrl-glossary-collection/</link>
+      <pubDate>Tue, 14 Sep 2021 09:29:50 +0200</pubDate>
+      
+      <guid>/my-notes/post/xbrl-glossary-collection/</guid>
+      <description>XBRL glossary is vast, the objective of this page is to put together in one place a collection of XBRL terms extracted from multiple sources along with the translation of these terms if the translation is available.</description>
+    </item>
+    
     <item>
       <title>Notes on eXtensible Business Reporting Language (XBRL) Specifications</title>
       <link>/my-notes/post/notes-on-xbrl-specs/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 15 Aug 2021 09:29:50 +0200</pubDate>
       
       <guid>/my-notes/post/notes-on-xbrl-specs/</guid>
       <description>A collection of notes on XBRL put together to provide a basic understanding of what is XBRL, what it does, and how it is implemented.</description>

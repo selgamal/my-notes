@@ -1,0 +1,2211 @@
+---
+title: "Notes on eXtensible Business Reporting Language (XBRL) Specifications"
+author: "Sherif M. ElGamal"
+date: "August 2021"
+output:  
+  html_notebook:  
+    theme: flatly
+    highlight: haddock  
+    toc: yes  
+    toc_float:
+      collapsed: false 
+    toc_depth: 5
+    number_sections: yes 
+    code_folding: none 
+    fig_caption: yes
+    includes:
+      in_header: "../../../static/favicon.html"
+---
+
+<style>
+#header, #res-links-table {
+  text-align: left;
+}
+
+#header > .btn-group {
+  display: none;
+}
+
+blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 1.2em!important;
+    border-left: 5px solid #eee;
+}
+
+#TOC {
+font-size: small;
+white-space: nowrap;
+}
+pre code {
+white-space: pre;
+}
+pre {
+max-height: 350px;
+}
+.sourceCode {
+    overflow: auto;
+}
+body {
+text-align: justify;}
+blockquote {
+    font-size: inherit;
+    font-style: oblique;
+}
+
+</style>
+***
+```{r setup,  echo=FALSE, message=FALSE, include=FALSE}
+library(tidyverse)
+post_path= 'content/post/notes-on-xbrl-specs'
+here::i_am('content/post/notes-on-xbrl-specs/notes-on-xbrl.Rmd')
+source(here::here('R', 'helperFunctions.R'))
+options(width = 200)
+htmltools::tagList(rmarkdown::html_dependency_font_awesome())
+```
+
+# Introduction  
+
+eXtensible Business Reporting Language ("XBRL") is the latest and greatest method of representing financial information in structured format. The use of XBRL is steadily expanding allover the world, and it is becoming the standard method of exchanging financial reports.   
+
+This material is a collection of notes on XBRL put together to provide a basic understanding of _what is XBRL_, _what it does_, and _how it is implemented_.
+
+Parts of this material depends heavily, and refers to the [**_XBRL Taxonomy Development Handbook ("TDH")_**](https://xbrl.us/xbrl-reference/tdh/) published by [XBRL US](https://xbrl.us/) and publicly available on the their website. The TDH was created as a guide for creating XBRL taxonomies based on XBRL US experience, which makes it a very valuable resource for anyone or organization interested in the implementation of XBRL.
+
+# Objectives of this material  
+
+This material should provide:  
+
+* Basic understanding of XBRL and its components.  
+* Familiarity with core XBRL terminology.  
+* Basic understanding of XBRL Taxonomy and instance document.  
+* Basic understanding of the process of development of an XBRL taxonomy.  
+* Understanding the ecosystem of structured financial reporting and the supporting technologies.
+
+**Presentation that goes with this material can be accessed [here](presentation/XBRL-Notes-All-pdf.pdf){target=_blank}**
+
+# Why XBRL and what is it exactly?
+
+__XBRL__ stands for _eXtensible Business Reporting Language_, XBRL international defines XBRL as:  
+
+>XBRL provides a language in which reporting terms can be authoritatively defined. Those terms can then be used to uniquely represent the contents of financial statements or other kinds of compliance, performance and business reports. XBRL lets reporting information move between organizations rapidly, accurately and digitally.`r tufte::quote_footer('--- [XBRL.org](https://www.xbrl.org/the-standard/what/an-introduction-to-xbrl/#what-is-xbrl)')`  
+
+
+## Data and Regulatory Reporting  
+
+The increase complexity of transactions, regulatory requirements, and volumes of data derives the need for more efficient and structured methods to handle data and convert it into a resource rather than a burden. 
+
+<div>
+<center>
+![Regulatory Data over time](`r here::here(post_path, 'images/data.svg')`)
+</center>
+<p style="text-align:center">
+**Data over time**
+</p>
+</div>
+
+_**How do we collect financial data**_
+
+<div>
+<center>
+![Regulatory Reporting](`r here::here(post_path, 'images/collectingData.svg')`)
+</center>
+<p style="text-align:center">
+**Regulatory Reporting**
+</p>
+</div>
+
+```{r changes_in_data_collection, echo=FALSE, message=FALSE, eval=FALSE, warning=FALSE, fig.cap='How we collect Data'}
+DiagrammeR::grViz("
+
+digraph with_title {
+
+  graph [splines=ortho, rankdir=LR, label='Changes in how we collect data']
+  
+  node [shape=box, style='filled', color=transparent, fillcolor='#f5f5f5', fontname=Helvetica, fontcolor='#2c3e50']
+  
+  a[label='Paper Based Submissions']; 
+  c[label='Spreadsheets and Flat files']; 
+  d[label='Web Based Forms']; e[label=XBRL]
+  
+  edge[color='#242424', penwidth=0.2]
+  
+  a -> c -> d -> e
+}                 
+", height="100%", width="100%")
+```
+
+
+The methods and processes of financial data collection evolved over time, we started with paper based submissions, then spreadsheets and flat files were used, then electronic submissions through web based portals. XBRL is the next newest thing in this evolution, benefits of XBRL can be summarized as follows: 
+
+<div>
+<center>
+![What XBRL Provides](`r here::here(post_path, 'images/why_xbrl2.svg')`)
+</center>
+<p style="text-align:center">
+**What XBRL Provides**
+</p>
+</div>
+
+
+* XBRL provides for a stable structure of the data content.  
+* XBRL separates data content from the form of the submission. 
+* XBRL Provides for automation, which increases accuracy, cost and time savings.  
+  
+And many more benefits relating to the quality and richness of data.
+
+
+### Current issues that XBRL addresses
+
+**General Issues:**  
+
+* **Machine Readable:** reports with XBRL tagging can be consumed and analyzed by computers through XBRL enabled software (XBRL Processors) as opposed to paper based or unstructured reports.   
+* **Interoperability:** XBRL is self-describing and uses XML syntax which makes the information in XBRL format system independent, in other words, the same XBRL information package can be consumed by any system that has XBRL enabled software, which addresses _compatibility_ issues.  
+* It provides for a **common set of rules** that can be used in exchanging any financial information, hence it provides a common language for exchanging data, addressing _comparability_ issues.    
+* XBRL provides for **automated** means of compiling, transmitting, validating and analyzing financial data, which increase _efficiency_, time and cost saving and at the same time increasing quality of data.  
+* XBRL provides high quality, **contextually rich financial data** rather than _fragmented_ data.  
+* XBRL is free and **opensource** standard, with **no licensing fees**, addresses issues of propitiatory standards and software, it should be noted that XBRL enabled software is not free.
+
+
+**Regulator Issues**:  
+
+* **High volumes of data and reports:** as mentioned, XBRL provides for automation in collecting and processing data, which facilitates handling large volumes of data in an accurate and efficient manner.  
+* **Review and validation:** XBRL gives financial reports a structure that enables creation of validation rules based on regulations, business rules and any other criteria, and that in turn enables quick corrective action to be taken when needed.    
+* Data can be stored for cross checking and further **analysis and comparison**.  
+* **Single source of the truth**, XBRL structure allows data to be used for many purposes, for example, same report can contain data structures required for a regulator, census, taxes ...
+
+**Issuer Issues**:  
+
+* **Simplifies the compilation of reports** required by multiple regulators from the same dataset.    
+* XBRL taxonomies and the related guides issued by regulators provide for **clear and unambiguous reporting requirements**, and simplifies compliance.  
+* Reduces the chance of costly errors.
+  
+
+## Who uses XBRL?  
+
+The XBRL Taxonomy Development Handbook in page 6 lists successful implementation of XBRL around the worlds, that includes:
+
+* **United States**: Stock exchange commission (SEC), and Financial Depository Insurance Corporation (FDIC) with total reporting entities of over 17,500  
+* **United Kingdom**: Her Majesty’s Revenues & Customs (HMRC), and Companies House with reporting entities of over 2 million  
+* **Spain**: Business Registrar, Banking Regulator, Securities Regulation, Accounting Oversight and State Federal Comptroller with reporting entities of over 800,000  
+
+* **Others**: Europe (European Single Electronic Format ESEF), India, Singapore, South Korea, Italy, Peru, World bank and many others  
+
+* **Governments and government agencies **allover the world are using XBRL, countries like **Netherlands** and **Australia** implemented [**Standard Business Reporting (SBR) programs**](https://en.wikipedia.org/wiki/Standard_Business_Reporting) which are programs designed to reduce regulatory burden for businesses and relies heavily on XBRL.
+
+Currently XBRL international website lists [more than 20 XBRL jurisdictions](https://www.xbrl.org/the-consortium/about/jurisdictions/) (a jurisdiction is a local representative for XBRL  acting as the primary liaison to national government, technology firms and business communities), following are some of the regulators implemented or in the process of implementing XBRL:  
+
+<div>
+<center>
+![Some of the Regulators using XBRL](`r here::here(post_path, 'images/who.svg')`)
+</center>
+<p style="text-align:center">
+**Some of the Regulators using XBRL**
+</p>
+</div>
+
+
+### XBRL Implementations Map  
+XBRL website presents a map and listing for XBRL implementation projects world wide that can be accessed [here](https://www.xbrl.org/the-standard/why/xbrl-project-directory/){target=_blank}  
+
+<iframe style="border: 0;" src="https://datastudio.google.com/embed/reporting/15SmPAVhTiecrnrVURCqBO25Ktsya2eCT/page/Jpmi" width="100%" height="550" frameborder="0" allowfullscreen="allowfullscreen" data-external="1"></iframe>
+
+**Why XBRL?** In short, it addresses most current issues relating to exchange of financial data, it is widely used allover the world, and it is simply the next step in the evolution of financial data exchange systems.
+
+## What is Extensible Business Reporting Language (XBRL)?
+
+**The Specifications**   
+Technically XBRL is based on __XML__ _(eXtensible Markup Language)_, it can be said that **XBRL is an XML extension** optimized to deal with business information. In other words,  XBRL does what it does by being based on  XML.  
+
+[XBRL is a set of specifications](https://specifications.xbrl.org/specifications.html) developed and maintained by [XBRL International](https://www.xbrl.org/). The base XBRL specification (now version 2.1) is stable since 2003, with additional specifications being added to augment it such as XBRL Dimensions.  
+
+XBRL specification are freely available without licensing, note that this doesn't apply for XBRL enabled software which might have licensing fees. 
+
+**Data Model**  
+XBRL specifications are tools that enables the definition of  dictionaries, data models and rules called **XBRL Taxonomies**, also XBRL specifications provide the rules to create structured financial reports based on XBRL Taxonomies, these financial reports are called **XBRL Instances**.  
+
+So we can say that XBRL is the set of rules used to create data models and structures that are the basis for structured financial reporting. 
+
+
+**Communication Language**  
+The purpose of XBRL is to enable exchange of structured financial data between systems, sometimes the term "transport model" is used to refer to XBRL. 
+
+> "A _Transport Model_  serves as an organizational structure when moving data from a source to a consumer" `r tufte::quote_footer('--- [TDH section 2.1.2 page 10](https://xbrlus.github.io/docs/tdh.html)')`
+
+
+Understanding XBRL starts with XML, the next section briefly explores XML concepts that are relevant to understanding XBRL.
+
+## XML and markup languages 
+
+>Extensible Markup Language is a markup language that defines a set of rules for encoding documents in a format that is both human-readable and machine-readable.`r tufte::quote_footer('--- [Wikipedia Markup Languages](https://en.wikipedia.org/wiki/XML)')`  
+
+### Back in time  
+
+Best way to understand the most basic concept of markup languages is to take a look at ancient Egyptian writings.
+
+<center>
+[![**Cartouche**](`r here::here(post_path, 'images/old.jpg')`){width=30% height=30%}](https://en.wikipedia.org/wiki/Cartouche){target=_blank}  
+<sub>_[Image by Osama Shukir Muhammed Amin FRCP(Glasg), CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons]_<sub>
+</center>
+
+In the image, some of the writing is encapsulated in an oval shape called "Cartouche", according to the common understanding, this means that the encapsulated writing represents a royal name. The ancient Egyptians choose this method to identify the information by marking or "tagging" it by the oval shape.
+
+XML and markup languages do the same thing, it is just _tagging_ of information in a machine-readable format, in the case of XBRL, this tagging has consequences when it is processed by a computer.
+
+
+Markup languages in general tags the content of a file or a document in a way that makes it machine readable, i.e. when processed by a computer, the tags tell the computer what to do with the content.  
+
+Markup languages has different purposes, for example **Hyper Text Markup Language ("HTML")** tags tell the computer how to display the contents of a web page, **Mathematical markup language ("MathML")** tags tells the computer how to represent mathematical formulae, **XML** works the same way purpose of storinh, organizing and transporting content between systems.
+
+Markup languages are usually system independent, an XML file created in a Windows system can be read and parsed by a Linux based system; all systems and programing languages have tools to read and parse XML.  
+
+
+## XML Basics  
+
+XML is a set of specifications, rules and tools for describing, storing, and transporting data between systems.
+
+Assume that we want to encode a table of invoices into XML, a fragment of that XML might look as follows:
+
+```{r xml_intro_frag, echo=FALSE} 
+fn_CodeChunkOut(lang = 'XML', txt=
+'<table> 
+  <invoice CustomerName="abc" InvoiceNum="101">589.91</invoice>
+  <invoice CustomerName="xyz" InvoiceNum="101">257.42</invoice>
+</table>')
+```
+### XML Form
+XML document is composed of elements, each element starts with an opening tag and ends with a closing tag, there can be values or other elements within the opening and closing tags. The XML structure is in the form of a tree, having a root element containing all other elements.  
+
+`<table>` and `</table>` in the above XML fragment are the opening and closing <code style="color: red; font-weight: bold;">tags</code> of the root element called `table`. In the above fragment, the root element has two nested elements called `invoice`. Each invoice opening tag contains other information in the form of key, value pairs `customerName="abc", invoiceNum=101`, these are called <code style="color: red; font-weight: bold;">attributes</code>, which attaches more information about the element and are usually referred to using the `@` symbol, as in `@customerName`. finally we have a value `589.91` between the `invoice` opening and closing tag, in this case representing the invoice amount. 
+
+To be usable, XML must be well formed XML, a well formed XML must have the following:  
+
+* All XML elements must be contained in one root element  
+* Each element must have an opening and closing tag  
+* Elements must be properly nested
+* Attributes must be quoted 
+
+For more about XML well formedness [see W3Schools XML Tutorial](https://www.w3schools.com/xml/xml_validator.asp){target="_blank"}  
+
+### Storing Data in XML  
+Let's assume we have a branch and head office, everyday the branch needs information about sales to it's head office in the form of a table of invoices. This table can be expressed in XML format and sent over to the head office. First let's construct the table using `Rscript` language:  
+
+```{r example_1_tbl, results='hold'}
+# Generate a table, same as previous test but 50 rows
+set.seed(42)
+# Number of rows in the table
+table_rows <- 10 
+# Customer names
+customer_names <- c("abc", "mno","xyz")
+# Data frame
+tbl_1 <- data.frame(
+  CustomerName = sample(customer_names, table_rows, replace = T),
+  InvoiceNum = sort(sample(100:999, table_rows)),
+  InvoiceDate = sort(sample(seq(as.Date('2000-01-01'), 
+                                as.Date('2000-12-31'), 
+                                by="day"), table_rows)
+                     ),
+  InvoiceCurrency = rep("CU",table_rows),
+  InvoiceAmt = round(runif(table_rows, min = 100, max = 1000),2), stringsAsFactors = F)
+
+# Display first few rows of the data.frame
+head(tbl_1)
+```
+Now let's convert that table to XML format:  
+```{r example_1_make_xml, results='hold'}
+# This code converts the invoices table to an XML document 
+# and saves it to file
+
+# Create XML root element
+xml_root <- xml2::xml_new_root('table')
+
+# Attach each row of the table as an <invoice> element
+for(r in asplit(tbl_1,1)) {
+  nd <- xml2::xml_add_child(xml_root, 'invoice')
+  for(r_n in names(r)){
+    xml2::xml_add_child(.x=nd, .value = r_n, r[[r_n]] )
+  }
+}
+
+# Write the XML document to file
+xml_out_tbl_1 <- here::here(post_path,'xml_files/xml_out.xml')
+invisible(xml2::write_xml(xml_root, xml_out_tbl_1))
+```
+
+The resulting XML file looks like this:([see file](xml_files/xml_out.xml){target=_blank})  
+```{r example_1_show_xml, echo=FALSE}
+# read and display the XML file
+output <- fn_CodeChunkOut(lang = "XML", File = xml_out_tbl_1)
+output
+```
+
+
+Examining the resulting XML file, each `<invoice>` element has 5 child elements each representing a piece of data describing the invoice, with each of those child elements storing the data as its value. If the focus of this table/report is on the invoice amount `<invoiceAmt>`, then it might be better to have the invoice amount information as the only value, and everything else might be better represented as an attribute. Attributes usually provide additional contextual information about the element and its value, we may call those attributes aspects or even dimensions. So let's try to rewrite the XML in a different way to reflect this:
+```{r example_2_make_xml, results='hold'}
+# Re-write the XML file with attributes
+
+# create root element for the new XML
+xml_root_2 <- xml2::xml_new_root('table')
+
+# define children with attributes
+for(r in asplit(tbl_1,1)) {
+  nd <- xml2::xml_add_child(xml_root_2, 'invoice', r[[length(r)]])
+  for(r_n in names(r)){
+    xml2::xml_attrs(nd) <- r[-length(r)]
+  }
+}
+
+# Write the XML document to file
+xml_out_tbl_2 <- here::here(post_path,'xml_files/xml_out_2.xml')
+invisible(xml2::write_xml(xml_root_2, xml_out_tbl_2))
+```
+
+The resulting New XML file looks like this: ([see file](xml_files/xml_out_2.xml){target=_blank})  
+```{r example_2_show_xml, echo=FALSE}
+# read and display the XML file
+output_2 <- fn_CodeChunkOut(lang = "XML", File = xml_out_tbl_2)
+output_2
+```
+
+Now that we have modeled our information in an acceptable form, we can try to re-construct the table from the XML, here `R script` `xml2` library is used to do that, but it can be done on any system using any language or software capable of parsing XML files:
+```{r example_2_make_tbl, results='hold'}
+# Read XML file
+xml_tbl <- xml2::read_xml(xml_out_tbl_2)
+
+# find all invoice elements
+invoices <- xml2::xml_find_all(xml_tbl, './/invoice')
+values <- xml2::xml_find_all(xml_tbl, './/invoice/text()') %>% xml2::as_list() %>% unlist()
+
+# extract invoice attributes and values from all elements and convert to a dataframe
+xml_to_tbl <- xml2::xml_attrs(invoices) %>% bind_rows() %>% 
+  mutate(InvoiceAmt= as.double(values)) %>% as.data.frame()
+# Correct data types
+xml_to_tbl$InvoiceNum <- as.integer(xml_to_tbl$InvoiceNum)
+xml_to_tbl$InvoiceDate <- as.Date(xml_to_tbl$InvoiceDate)
+head(xml_to_tbl)
+# Compare result of conversion to original table
+paste("Matches Original: ", all_equal(xml_to_tbl, tbl_1)) # Should return TRUE
+
+```
+
+### XML Schema, Namespaces and Validation  
+Now that we have an XML document created, the next step is to send it to the destination system.  
+An important question arises, how do we make sure that the destination/receiving system is able to handle and verify the information in our document correctly? For example, the root element in the example document is called `table`, what should be expected to be included in a table element? Is it a table of invoices, or is it a table a piece of furniture?  
+
+To address the above questions, XML has mechanisms whereby elements in an XML document can be described and verified, these is mechanisms mainly depend on __schema__, __namespaces__ and __types__.  
+
+__Schema__ Is a component of XML ([W3C recommendation](https://www.w3.org/XML/Schema)) used to describe and validate elements in an XML document. Schema can be described as the blueprint of vocabulary used, what and how data is stored in an XML file, and its data types.  
+There are different schema languages such as Document Type Definitions (DTDs), Relax-NG, Schematron and W3C XSD (XML Schema Definitions). The focus will be on XSD as this is the Schema language used in XBRL. XSD -being written in XML- has one root element that contains all the declarations, the root element is `<schema>` and it is defined as follows:  
+<div style="text-align:center;border-style: solid;border-width: thin;border-color: #f7f7f7;">
+![[Schema Element Declaration](https://www.w3.org/2009/XMLSchema/XMLSchema.xsd){target="_blank" style="border-color: #cecece;border-style: solid;font-size: large;border-width: thin;padding: 5px;"}](`r paste0(here::here(),'/', post_path,'/images/XMLSchemaDiagram.png')`){style="display: block;margin-left: auto;margin-right: auto;"}
+</div>  
+
+__Namespaces__ Is a component of XML ([W3C recommendation](https://www.w3.org/TR/xml-names/)) used for providing uniquely named elements and attributes in an XML document. XML document may contain elements from multiple vocabularies (schemas), namespaces help in uniquely identifying elements from different vocabularies having identical names. A namespace takes the form of a URI, for example `http://mynamespace.com/1/1`. A namespace prefix can be declared in an XML document to refer to specific namespace URI using `@xmlns` attribute, for example  `xmlns:myns=http://mynamespace.com/1/1`.
+
+__Types and Derivation in xsd__  
+Elements declared in an xsd schema are based on XML built-in data types, or types that are derived from these built-in types. Types in xsd determines the value, content and composition of elements, for example, an element that holds a `date` value may use of the built-in type `date` and may be typed by setting the `type` attribute `type=date`. W3C specifications for data types is available [here](https://www.w3.org/TR/2001/WD-xforms-20010608/slice4.html){target="_blank"} and [here](https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/datatypes.html){target="_blank"}. A depiction of built-in datatypes hierarchy <u>from W3C specifications</u>:  
+
+<div style="text-align:center;border-style: solid;border-width: thin;border-color: #f7f7f7;margin-bottom: 15px;">
+![[From W3C website](https://www.w3.org/TR/2004/REC-xmlschema-2-20041028/datatypes.html#built-in-datatypes){target="_blank" style="border-color: #cecece;border-style: solid;font-size: large;border-width: thin;padding: 5px;"}](`r paste0(here::here(),'/', post_path,"/images/type-hierarchy.gif")`){style="display: block;margin-left: auto;margin-right: auto;"}
+</div>  
+
+_**Note** `substitutionGroup`: A substitution group is a feature of XML schema that allows specifying elements that can replace another element in documents generated from that schema. The replaceable element is called the head element and must be defined in the schema’s global scope. The elements of the substitution group must be of the same type as the head element or a type that is derived from the head element’s type._
+
+Given that XML instance can have one and only one root element, this element will inevitably include other elements that have more complicated content than just holding a value of a certain type, and built-in types will not be enough to type these elements. The answer to that is in the `X` of XML which stands for `eXtensible`, xsd provides capabilities for creating new types derived from built-in types or other types that are already derived from built-in types. _A Summary of type derivation in XSD is as follows:_ 
+
+```{r xmlSchema_types_derivation_diagram, echo=FALSE}
+DiagrammeR::grViz("
+digraph 'xsd types' {
+graph [splines=ortho]
+node [shape=box, style='filled', color=transparent, fillcolor='#f5f5f5', fontname=Helvetica, fontcolor='#2c3e50']
+a[label='xsd Types']; b[label='Primitive & Built-in types']; c[label=simpleTypes]; d[label=complexTypes]
+
+node [shape=box, style='filled,rounded', color=transparent, fillcolor='#f5f5f5', fontname=Helvetica, fontcolor='#2c3e50']
+g[label='\\l&#8226; Based on other simple Types\\l &#8226; Cannot Include attributes or other\\l&nbsp;&nbsp;elements.\\l '];
+h[label='Allowed elements:\\l&#8226; <restriction>\\l&#8226; <list>\\l&#8226; <union>\\l'];
+i[label='Includes attributes and value']; j[label='Empty Elements']; k[label='Includes Elements Only']; l[label='Mixed Elements'];
+m[label='<complexContent>\\n&#8226; <restriction>\\n&#8226; <extension>']; 
+n[label='<simpleContent>\\n&#8226; <restriction>\\n&#8226; <extension>'];
+o[fixedsize=true, width=4.5, height=.85,  label='\\ncomplexTypes without neither\\nsimpleContent or complextContent are implicitly\\ncomplextContent with ristriction (see here).\\n&nbsp;', URL = 'https://www.w3.org/TR/2011/CR-xmlschema11-1-20110721/structures.html#dcl.ctd.ctcc.implicit']
+
+node[shape=box, style='filled, rounded', color=transparent, fillcolor='#d1d1d1', fontname=Helvetica, fontcolor='#2c3e50']
+
+edge[color='#242424', penwidth=0.2]
+
+a -> b[arrowhead=none]
+a -> c[arrowhead=none]
+a -> d[arrowhead=none]
+{rank = same;
+  c -> b[style=invis, arrowhead=none, label = '                                ']
+  b -> d[style=invis, arrowhead=none, label = '                                ']
+}
+{
+  c -> g[arrowhead=none]
+  g -> h
+}
+{
+  d-> {i,j,k,l}[arrowhead=none]
+  i-> n
+  {j,k,l} -> m
+  
+}
+{
+  {m,n} -> o[arrowhead=none]
+}
+}                 
+", height=350, width="100%")
+```
+
+A useful resource on the topic of XSD data types and derivation is available [here](https://www.xml.com/pub/a/2001/08/22/easyschema.html){target="_blank"}.  
+
+Following with the invoices table example, a schema was created for this report (using any schema creation software), the schema insures the following:  
+
+* Namespace `http://myproject.com/test2/1` was given to refer to the vocabulary of the schema  
+* The root element is called `table` and contains one or more `invoice` element  
+* Each invoice element is required to have a specific set of attributes as follows:  
+  + `@InvoiceNum` of data type positive integer
+  + `@InvoiceDate` of data type date  
+  + `@InvoiceCurrency` a string that can be either "CU" or "CX"  
+  + `@CustomerName` of data type string
+  + Finally invoice value must be a positive number or 0  
+  
+Schema file is as follows: ([see file](xml_files/example_2_schema2.xsd){target=_blank})
+```{r disblay_schema_file, echo=FALSE}
+fn_CodeChunkOut(lang='XML', File=here::here(post_path, 'xml_files/example_2_schema2.xsd'))
+```
+
+The XML file must reference the schema to be able to validate the file, this is done using the `@xmlns` attribute with namespace prefix 'inv', and providing the location of the schema file using `@xs:schemaLocation` attribute, note that the later attribute is from `xs=http://www.w3.org/2001/XMLSchema-instance` namespace. The new file with the schema reference is named `xml_out_2_schema.xml`, the part of the file that references the schema looks as follows:  
+
+```{r disblay_file_with_schema_ref, echo=FALSE}
+fn_CodeChunkOut(lang='XML', txt=
+'<inv:table xmlns:inv="http://myproject.com/test2/1" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" 
+	xs:schemaLocation="http://myproject.com/test2/1 example_2_schema2.xsd">')
+```
+**Validation with no errors**  
+Before processing the XML file, the receiving computer can validate the XML file against the referenced schema, in this example; validation is done using `R script` `xml2::xml_validate()` function as follows:  
+```{r test_2_validate_0,  results='hold'}
+# Read XML instance and schema
+inst <- xml2::read_xml(here::here(post_path,"xml_files/xml_out_2_schema.xml"))
+schema <- xml2::read_xml(here::here(post_path,"xml_files/example_2_schema2.xsd"))
+
+# Validate XML instance against the schema
+xml2::xml_validate(inst,schema)
+```
+Validating the first file returns `TRUE` with 0 errors, meaning that the file is valid according to the schema. 
+
+**Validation with Errors**  
+Another file is created and named `xml_out_2_schema_errors.xml` ([see file](xml_files/xml_out_2_schema_errors.xml){target=_blank}), with some changes as follows:  
+
+1. For the first invoice remove `@CustomerName` attribute  -> test missing attributes are detected.
+2. For the second invoice change `@InvoiceNum` value to string `ix`-> test inconsistent attribute datatype is detected.  
+3. For the third invoice change `@InvoiceCurrency` value to `XZ` -> test only valid currency choices are allowed.  
+4. in the fourth invoice change the value from `133.69` to `-133.69` -> test if only positive invoice amount values are allowed.  
+
+Then we run the validation again on the modified file, we should get an error this time:  
+```{r test_2_validate_1,  results='hold'}
+# Read XML instance and schema"
+inst_err <- xml2::read_xml(here::here(post_path,"xml_files/xml_out_2_schema_errors.xml"))
+schema <- xml2::read_xml(here::here(post_path,"xml_files/example_2_schema2.xsd"))
+
+# Validate XML instance against the schema
+xml2::xml_validate(inst_err,schema)
+
+```
+As shown above, a simple XML validator (xml2) detected all the errors and reported them.  
+
+### XLink and XPointer  
+XLink and XPointer are XML components, these components can be used to link XML entities within XML or to external resources.  
+
+__XLink__ is a [W3C recommendation](https://www.w3.org/TR/xlink11/), it is  similar to hyperlink in HTML: 
+
+> XML Linking Language (XLink) Version 1.1, which allows elements to be inserted into XML documents in order to create and describe links between resources. It uses XML syntax to create structures that can describe links similar to the simple unidirectional hyperlinks of today's HTML, as well as more sophisticated links. `r tufte::quote_footer('--- [W3.org XLink recommendation](https://www.w3.org/TR/xlink11/#abstract)')`  
+
+__XPointer__ is a [W3C recommendation](https://www.w3.org/TR/xptr/) is a construct that allows for locating specific fragment within XML.  
+
+It is important to keep in mind that XML and its components are just instructions, they do nothing other than transporting information. For the XLink and XPointer components to have an effect, it needs to be processed by an XML processor.  
+
+Generally speaking, there are two main categories of links:  
+
+* `Simple Links`: A simple link in XLink creates a unidirectional hyperlink from one element to another through a URI. The element containing the link (the source element) is linked to a destination element. The destination element is not connected to the source element. This type of link common in HTML hyperlinking, where a link on a website may lead a user to another website.  
+
+* `Extended Links`: Provide for multiple resources at the source or destination to be connected via multiple arcs. An arc contains information about the origin, destination, and the behavior of a link between the origin and destination. The origin resource and the destination resource are defined by labels. **_Through one or more arcs, extended links achieve complex connections among multiple resources_**. Like simple links, extended links can define relationships between elements within the same namespace or across different namespaces. 
+
+Following are diagrams for the type definitions for simple and extended links in namespace `{http://www.w3.org/1999/xlink}`:
+
+<div>
+<center>
+![Simple Type](`r here::here(post_path, 'images/simpleLinkType.png')`)
+</center>
+<p style="text-align:center">
+**Simple Type Declaration**
+</p>
+</div>
+<div>
+<center>
+![Extended Type](`r here::here(post_path, 'images/extendedLinkElement.png')`)
+</center>
+<p style="text-align:center">
+**Extended Type Declaration**
+</p>
+</div>
+
+
+**XLink and XPointer Example**  
+There is no browser support for XML XLink, but the best way to simulate it and understand the idea of XLink and XPointer is to use hyperlinks,  Click this link: [https://www.w3.org/TR/xlink11/#abstract](https://www.w3.org/TR/xlink11/#abstract){target=_blank}  
+
+We should be taken to the XLink recommendation on the W3C website at the location of `Abstract`, what happened here is that the browser recognized the hyperlink (XLink) and then the locator given after the `#` symbol (XPointer) and executed the instructions, and in this case the instructions was to open the website at the specified location, so we were able to link form this page to another external page. In XML XLink works the same way, it links elements to other elements, or external resources with specific instructions based on the attributes and types of links used.
+
+### Conclusion  
+XML language and standards that provides for:  
+
+* Flexibility in data modeling.  
+* Mechanisms for creating types and vocabularies (dictionaries).  
+* Mechanisms to validate XML content.  
+* Mechanisms to link internal and external components.
+
+In addition to the above, XML is a stable and widely used language, and all that made XML suitable foundation to build XBRL.  
+
+
+## How Does XBRL Represent Data  
+
+This section is an overview of the components and specifications of XBRL, some basic concepts of how XBRL represents data, and XBRL example.  
+
+_It is important to understand that XBRL taxonomies and instance documents are usually created using specialized software that provides a user friendly interface while the software takes care of the form and syntax behind the scene, but it is important to have knowledge of the elements and components defined in XBRL specifications in the raw XML format._
+
+### XBRL Components  
+The figure below visualizes the components of XBRL:  
+
+<div>
+<center>
+![XBRL Components](`r here::here(post_path, 'images/xbrl_components.svg')`)
+</center>
+<p style="text-align:center">
+**XBRL Components**
+</p>
+</div>
+
+```{r xbrl_components, echo=FALSE,  warning=FALSE, eval=FALSE, fig.cap='XBRL Components'}
+DiagrammeR::grViz("
+
+digraph matrix {
+
+  graph [splines=ortho, rankdir=BT, label='XBRL Components', nodesep=0.05, ranksep=0.02, fontname=Helvetica]
+  
+  node [shape=box, style='filled', color=transparent, fillcolor='#f5f5f5', fontname=Helvetica, fontcolor='#2c3e50']
+  
+  a[label='XML', width=9.3, fillcolor='#d9d9d9']; 
+  b[label='XBRL Specifications', width=9.3, fillcolor='#d9d9d9']; 
+  c[label='dictionary/vocabulary', width=9.1, fillcolor='#e6e6e6']; 
+  d[label='Extensions', width=3, fillcolor='#e6e6e6']; 
+  e[label='Type Definitions', width=3, fillcolor='#e6e6e6']; 
+  f[label='Linkbases', width=4.5, fillcolor='#e6e6e6']; 
+  g[label='Other Imported Taxonomies', width=3, fillcolor='#e6e6e6'];
+  h[label='Other Resources', width=4.5, fillcolor='#e6e6e6'];
+  i[label='Report Specific Taxonomy Extensions and Linkbases (if allowed)', width=9.1, fillcolor='#f5f5f5']
+  j[label='XBRL Instance (Report)', width=9.1, fillcolor='#f5f5f5']
+  k[label='Consumer Data Model(s)', fillcolor='#fcfcfc', width=9.3]
+  x[width=0, label='', style=invis]
+
+  
+  edge[color='#242424', penwidth=0.2]
+  
+  a -> b[style=invis, arrowhead=none]
+  b -> d[style=invis, arrowhead=none]
+  b -> e[style=invis, arrowhead=none]
+  b -> g[style=invis, arrowhead=none]
+  subgraph cluster0 {
+    graph [rankdir=BT, label='XBRL Taxonomy', color = crimson];
+    { 
+        rank=same;
+        g -> d[style=invis, arrowhead=none]
+        g -> e[style=invis, arrowhead=none]
+       
+    }
+    
+     d -> c[style=invis, arrowhead=none]
+     e -> c[style=invis, arrowhead=none]
+     g -> c[style=invis, arrowhead=none]
+  
+    {
+        rank=same;
+        h -> f[style=invis, arrowhead=none]
+        h -> x[style=invis, arrowhead=none]
+    } 
+    c -> h[style=invis, arrowhead=none]
+    c -> f[style=invis, arrowhead=none]
+    c -> x[style=invis, arrowhead=none]
+  }
+  subgraph cluster1 {
+    graph [rankdir=BT, label='XBRL Report package', color = crimson];
+    i -> j[style=invis, arrowhead=none]
+  }
+  h -> i[style=invis, arrowhead=none]
+  f -> i[style=invis, arrowhead=none]
+  x -> i[style=invis, arrowhead=none]
+  j -> k[style=invis, arrowhead=none]
+  
+
+}                 
+", height="100%", width="100%")
+```
+
+1. At the base, we have **XML**, the foundation for everything else.  
+2. [**XBRL specifications**](#xbrl-specs) are based on XML, these specifications provide the building blocks for a reporting system based on XBRL.  
+3. **XBRL Taxonomy** is the most critical ingredient, it uses XBRL specifications to build the structure and the data model for XBRL reporting, we can think of a Taxonomy as the Schema for a particular reporting domain. XBRL Taxonomy consists of:  
+    * __Dictionary/Vocabulary__ of elements to be used in reporting, in XBRL terminology, these are called _"Concepts"_.  
+    * __Type Definitions__ are components or extension of existing components that are the building blocks of Concepts.  
+    * __Linkbases__ are groups of Xlinks that links concepts together to form a logical structure, an example of linkbases is _Presentation Linkbase_, which defines one or more hierarchical structures of concepts. This allows the taxonomy to be properly organized, and it permits XBRL rendering software to create visual representations of the taxonomy that are human-readable and easily navigable..  
+    * __Other Imported Taxonomies__ XBRL taxonomies can import other taxonomies to be part of the base taxonomy, this mechanism allows for reusing existing taxonomies rather than recreating something that already exits. All taxonomies imported by the base taxonomy and any other taxonomies that imported taxonomies import all together are called **Discoverable Taxonomy Set (DTS)**. An example for that is the US-GAAP taxonomy which imports Stock Exchange Commission (SEC) taxonomies. Some of terminology relevant to Taxonomy ([_based on XBRL Glossary](https://www.xbrl.org/guidance/xbrl-glossary/)):  
+    
+      + __Base Taxonomy__: A taxonomy that is used as the starting point for an extension taxonomy.  
+      + __Extension Taxonomy__: A taxonomy that is constructed using one or more other taxonomies (a base taxonomy) as a starting point. Extension taxonomies are typically created by a different entity from the author of the base taxonomy. Extension taxonomies may be created by preparers (see entity-specific extension taxonomy).  
+      + __Entity-specific extension taxonomy__: An extension taxonomy that is created by the preparer of an XBRL report in order to disclose information that is specific to the reporting entity.
+      + __Taxonomy Entry Point__: A taxonomy entry point identifies a subset (or "view") of a taxonomy. For example, a taxonomy may cater for different industries reporting under the same accounting standard, it may provide an entry point for each industry. A taxonomy entry point is identified by a unique URL (or set of URLs), and is referenced by an XBRL report or an extension taxonomy.  
+    * __Extensions__ any extensions made to existing taxonomies.  
+    * __Other Resources__ such as documentation and references may be included in an XBRL Taxonomy.  
+4. **XBRL Report** consists of:  
+    
+    * _Schema_ containing any extensions to the base taxonomy if extension is allowed.  
+    * _Linkbases_ relevant to the report.  
+    * _Instance Document_ containing the information for the current report.  
+5. **Consumer Data Model** is where the data transported by XBRL is stored, taxonomies must consider consumer data needs in its design. 
+
+### XBRL Specifications{#xbrl-specs}  
+As explained previously XBRL is an extension of XML, basically XBRL international used XML to define XBRL components and elements and the result is [XBRL specifications](https://specifications.xbrl.org/specifications.html).  
+As of date of this document, the relevant current XBRL specifications recommendations are as follows: 
+
+* [XBRL](https://specifications.xbrl.org/spec-group-index-group-base-spec.html){target=_blank}: Core XBRL Specs.  
+* [Dimensions](https://specifications.xbrl.org/spec-group-index-group-dimensions.html){target=_blank}: The XBRL Dimensions specification enables the reporting of multi-dimensional facts against dimensions defined in an XBRL taxonomy.  
+* [Extensible Enumerations](https://specifications.xbrl.org/spec-group-index-extensible-enumerations.html){target=_blank}: Allows for constraining the allowed values for primary reporting concepts (choices from specific list).  
+* [Formula](https://specifications.xbrl.org/spec-group-index-formula.html){target=_blank}: XBRL Formula provides a standard mechanism for defining rules in a taxonomy that can be applied against instance documents.  
+* [Generic Links](https://specifications.xbrl.org/spec-group-index-generic-links.html){target=_blank}: A link type with no predefined semantics or constraints. This can be used used as a building block for other specifications.  
+* [Generic Preferred Label](https://specifications.xbrl.org/spec-group-index-generic-preferred-label.html){target=_blank}: This specification introduces the preferred label feature for all relationships.    
+* [Global Ledger](https://specifications.xbrl.org/spec-group-index-xbrl-gl.html){target=_blank}: XBRL Specs for transactional reporting.  
+* [Infrastructure](https://specifications.xbrl.org/spec-group-index-infrastructure.html){target=_blank}: Specifications in this section are used to support the development of XBRL specifications and registries.  
+* [Inline XBRL](https://specifications.xbrl.org/spec-group-index-inline-xbrl.html){target=_blank}: Inline XBRL, or iXBRL, provides a mechanism for embedding XBRL tags in HTML documents.  
+* [Registries](https://specifications.xbrl.org/spec-group-index-registries.html){target=_blank}: Registries provide a centralise list of definitions, allowing implementers to re-use suitable definitions created by others.  
+* [Table Linkbase](https://specifications.xbrl.org/spec-group-index-table-linkbase.html){target=_blank}: Provides a mechanism for taxonomy authors to define a tabular layout of facts. The resulting tables can be used for both presentation and data entry.  
+* [Taxonomy & Report Packages](https://specifications.xbrl.org/spec-group-index-taxonomy-packages.html){target=_blank}: Taxonomy Packages provide a standardised mechanism for providing documentation about the content of a taxonomy.  
+* [Versioning](https://specifications.xbrl.org/spec-group-index-group-versioning.html){target=_blank}: Defines an XML syntax for an XBRL versioning Report.  
+
+Link for each recommendation includes the normative schema. 
+
+### XBRL Representation of Data  
+As the TDH describes it, XBRL provides a platform to give data meaning [[TDH section 1.1.3 page 2](https://xbrlus.github.io/docs/tdh.html#a_Toc45794890)]. A piece of data does not have a meaning without context or means to associate it with other data points, for example, data about a switch being on or off doesn't have much value if we don't know what does this switch do and when was it on or off. XBRL gives meaning to data by providing layers of context.  
+
+#### _Some Basics_  
+The TDH presents the an example of a _monthly expenses report [TDH section 2.2 page 15](https://xbrlus.github.io/docs/tdh.html#a_Toc45794894)_ of a person named "Bob", the report is in the form of a table with rows having expenses line items, and columns having monthly amounts of expenses.  
+
+The TDH explains that expenses amounts alone do not convey much meaning unless associated with _dimensions_ identifying additional information about the amounts, for example, who made the expenses, what is the nature of the expense, and in which periods expenses were made. The intersection of one or more of these dimensions with an amount creates a _fact_ that has contextual meaning.  
+
+<div>
+<center>
+![Expense Report](`r here::here(post_path, 'images/thd_v10_006.jpg')`)
+</center>
+<p style="text-align:center">
+**Expense Report Example from TDH**
+</p>
+</div>
+
+One of the basic concepts of XBRL design is that it identifies data points by multiple dimensions that gives enough context to the data point to be meaningful, in the case of the expense report (TDH example), an amount of `$180` in row 10, is identified by dimensions `Clothing` as nature of expense, and `January` as expense period, and `Bob` as the person who made the expense, which creates an XBRL `Fact`.  
+
+<div>
+<center>
+![Expense Report Fact](`r here::here(post_path, 'images/thd_v10_008.jpg')`)
+</center>
+<p style="text-align:center">
+**Expense Report Example with an illustrated XBRL fact from TDH**
+</p>
+</div>
+
+The TDH classifies dimensions that identifies facts in XBRL into 2 categories:  
+
+1. `Core Dimensions` which includes:  
+    + **_Concept_** core dimension: A taxonomy element (dictionary/vocabulary) that provides the meaning for a fact (e.g. Fixed Assets, Revenue, Profit ...), concepts are the building blocks of a taxonomy.  
+    + **_Period_** core dimension: Time frame or point of time relevant to the fact.  
+    + **_Reporting entity_**  core dimension: The entity reporting the fact, also known as `entity identifier`  
+    + **_Unit_** core dimension: Unit of measurement of reported fact (e.g. USD, EURO, KM, KGM, USD/Share...), it is only required for numeric facts. 
+
+2. `Taxonomy Defined Dimensions`: Concepts that exist for the purpose of grouping facts that should be interpreted in a similar way. Taxonomy Defined Dimensions do not directly define a fact but rather intersect with a fact to add further contextual or semantic information beyond what is added by the core dimensions, for example a country dimension for geographical allocation.
+
+Core Dimensions and Taxonomy Defined Dimensions are defined in the XBRL Taxonomy or its extensions using XBRL components, and then used in an XBRL instance to report facts.  
+
+#### _XBRL Elements Usage_  
+XBRL specifications define a how financial report can be expressed in XBRL. This section is an overview of XBRL elements used to describe a data point.  
+
+To create an XBRL report form the monthly expenses example, first a taxonomy containing the vocabulary and linkbases needs to be created, then this taxonomy can be used to create an XBRL instance that contains the facts.  
+
+#### _Creating XBRL Taxonomy `Concept`_  
+Concepts in an XBRL taxonomy are elements that provides a meaning for a fact, concepts are defined in the XBRL Taxonomy schema. Concepts make up the dictionary/vocabulary allowed to be used by the Taxonomy. 
+
+In the case of a financial reporting taxonomy, concepts may describe numeric financial elements such as `Net Profit`, `Assets` or `Liabilities`, or narrative elements, like `Accounting Policies`, which means that a concept needs to be created for every reportable element within the domain of the taxonomy. Concepts are the backbone of the Taxonomy. Concepts structures are defined in XBRL core specifications in namespace `{http://www.xbrl.org/2003/instance}`. Concepts have 2 main types defined in XBRL taxonomy, `item` and `tuple`:  
+
+_**Note** `substitutionGroup`: A substitution group is a feature of XML schema that allows specifying elements that can replace another element in documents generated from that schema. The replaceable element is called the head element and must be defined in the schema global scope. The elements of the substitution group must be of the same type as the head element or a type that is derived from the head element’s type._
+
+* `item`: an Item represents a single fact or business measurement, all elements representing single facts or business measurements defined in an XBRL taxonomy document and reported in an XBRL instance MUST be either (a) members of the substitution group item; or, (b) members of a substitution group originally based on item. 
+
+* `tuple`: While most business facts can be independently understood, some facts are dependent on each other for proper understanding, especially if multiple occurrences of that fact are being reported. For example, in reporting the management of a company, each manager's name has to be properly associated with the manager's correct title. Such sets of facts (manager's title/manager's name) are called tuples.
+
+Tuples have complex content and MAY contain both items and other tuples. 
+
+Both `<item>`and `<tuple>` elements are defined as abstract elements in XBRL, which means they are only meant to be heads of substitutionGroups and will never appear in an XBRL instance.  
+
+**_XBRL Data Types_**  
+When defining an XBRL Concept in the taxonomy, it will be in either `item` or `tuple` substitution groups, a data type must be given to the concept which determines what type of data can be stored in this element (for example, numbers, dates, strings, ... etc), XBRL uses XML standard types in addition to other derived types, **TDH table 2-3 page 28** shows the most common types used in XBRL:  
+```{r tdh_data_types, echo=FALSE}
+list(
+              c(`dataType`='stringItemType', description='Represents character strings in XML.'),
+              c(`dataType`='booleanItemType', description='Represents the values of two-valued logic (true, false).'),
+              c(`dataType`='decimalItemType', description='Represents a subset of real numbers, which can be represented by decimal numerals.'),
+              c(`dataType`='dateTimeItemType', description='Represents instants of time, optionally marked with a time zone offset.'),
+              c(`dataType`='integerItemType', description='Represents the standard mathematical concept of integer numbers by fixing the fractional digits of decimal to be 0 and prohibiting the trailing decimal point.'),
+              c(`dataType`='monetaryItemType', description='Represents a decimal with the added constraint of a currency unit.'),
+              c(`dataType`='qNameItemType', description='Represents a qualified XML name.')
+) %>% bind_rows() %>% 
+  knitr::kable('html') %>% kableExtra::kable_classic(full_width = F) %>% 
+  htmltools::HTML() %>% 
+  htmltools::div(style="overflow-x:auto;white-space: nowrap;")
+```
+
+Above are just a sample of the most commonly used data types, [XBRL Specifications [Section 5.1.1.3]](https://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html#_5.1.1.3) lists more data types, also other XBRL data types are defined in [XBRL Data Types Registry](https://specifications.xbrl.org/work-product-index-registries-dtr-1.0.html).
+
+Let's define `Food` concept (from the monthly expenses report), with the following characteristics:  
+
+* Has a `debit` balance since it is an expense,  
+* Its value Cannot be null (absent value), it can have a value of `0` though,  
+* It is a monetary item, meaning that it needs to have a numeric value and a unit according to XBRL specifications.
+
+Concept is defined in the taxonomy SCHEMA as follows:  
+<div id="example_1_schema_01"/>
+```{r example_1_schema_01, echo=FALSE}
+fn_CodeChunkOut(lang = 'xml', txt = 
+'<!-- From taxonomy schema file (.xsd) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:expenses="http://www.expenses.com/taxonomy"
+  xmlns:xbrli="http://www.xbrl.org/2003/instance"
+  attributeFormDefault="unqualified" elementFormDefault="qualified"
+  targetNamespace="http://www.expenses.com/taxonomy">
+    
+    <element 
+      xbrli:name="Food"
+      xbrli:periodType="duration"
+      xbrli:balance="debit"
+      nillable="false"
+      abstract="false"
+      type="xbrli:monetaryItemType"
+      substitustionGroup="xbrli:item"
+      id="expense_Food"/>
+        
+</xs:schema>')
+```
+_Notes:_  
+
+* Namespace `http://www.xbrl.org/2003/instance` prefixed as `xbrli` was declared for XBRL specification schema to be able to use elements form that namespace. 
+* The taxonomy namespace `http://www.expenses.com/taxonomy` and prefixed as `expenses`
+* `duration` was selected for `@xbrli:periodType` XBRL attribute, because this is an expense that occurs during a specified period (not a balance at a moment of time).  
+* `xbrli:monetaryItemType` was assigned to `@type` to reflect the type of data expected to be reported for this concept.  
+* Each element must have a unique id.  
+* Because we referred to XBRL specification, this schema document can be validated against XBRL specifications.
+
+#### _XBRL Instance Document_{#ins-doc}  
+Instance document is the actual report containing facts and reported values, it is constructed using XBRL constructs. The root element of XBRL instance document is `<xbrl>`, and it is defined in XBRL specifications in the namespace `{http://www.xbrl.org/2003/instance}`, a diagram for the `xbrl` element declarations is as follows:  
+
+<div>
+<center>
+![XBRL Type](`r here::here(post_path, 'images/xbrlElement.jpg')`)
+</center>
+<p style="text-align:center">
+**XBRL Type Declaration**
+</p>
+</div>
+
+According to XBRL specifications; `<xbrl>` allowed child elements are as follows:  
+
+**A. Links to schema and declaration used to construct the report:**  
+
+* `<SchemaRef>`: An XML simple link to location of the entry point of the taxonomy relevant to this report. This element is defined in namespace `{http://www.xbrl.org/2003/linkbase}`.  
+* `<linkbaseRef>`: An XML simple type link to location of linkbase relevant to this report. this element is defined in namespace `{http://www.xbrl.org/2003/linkbase}` (See section 3.7.4 Linkbases). 
+* `<roleRef>`: An XML simple type link to location of declaration of a `roleType` used in this report. Element is defined in namespace `{http://www.xbrl.org/2003/linkbase}`
+* `<arcroleRef>`: An XML simple type link to location of declaration of a arcroleType used in this report. Element is defined in namespace `{http://www.xbrl.org/2003/linkbase}`
+
+**B. Elements used to carry the information of current report:**  
+
+##### _Creating XBRL instance `Context`_  
+In `Bob`'s report; `Food` expenses for January 2020 was $900, note here that we attached 3 pieces of additional information to the expense amount:  
+
+1. `Food` the concept core dimension, 
+2. `Bob` the owner of the expense,
+3. `January 2020` the period core dimension.  
+
+We already defined the `Food` concept in the taxonomy, to attach the owner of the expenses and the period we need to use XBRL `context` element.  
+
+`context` is an XBRL element used in XBRL instance document (report) and referenced by one or more fact(s) in the XBRL report. It contains information about period, entity, and taxonomy defined dimension relating to this context, following is a diagram of context type declaration:  
+
+<div>
+<center>
+![Context Type](`r here::here(post_path, 'images/contextElement.jpg')`)
+</center>
+<p style="text-align:center">
+**Context Type Declaration**
+</p>
+</div>
+
+
+We can define a context for `Bob` owner, and January 2020 period as follows:  
+```{r example_1_instance_01, echo=FALSE}
+fn_CodeChunkOut(lang = 'xml', txt = 
+'<!-- defined in instance document -->
+<xbrl xmlns="http://www.xbrl.org/2003/instance"
+      xmlns:expenses="http://www.expenses.com/taxonomy"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xml:lang="en-US">
+    <!-- ... at least one link:schemaRef element goes here ... -->
+    <context id="01">
+      <entity>
+        <identifier scheme="http://www.example.com/bob">Bob</identifier>
+      </entity>
+      <period>
+        <startDate>2020-01-01</startDate>
+        <endDate>2020-01-31</endDate>
+      </period>
+    </context>
+</xbrl> ')
+```
+_Notes XBRL instance document_  
+
+* XBRL instance document root element must be element `<xbrl>`  
+* Instance references taxonomy namespace to be able to use elements defined in that taxonomy.  
+* Instance references XBRL schema (with no prefix) to be able to use XBRL constructs.  
+* Because of the references above, this XBRL instance document can be validated against XBRL specifications and taxonomy.  
+
+##### _Creating XBRL instance `unit`_  
+XBRL requires that numeric type facts has a reference to a unit [[see XBRL specs 4.6.2](https://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html#_4.6.2)]. And since `Food` concept is a `monetaryItemType` type which is a numeric type, therefore any fact using `Food` concept must refer to a unit in the instance document. A unit must be created before a fact can be created for the `Food`. 
+Following is a diagram for the declaration of the unit type in XBRL specifications:  
+<div>
+<center>
+![Unit Type](`r here::here(post_path, 'images/unitElement.jpg')`)
+</center>
+<p style="text-align:center">
+**Unit Type Declaration**
+</p>
+</div>
+
+We declare a unit for United States Dollars using `iso4217` taxonomy `USD` element as follows:  
+```{r example_1_instance_02, echo=FALSE}
+fn_CodeChunkOut(lang = 'xml', txt = 
+'<!-- Added to previous instant document as child to <xbrl> element -->
+<unit id="usd" xmlns:iso4217="http://www.xbrl.org/2003/iso4217">
+  <measure>iso4217:USD</measure>
+</unit>')
+```
+
+##### _Creating XBRL instance `fact`_  
+All core dimensions are defined, `Food` concept core dimension is defined in XBRL Taxonomy and have a context with `id=01` (holding the period and entity core dimensions) and unit core dimension with `id="usd"` in instance document, we can create a fact for `Bob`'s `Food` expenses for the period of `January 2020` for the amount of `900` United States Dollars as follows:  
+```{r example_1_instance_03, echo=FALSE}
+fn_CodeChunkOut(lang = 'xml', txt = 
+'<!-- Added to previous instant document as child to <xbrl> element -->
+<expenses:Food
+  contextRef="01" 
+  decimals="0" 
+  id="fact_001" 
+  unitRef="usd">900</expenses:Food>')
+```
+
+#### _XBRL Dimensions_  
+XBRL provides tools for reporting multidimensional facts, core dimensions (Concept, period, reporting entity and unit) are available from the XBRL base specifications, in addition to core dimensions taxonomy defined dimensions can be used to express complex multidimensional structures. _[XBRL Dimensions Specifications](https://specifications.xbrl.org/work-product-index-group-dimensions-dimensions.html)_.  
+
+##### _Additional Dimensions from base XBRL_  
+XBRL element `context` has 2 additional features that can provide dimensionality to a fact, the `<segment>` and `<scenario>` as follows:  
+
+* `<segment>`: is defined in XBRL specifications as _"an optional container for additional mark-up that the preparer of an XBRL Instance SHOULD use to identify the business segment more completely in cases where the Entity identifier is insufficient."_ `<segment>` is element is also used to incorporate taxonomy defined dimension using _XBRL Dimensions Specifications_.  
+*Note*: segment is a child element of the `<entity>` element (which in turn is a child element of the `<context>` element).  
+
+* `<scenario>`: XBRL specifications describes this element as _"Business facts can be reported as actual, budgeted, restated, pro forma, etc. For internal reporting purposes, there can be an even greater variety of additional metadata that preparers want to associate with items. The optional <scenario> element allows additional valid mark-up (see note above regarding segment) to be included for this purpose."_  
+
+**Segment and Scenario Example**  
+
+In the monthly expense report example, assume that `Bob` has 2 locations to track expenses for `home` and `office` (segments), also assume that `Bob` tracks `budget` and `actuals` (scenarios), to be able to include these dimensions in our report we need first to create an extension taxonomy to include these elements as follows:
+
+```{r segement_scenario_xsd, echo=FALSE}
+fn_CodeChunkOut(lang = 'xml', txt = 
+'<!-- Report specific taxonomy extension -->
+<schema targetNamespace="http://www.expenses.com/taxonomy" 
+		xmlns:expenses="http://www.expenses.com/taxonomy" 
+		xmlns="http://www.w3.org/2001/XMLSchema" 
+		xmlns:xbrli="http://www.xbrl.org/2003/instance">
+		  
+	<!-- Type for segments -->
+	<simpleType name="locationsType">
+		<restriction base="token">
+			<enumeration value="home"/>
+			<enumeration value="office"/>
+		</restriction>
+	</simpleType>
+		  
+	<!-- report specific segment sub-element -->
+	<element name="locations" type="expenses:locationsType" />
+		  
+	<!-- Type for scenarios -->
+	<simpleType name="actualBudgetType">
+		<restriction base="token">
+			<enumeration value="actual"/>
+			<enumeration value="budget"/>
+		</restriction>
+	</simpleType>
+	<!-- report specific scneario sub-element -->
+	<element name="actualBudget" type="expenses:actualBudgetType" />
+</schema>')
+
+```
+
+**_Note_**  
+
+> Elements contained by the `<scenario>` element MUST NOT be defined in the http://www.xbrl.org/2003/instance namespace. Also, they MUST NOT be in the substitution group for elements defined in the http://www.xbrl.org/2003/instance namespace. The <scenario> element MUST NOT be empty. `r tufte::quote_footer('--- [XBRL specifications](https://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html#_4.7.4)')`
+
+To report facts using locations and/or budget vs actual elements, namespace `http://bobreport.com/xbrl/taxonomy` must be referenced in our instance report to be able access these elements, then we need to create contexts that reference these elements, and finally we can reference these contexts in the reported facts as follows:  
+
+```{r segment_scenario_instance, echo=FALSE}
+fn_CodeChunkOut(lang = 'xml', txt = 
+'<!-- Added to previous instant document as children to <xbrl> element -->
+  <xbrl ....... xmlns:expenses="http://www.expenses.com/taxonomy">
+  <!-- ... at least one link:schemaRef element goes here ... -->
+    <context id="02">
+      <entity>
+        <identifier scheme="http://www.example.com/bob">Bob</identifier>
+        <segment>
+          <expenses:locations>expenses:home</expenses:location>
+      </segment>
+      </entity>
+      <period>
+        <startDate>2020-01-01</startDate>
+        <endDate>2020-01-31</endDate>
+      </period>
+      <scenario>
+          <expenses:actualBudget>expenses:actual</expenses:actualBudget>
+      </scenario>
+    </context>')
+
+```
+
+Now having context `id=02` we can reference the facts that include `actual` figures for location `home` in our instance report.  
+
+
+##### Taxonomy defined dimensions   
+Taxonomy defined dimensions enable creation of complex structures in XBRL taxonomy and reports. This is achieved through the interactions between concepts and linkbases, this is best described in TDH section 2.2.5 page 21 as follows:  
+
+>A taxonomy-defined dimension is a grouping of concepts that is used to add organizational structure to facts. These dimensional concepts should not be directly associated with a data point but rather are employed to indicate additional contextual information beyond the simple semantic identifier or what is provided through any of the other core dimensions. Expanding the expense example by attributing the monthly expenses to two people in the same household creates a level of complexity that cannot be easily represented with only concepts. Previously, there were only two dimensions: expenses (as rows) and months (as columns).`r tufte::quote_footer('--- [TDH section 2.2.8 page 24](https://xbrlus.github.io/docs/tdh.html)')`  
+
+**_XBRL Dimensions terminology_**  
+
+* `Dimension`: A qualifying characteristic that is used to uniquely define a data point (other than core dimensions) for example a "Geography Dimension".
+* `Domain`: A set of related values, an example of domains for use on a "Geography Dimension" would be "Countries", "Continents" or "States".
+* `Domain member`: An element representing one of the possibilities within a domain.  
+* `Cube`: A cube is defined by combining a set of dimensions with a set of concepts. Cubes are often referred to as "hypercubes", as unlike a physical, 3-dimensional cube, a hypercube may have any number of dimensions.
+
+All the above constructs are defined as concepts, but with special values for the `@type` and `@substitutionGroup` attributes, these special values are defined in the `XBRL Dimensions Specifications`.  
+
+The TDH in this section, splits the monthly expenses by Bob's children, with each month split into 2 columns for each of Bob's children. Assume that we want to organize this information in XBRL by doing the following:  
+
+* Create a grouping concept or header called `expenses` to group all the expenses together,  
+* Create `persons` dimension, and then create a `domain` for `bobChildrenDomain` and `domain member` for each child referenced in the report.  
+
+This can be implemented in XBRL as follows:  
+```{r dimension_schema, echo=FALSE}
+fn_CodeChunkOut(lang = 'xml', txt = 
+'<!-- Report specific taxonomy extension -->
+<schema targetNamespace="http://bobreport.com/xbrl/taxonomy" 
+		xmlns:bob="http://bobreport.com/xbrl/taxonomy" 
+		xmlns="http://www.w3.org/2001/XMLSchema" 
+		xmlns:xbrli="http://www.xbrl.org/2003/instance"
+		xmlns:xbrldt="http://xbrl.org/2005/xbrldt"
+		xmlns:dtr-types="http://www.xbrl.org/dtr/type/2020-01-21">
+		<!-- note above we included xbrl dimensions specs to have access to its elements -->
+		
+		<!-- create a grouping expense element -->
+		<element abstract="true" id="expenses_abstract" name="ExpensesAbstract" 
+		         nillable="true" xbrli:balance="debit" substitutionGroup="xbrli:item" 
+		         type="xbrli:monetaryItemType" xbrli:periodType="duration"/>
+		
+		<!-- create persons dimension -->
+		<element abstract="true" id="dim_01_persons" name="personsDim" 
+		         nillable="true" substitutionGroup="xbrldt:dimensionItem" 
+		         type="xbrli:stringItemType" xbrli:periodType="duration"/>
+		         
+		<!-- create children domain -->        
+		<element abstract="true" id="domain_01_children" name="ChildrenDomain" 
+		        nillable="true" substitutionGroup="xbrli:item" 
+		        type="dtr-types:domainItemType" xbrli:periodType="duration"/>
+		          
+		  <!-- create domain member for each child -->
+		  <element abstract="true" id="members_01_childOneMember" name="ChildOneMember"
+		      nillable="true" substitutionGroup="xbrli:item" 
+		      type="dtr-types:domainItemType" xbrli:periodType="duration"/>
+		  
+		  <element abstract="true" id="members_02_childTwoMember" name="ChildTwoMember"
+		      nillable="true" substitutionGroup="xbrli:item" 
+		      type="dtr-types:domainItemType" xbrli:periodType="duration"/>
+</schema>
+<!-- note attributes use from dtr-types and xbrldt namespaces>')
+
+```
+  
+**_Notes_** All elements defined above has the `@abstract` attribute as `ture`, this means that this element is not allowed to be used in XBRL instance document to report facts, this element is only for organization purposes.
+
+Now we can reference the dimension in the in the instance document through `<context>` element as follows:  
+```{r dim_instance, echo=FALSE}
+fn_CodeChunkOut(lang = 'xml', txt = 
+'<!-- Added to previous instant document as children to <xbrl> element -->
+  <xbrl ....... xmlns:bob="http://bobreport.com/xbrl/taxonomy"
+                xmlns:xbrldi="http://xbrl.org/2006/xbrldi">
+  <!-- ... at least one link:schemaRef element goes here ... -->
+  <!-- ... Must Have a linkbaseRef for the definition link ... -->
+    <context id="03">
+      <entity>
+        <identifier scheme="http://www.example.com/bob">Bob</identifier>
+      </entity>
+      <period>
+        <startDate>2020-01-01</startDate>
+        <endDate>2020-01-31</endDate>
+      </period>
+  
+      <segment>
+          <bob:locations>bob:home</bob:location>
+          <xbrldi:explicitMember
+                  dimension="bob:personsDim">bob:ChildOneMember
+          </xbrldi:explicitMember>
+      </segment>
+  
+      <scenario>
+          <bob:actualBudget>bob:actual</bob:actualBudget>
+      </scenario>
+  
+    </context>')
+
+```
+
+Now facts reporting actual expenses, for home location, relating to child one for January 2020 can use the above context and have all expenses grouped under one heading using the `ExpensesAbstract` element.
+
+**_Notes_** There are two types of members `explicit members`, and `typed member`. `explicit members` are explicitly defined and linked to a domain in the taxonomy and no other members can be used with that domain except the defined members. On the other hand `typed members`, only type of the member is defined in the taxonomy, and any value can be used if it matched the type.  
+
+Keep in mind that XBRL dimensions specifications rely heavily on the linking mechanisms provided by XBRL through linkbases, which will be the next topic.  
+
+### XBRL Linkbases  
+
+XBRL linkbases (based on XML XLink) provides for a mechanism to create relationships between elements and other internal or external resources to create a meaningful self-describing data structure.  
+
+#### The basics  
+XBRL uses XML XLink specifications, generally speaking, there are two main categories of links:  
+
+* `Simple Links`: A simple link in XLink creates a unidirectional hyperlink from one element to another through a URI. The element containing the link (the source element) is linked to a destination element, this link **DOES NOT** provide a link back from destination the source element. This is similar to HTML hyperlinking.  
+
+* `Extended Links`: Provide for multiple resources at the source or destination to be connected via multiple arcs. An arc contains information about the source, destination, and the behavior of a link between the two. The source and the destination are defined by labels. **_Through one or more arcs, extended links achieve complex connections among multiple resources_**. Like simple links, extended links can define relationships between elements within the same namespace or across different namespaces.  
+
+It is important to note that **Extended Links** creates relationships between elements using `arcs` that describes the behavior of the relationship.
+
+XBRL specifications defines several types of links based on XLink specs, most common links and arcs are [[based on XBRL Glossary](https://www.xbrl.org/guidance/xbrl-glossary)]:  
+
+* `Presentation Links`: An extended link providing for the organisation of taxonomy elements into a hierarchical structure with the aim of providing a means of visualizing or navigating the taxonomy. [At a technical level, the presentation tree is defined using the `parent-child arcrole` in the XBRL specification]
+
+* `Calculation Links`: An extended link providing relationships between concepts in a taxonomy for the purpose of describing and validating simple totals and subtotals. [At a technical level, these relationships are defined using the `summation-item arcrole` in the XBRL specification]  
+
+* `Label links`: An extended link providing a relationship between concept and human readable description of a taxonomy component. XBRL labels can be defined in multiple languages and can be of multiple types, such as a "standard label", which provides a concise name for the component, or a "documentation label" which provides a more complete definition of the component. Example of arcroles `label`, `terseLabel`, `periodStartLabel`, `periodEndLabel`, `totalLabel`
+
+* `Definition Links`: An extended providing for relationships that arranges pairs of concepts in a specific semantic relationship. These relationships may be above and beyond calculation or presentation relationships. Concept core dimensions cannot be used in a definition relationship, and is primarily used for dimensional relationships in XBRL Dimensions specifications. Example arcroles `hypercube-dimension`, `dimenstion-domain`, `domain-member`, `dimenstion-defualt`  
+
+* `Reference link`: An extended link providing for relation between elements of the taxonomy and external reference such as accounting standards, or laws. Example arcrole `concept-reference`.  
+
+* `Formula link`: An extended link providing relations necessary to define formulae (XBRL Formula Specification) used in validating XBRL instances. Example arcrole `variable-set`, `variable-set-filter`.  
+
+* `Table Linkbase`: an extended link providing relations needed for tabular view of a taxonomy or report that is used for presentation or data entry purposes. XBRL reporting templates can support complex, multi-dimensional reports, such as those seen in prudential reporting, and provide a user-friendly view of the data. XBRL reporting templates are typically used in closed reporting programs, where a template is prescribed by the collector. [At a technical level, XBRL reporting templates are defined using the Table Linkbase specification] 
+
+* `footnote links`: A footnote adds further explanatory information to a statement or fact. In XBRL, footnotes are created through relationships between note text and facts using the footnote relationships. One instance of footnote text can be linked to multiple facts. The note core ID dimension is the dimension on the fact that associates the fact with one or more footnotes arcs.
+
+* `Generic Links`: A link type with no predefined semantics or constraints. This can be used as a building block for other specifications, such as Generic Labels 1.0 and Generic References 1.0 to define relationships with particular semantics.
+
+#### Extended Links Usage in XBRL  
+Links are used in XBRL to create relations between and among concepts in order to give meaning to otherwise scattered data. In XBRL links are organized by type (presentation, calculation, definition, label, formula, table, ...). Within each type links are further partitioned into `networks of relationships` using `Extended Link Roles`, for example in a presentation link, an extended link role may be defined for Balance Sheet to group together relationships for Balance Sheet presentation, another extended link role may be defined for Income Statement to group together relationships for Income Statement presentations and so on. Same `Extended link role` can be used as the head of a network of relations across multiple link types, for example, an extended link role may be created to group balance sheet network of relations and can be used within presentation, calculation and definition links.
+
+The networks of relations (grouped by extended link roles) together called a `linkbase`, hence the `base` in linkbase (Presentation linkbase, Calculation linkbase, ...), also linkbases can be stored across multiple files or a single file depending on the overall organization of the taxonomy. This setup can be visualized as follows:  
+
+<div>
+<center>
+![Linkbase Overview](`r here::here(post_path, 'images/linksOverView.png')`)
+</center>
+<p style="text-align:center">
+**Linkbase Overview **[_(figure created using draw.io)_](https://app.diagrams.net/)
+</p>
+</div>
+
+**_Links Usage in XBRL_**  
+Linkbases are created in `.xml` files, and referenced in the XBRL taxonomy schema using XBRL `<linkbaseRef>` element. `Extended Link Roles` are declared in XBRL taxonomy and using `{http://www.xbrl.org/2003/linkbase}roleType` element, and then referenced in the linkbase files (referenced back from linkbase files to taxonomy), using element `{http://www.xbrl.org/2003/linkbase}roleRef` which is accessed by link constructor  to create the network of relations for this link Role, as shown in the figure below.  
+
+<div>
+<center>
+![Linkbase Schema reference](`r here::here(post_path, 'images/linkbase.png')`)
+</center>
+<p style="text-align:center">
+**Linkbase Schema reference **[_(figure created using draw.io)_](https://app.diagrams.net/)
+</p>
+</div>  
+
+Root element of a linkbase file is `<linkbase>` namespace `http://www.xbrl.org/2003/linkbase`, the allowed children for `<linkbase>` are:  
+
+<div>
+<center id="linkbase-element-img">
+![linkbase element](`r here::here(post_path, 'images/linkbaseElement.jpg')`)
+</center>
+<p style="text-align:center">
+**linkbase element**
+</p>
+</div>
+
+* `<documentation>`: Documentation for the linkbase
+* `<roleRef>` : Reference the linkroles declared in schema (see [roleTypes](#role-types)).  
+* `<arcroleRed>`: Reference the arcroles declared in schema if any (none in this example).  
+* `<extended>`: Element in substitution group `extended` with base type `extendedType`, such as `<presentationLink>`, `<calculationLink>`, ... 
+
+**Note**  
+XBRL defines one standard linkRole `http://www.xbrl.org/2003/role/link` and it is used as default.
+
+The link role (network of relations) is defined using the elements based on the `extended` type as the container for the the relationships, then concepts participating in the network are first located using the `<link:loc>` element, which identifies the location of the element or resource using XLink and XPointer syntax. Then the desired relation is established between locators (as proxy for the target concept or resource) using the relevant `arc type`, for example a presentation link will use `link:presentationArc` element to establish the relation between locators.  
+<div>
+<center>
+![Linkbase](`r here::here(post_path, 'images/links.png')`)
+</center>
+<p style="text-align:center">
+**Linkbase **[_(figure created using draw.io)_](https://app.diagrams.net/)
+</p>
+</div>
+
+The relationships within a link role (also referred to as networks) in case of **None** resource links  are in hierarchical tree form with one root that has branches, and then each branch may be the root to other branches, and so on until the leaf level.
+
+### Example -  Income Statement Taxonomy and Linkbases  
+In this section we will create taxonomy and linkbases for a simple Income Statement.
+
+#### Form   
+We want to create taxonomy and links for a `Income Statement` that looks as follows:  
+
+```{r example_is, echo=FALSE,  warning=FALSE, fig.cap='Example Income Statement'}
+
+df_is <- data.frame(
+  a= c('Revenue', 'Product', 'Service',
+       'Total Revenue',' Cost of Revenue', 'Product',
+       'Service', 'Total Cost of Revenue', 'Gross Profit', 
+       'Expenses', 'Net Profit'),
+  b = c('', '2,000','3,000','5,000','', '1,000', '2,000', '3,000', '2,000', '500', '1,500'),
+  c = c('', '2,500','1,500','4,000','', '1,250', '1,000', '2,250', '1,750', '420', '1,330')
+)
+
+tbl <- knitr::kable(df_is, 'html', 
+          col.names = c('(In EGP)', '31-12-2020', '31-12-2019'), align=c('l', 'r', 'r')) %>% 
+  kableExtra::row_spec(c(1,5), bold = TRUE) %>%  
+  kableExtra::row_spec(c(4,8), extra_css = "border-top: 1px solid;
+                       border-bottom: 1px solid", bold = TRUE) %>%  
+  kableExtra::row_spec(9, extra_css = "border-top: 1px solid", bold = TRUE) %>% 
+  kableExtra::row_spec(11, extra_css = "border-top: 1px solid;
+                       border-bottom: 3px double", bold = TRUE) %>%
+  kableExtra::add_indent(c(2,3,6,7)) %>%
+  kableExtra::kable_classic(full_width = F) %>% 
+  kableExtra::add_header_above(c('',  'Year Ended'=2))
+tbl
+
+```
+#### Taxonomy  
+First we create our schema/taxonomy as follows: ([see file](xml_files/incomeStatementExample/is.xsd){target=_blank})  
+```{r is_example_schema, echo=FALSE}
+fn_CodeChunkOut(lang='xml', File = here::here(post_path,'xml_files/incomeStatementExample/is.xsd'))
+```
+
+Note that the root element for the entry point of the taxonomy is `<schema>` as any XML schema document.  
+
+**The schema/taxonomy document relevant components can be analyzed as follows:**  
+
+##### Imports
+_Importing other schemas and taxonomies to be used in our taxonomy using `<import>` element as follows:_  
+```{r is_xsd_imports, echo=FALSE}
+is_xsd <- xml2::read_xml(here::here(post_path,'xml_files/incomeStatementExample/is.xsd'))
+
+imports <- xml2::xml_find_all(is_xsd,'.//*[local-name()="import"]') %>%
+  map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x))
+  }) %>% bind_rows() %>% mutate(description=c(
+    'Imports base XBRL instance types', 'Imports nonNumeric types', 'Imports XBRL Dimensions', 'Imports data type registry'
+  ))
+
+knitr::kable(imports) %>% kableExtra::kable_classic()
+```
+
+
+Within `<annotation>` schema element we can add documentation describing the document in addition to some information to be used by the processor through the `<appinfo>`, these information includes but not limited to; defining extended link roles and linkbase references (references to linkbase files). 
+
+##### Role Types{#role-types}  
+_Defining Extended LinkRoles using `<roleType>` element as in our example as follows:_  
+The `extended link role` for the `income Statement` has URI <u>**`http://xyz.abc/role/IncomeStatement`**</u> and can be used on `presentation`, `calculation` and `definition` links:  
+```{r is_example_linkrole, echo=FALSE}
+fn_CodeChunkOut(lang = 'xml', txt = 
+'<link:roleType id="roleType_IncomeStatement" roleURI="http://xyz.abc/role/IncomeStatement">
+    <link:definition>10000 - Statement - Income Statement</link:definition>
+                <link:usedOn>link:calculationLink</link:usedOn>
+                <link:usedOn>link:definitionLink</link:usedOn>
+                <link:usedOn>link:presentationLink</link:usedOn>
+</link:roleType>')
+```
+_Note_ the extended link role needs to have a unique `@id` and `@roleURI` attributes.  
+
+##### Linkbases references
+_Linking to Linkbases files using `<linkbaseRef>` element as in our example as follows:_  
+```{r is_xsd_linkbaseRef, echo=FALSE}
+linkbaseRefs <- xml2::xml_find_all(is_xsd,'.//*[local-name()="linkbaseRef"]') %>%
+  map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x))
+  }) %>% bind_rows() %>% mutate(description=c('Table Linkbase','Fromula Linkbase (for validation)',
+    'English Labels linkbase', 'Arabic Labels linkbase', 'Presentation linkbase', 
+    'Definition linkbase (Dimensions)', 'Calculation linkbase', 'Arabic ELR definition'),
+  arcrole= paste0('http://.../', basename(arcrole)),
+  role= paste0('http://.../', basename(role))
+  
+  )
+
+k0 <- knitr::kable(linkbaseRefs) %>% kableExtra::kable_classic()
+
+htmltools::div(htmltools::HTML(k0), style="overflow-x:auto")
+```
+</br>
+
+##### Taxonomy elements/vocabulary:  
+The `<element>` tag is used to define concepts, either concept core dimensions or taxonomy defined dimensions as follows:  
+```{r is_xsd_elements, echo=FALSE}
+elements <- xml2::xml_find_all(is_xsd,'.//*[local-name()="element"]') %>%
+  map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x))
+  }) %>% bind_rows() %>% arrange(abstract)
+trueRows <- which(if_else(elements$abstract=='true', TRUE, FALSE))
+falseRows <- which(if_else(elements$abstract=='false', TRUE, FALSE))
+k <-  knitr::kable(elements) %>% 
+  kableExtra::pack_rows('Concept Core Dimensions', falseRows[1], falseRows[length(falseRows)],label_row_css = "font-style: italic;border-bottom: 1px solid;") %>%
+    kableExtra::pack_rows('Taxonomy Defined Dimensions', trueRows[1], trueRows[length(trueRows)],label_row_css = "font-style: italic;border-bottom: 1px solid;") %>% 
+  kableExtra::kable_classic() 
+htmltools::div(htmltools::HTML(k), style="overflow-x:auto")
+```
+</br>
+
+#### Presentation linkbase  
+Presentation linkbase is used to define concepts relationships in terms of presentation and rendering, in other words it organizes concepts by defining the order and grouping of concepts within the taxonomy, also it is used for rendering a taxonomy in a human readable format. 
+
+Presentation linkbase XML file:([see file](xml_files/incomeStatementExample/is_pre.xml){target=_blank})  
+```{r is_example_pre_link, echo=FALSE}
+fn_CodeChunkOut(lang='xml', File = here::here(post_path,'xml_files/incomeStatementExample/is_pre.xml'))
+```
+  
+Note that the root element is `<linkbase>`, which can have only four types of children elements (see [linkbase element](#linkbase-element-img))
+
+**The presentation linkbase relevant components can be analyzed as follows:**  
+
+##### roleRef  
+Element `<roleRef>` references the `<roleType>` declaration in the schema and is repeated for each `roleType` declared, following is the `roleRef` from our example:  
+```{r is_pre_roleType, echo=FALSE}
+is_pre <- xml2::read_xml(here::here(post_path,'xml_files/incomeStatementExample/is_pre.xml'))
+
+roleRef <- xml2::xml_find_all(is_pre,'.//*[local-name()="roleRef"]') %>%
+  map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x))
+  }) %>% bind_rows() %>% mutate(description=c(kableExtra::text_spec('See roleType', link = '#role-types')))
+
+k11 <- knitr::kable(roleRef, escape = F) %>% kableExtra::kable_classic()
+htmltools::div(htmltools::HTML(k11), style="overflow-x:auto")
+```
+##### Relations (arcs)  
+As mentioned the network of relations is a tree structure with a root, in our case for linkrole `http://xyz.abc/role/IncomeStatement` the root element is `Income Statement [Abstract]` that is meant to group together all Income statement elements, the network can be described in a table as follows (`@from` and `@to` refers to locators ids):  
+```{r is_pre_network, echo=FALSE}
+network <- xml2::xml_find_all(is_pre,'.//*[local-name()="presentationArc"]') %>%
+  map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x))
+  }) %>% bind_rows() %>% arrange(from, order)
+
+knitr::kable(network, escape = F) %>% kableExtra::kable_classic() %>% 
+  htmltools::HTML() %>% htmltools::div(style="overflow-x:auto;white-space: nowrap;")
+```
+
+_Notes_  
+
+* `<presentationArc>` is used to establish presentation relationships in a presentation network.  
+* `parent-child` arcrole is used for presentation relationship  
+* `@preferredLabel` is used on `presentationArc` to determine which label role to display (see label linkbase)  
+* `@order` is used on `presentationArc` to determine the order of appearance of concept when presented.  
+
+##### Hierarchical View  
+**A hierarchical view of presentation link (Concepts labels are used)**: 
+```{r is_pre_network_hier, echo=FALSE}
+data.frame(`Concept Label`= c(
+'10000 - Statement - Income Statement',
+'Income Statement [Abstract]',
+'Income Statement [Table]',
+'Product And Service [Axis]',
+'Product And Service [Domain]',
+'Product [Member]',
+'Service [Member]',
+'Statement [Line Items]',
+'Total Revenues',
+'Total Costs of Revenues',
+'Gross Profit',
+'Expenses',
+'Net Profit',
+'Earnings Per Share',
+'Shares Outstanding'),
+order=c('',1,1,1,1,1,2,2,1,2,3,4,5,6,7),
+depth=c('Container','Root','2','3','4','5','5','3','4','4','4','4','4','4','4')) %>% knitr::kable(col.names = c(paste0('Concept Label', kableExtra::footnote_marker_symbol(1)),'Order within Group', 'depth'), align = c('l', 'c', 'r'), escape = F) %>% kableExtra::kable_classic() %>% 
+  kableExtra::add_indent(positions = 2, level_of_indent =1 ) %>% 
+  kableExtra::add_indent(positions = 3, level_of_indent =2 ) %>% 
+  kableExtra::add_indent(positions = c(4,8), level_of_indent =3 ) %>% 
+  kableExtra::add_indent(positions = c(5,9:15), level_of_indent =4) %>% 
+  kableExtra::add_indent(positions = c(6,7), level_of_indent =5) %>% 
+  kableExtra::footnote(symbol="Concepts preferred labels are used in this table")
+
+
+```
+
+
+**A logical view of the presentation link role will be as follows:**
+
+<div>
+<center>
+![Presentation Link Diagram](`r here::here(post_path, 'images/presentationlink.png')`)
+</center>
+<p style="text-align:center">
+**Presentation Link Diagram **[_(figure created using draw.io)_](https://app.diagrams.net/)
+</p>
+</div>  
+
+#### Calculation linkbase  
+Calculation linkbase is used to describe calculation relationships between concepts in terms of totals and subtotals, it is important to keep in mind that XBRL itself does not do any calculations, it just describe the calculation relationship between concepts. 
+
+Calculation linkbase XML file ([see file](xml_files/incomeStatementExample/is_cal.xml){target=_blank}):  
+```{r is_example_cal_link, echo=FALSE}
+fn_CodeChunkOut(lang='xml', File = here::here(post_path,'xml_files/incomeStatementExample/is_cal.xml'))
+```
+  
+**Calculation linkbase relevant components can be analyzed as follows:**  
+
+##### roleRef  
+Element `<roleRef>` references the `<roleType>` declaration in the schema and is repeated for each `roleType` declared, following is the `roleRef`` from our example:  
+```{r is_cal_roleType, echo=FALSE}
+is_cal <- xml2::read_xml(here::here(post_path,'xml_files/incomeStatementExample/is_cal.xml'))
+
+roleRef <- xml2::xml_find_all(is_cal,'.//*[local-name()="roleRef"]') %>%
+  map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x))
+  }) %>% bind_rows() %>% mutate(description=c(kableExtra::text_spec('See roleType', link = '#role-types')))
+
+k11 <- knitr::kable(roleRef, escape = F) %>% kableExtra::kable_classic()
+htmltools::div(htmltools::HTML(k11), style="overflow-x:auto")
+```
+
+##### Relations (arcs)  
+The root element in case of calculation relationship is usually the grand total of all other calculations, in our `Income Statement` the root element is `Net Profit` for linkrole `http://xyz.abc/role/IncomeStatement`, the network can be described in a table as follows (`@from` and `@to` refers to locators ids):  
+```{r is_cal_network, echo=FALSE}
+network_cal <- xml2::xml_find_all(is_cal,'.//*[local-name()="calculationArc"]') %>%
+  map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x))
+  }) %>% bind_rows() %>% arrange(from, order)
+
+knitr::kable(network_cal, escape = F) %>% kableExtra::kable_classic() %>% 
+  htmltools::HTML() %>% htmltools::div(style="overflow-x:auto;white-space: nowrap;")
+```
+
+_Notes_  
+
+* `<calculationArc>` is used to establish calculation relationships in a calculation network.  
+* `summation-item` arcrole is used for calculation relationship  
+* `@weight` is used on `calculationArc` to determine if this concept is to be added (`@weight=1.0`) or subtracted (`@weight=-1.0`), the concept attribute `@balance` is used in conjunction with the `@weight` to determine the appropriate arithmetic operation.  
+* `@order` is used on `calculationArc` to determine the order of appearance of concept when the calculation relationship is presented.  
+
+##### Hierarchical View  
+**A hierarchical view of calculation link (Concepts labels are used)**: 
+```{r is_cal_network_hier, echo=FALSE}
+data.frame(`Concept Label`= c(
+'10000 - Statement - Income Statement',
+'Net Profit',
+'(1) Gross Profit',
+'(1) Revenue',
+'(-1) Cost of Revenue',
+'(-1) Expenses'),
+weight=c('','','1.0','1.0','-1.0','-1.0'),
+balance=c('', 'credit', 'credit', 'credit','debit', 'debit'),
+depth=c('Container','Root','1','2','2','1')) %>% knitr::kable(col.names = c(paste0('Concept Label', kableExtra::footnote_marker_symbol(1)),'Weight','Balance', 'depth'), align = c('l', 'c','c' ,'r'), escape = F) %>% kableExtra::kable_classic() %>% 
+  kableExtra::add_indent(positions = 2, level_of_indent =1 ) %>% 
+  kableExtra::add_indent(positions = c(3,6), level_of_indent =2 ) %>% 
+  kableExtra::add_indent(positions = c(4,5), level_of_indent =3 ) %>%
+  kableExtra::footnote(symbol="Concepts preferred labels are used in this table")
+
+
+```
+
+#### Label linkbase  
+Label linkbase is an example of `Resource Link`, it is used to create relationships between concepts and their labels, label here is the `Resource`. Each concept can have multiple labels describing the concept in different roles, examples of label roles beginning balance or ending balance, also a concept can have labels in multiple languages.  
+
+Label link uses `<labelArc>` to link a concept to its labels, and uses `@arcrole` `http://www.xbrl.org/2003/arcrole/concept-label`.  
+
+##### Label Roles  
+Each label (resource) is defined using the element `<label>` from namespace `{http://www.xbrl.org/2003/linkbase}`. The `@role` and `@xml:lang` attributes on the `<label>` element are used to identify the role of the label and its language. XBRL specifications specify some standard label `roles`, some of them are as follows:   
+
+```{r is_lab_cash, echo=FALSE}
+data.frame(
+  role = c(
+    '<span>Omitted role attribute OR</span>
+    <span>http://www.xbrl.org/2003/role/label</span>',
+    'http://www.xbrl.org/2003/role/terseLabel',
+    'http://www.xbrl.org/2003/role/verboseLabel',
+    'http://www.xbrl.org/2003/role/totalLabel',
+    '
+    <span>http://www.xbrl.org/2003/role/periodStartLabel</span>
+    <span>http://www.xbrl.org/2003/role/periodEndLabel</span> 
+    ', 'http://www.xbrl.org/2003/role/documentation', '...'
+  ),
+  meaning = c(
+    'Standard label for a Concept.',
+    'Short label for a Concept, often omitting text that should be inferable when the concept is reported in the context of other related concepts.',
+    'Extended label for a Concept, making sure not to omit text that is required to enable the label to be understood on a stand alone basis.',
+    'The label for a Concept for use in presenting values associated with the concept when it is being reported as the total of a set of other values.',
+    ' http://www.xbrl.org/2003/role/periodEndLabel	The label for a Concept with periodType="instant" for use in presenting values associated with the concept when it is being reported as a start (end) of period value.',
+    'Documentation of a Concept, providing an explanation of its meaning and its appropriate usage and any other documentation deemed necessary.',
+    '...'
+    
+  )
+) %>% knitr::kable(escape = F) %>% kableExtra::kable_classic() %>% 
+  kableExtra::row_spec(1:5, extra_css = "border-bottom: 1px solid lightgray")
+```
+For the full list of roles ([See XBRL Specifications Table 8](https://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html#_5.2.2.2.2){target=_blank}).
+
+In this example the English labels and Arabic labels are stored in separate files (`is_lab_en.xml` and `is_lab_ar.xml`), files displayed below:  
+
+Arabic linkbase XML file:([see file](xml_files/incomeStatementExample/is_lab_ar.xml){target=_blank})  
+```{r is_example_lab_ar, echo=FALSE}
+fn_CodeChunkOut(lang='xml', File = here::here(post_path,'xml_files/incomeStatementExample/is_lab_ar.xml'))
+```
+
+
+English linkbase XML file: ([see file](xml_files/incomeStatementExample/is_lab_en.xml){target=_blank})  
+```{r is_example_lab_en, echo=FALSE}
+fn_CodeChunkOut(lang='xml', File = here::here(post_path,'xml_files/incomeStatementExample/is_lab_en.xml'))
+```
+
+##### roleRef  
+Element `<roleRef>` was not used with label link because we do not need to partition the label links by roles (we can do that but was not done in this case), instead the default standard link role `http://www.xbrl.org/2003/role/link` was used on the `labelLink` element.
+
+Since label link is a resource link, it does not have a root element, it just links the concept to the resources.  
+
+##### Label Resources  
+Table showing label resource declarations:
+```{r is_lab_network, echo=FALSE}
+lab_en <- xml2::read_xml(here::here(post_path,'xml_files/incomeStatementExample/is_lab_en.xml')) %>% 
+  xml2::xml_find_all('.//*[local-name()="label"]') %>%
+  map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x), Label=xml2::xml_text(x))
+  }) %>% bind_rows()
+
+# lab_ar <- xml2::read_XML(here::here('XML_files/incomeStatementExample','is_lab_ar.XML')) %>% 
+#   xml2::XML_find_all('.//*[local-name()="label"]') %>%
+#   map(function(x) {
+#     c(tag=xml2::XML_name(x), xml2::XML_attrs(x), Label=xml2::XML_text(x))
+#   }) %>% bind_rows()
+
+# list(lab_ar,lab_en) %>% bind_rows() %>% mutate(Label=)
+names(lab_en)[4] <- "id_label"
+lab_en %>%
+knitr::kable('html', escape =T) %>% kableExtra::kable_classic() %>%
+  htmltools::HTML() %>% htmltools::div(style="overflow-x:auto;white-space: nowrap;")
+```
+
+_Notes_  
+
+* Arabic Labels are not shown here due to encoding issues, please see file [here](xml_files/incomeStatementExample/is_lab_ar.xml).  
+* `@lang` is used to specify the language of the label, this will help switching between label languages in any XBRL processor.  
+* `@role` is used to specify label role, one concept can have many labels but each label should have unique label role.  
+
+
+#### Definition linkbase  
+Definition Link is used to define relations between concepts that goes beyond calculation or presentation links. Element `<definitionLink>` is used for the definition network for a linkrRole specified by `@role` attribute of the `<definitionLink>` element, `<definitionArc>` is used to establish the relation between the concepts pairs for the relation specified by the `@role` attribute of the `<definitionArc>` element.  
+
+XBRL specifications defines some standard definition `arcRoles` ([see XBRL specification section 5.2.6.2](https://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html#_5.2.6.2)), and here are the definitions from _THD section 3.4.4.3_:  
+
+>1.	General-special - This relationship indicates that one concept of a pair is a more specialized form of another concept. For instance, in the widget example, the widget type AngularWidgets can be general (referring to any widget type that has angles), while the widget type TriangularWidgets is more specific.
+>2.	Essence-alias - This relationship indicates that one concept of a pair essentially has the same meaning as the other concept. For example, one reporting entity may use the concept Widgets to refer to its product, and another may prefer the concept Gizmos, but the underlying meaning, that these concepts are products, is the same. The essence-alias definition reflects a change in terminology rather than semantic meaning.
+>3.	Requires-element - This relationship indicates that the value of one concept is required when the value of the other concept in the pair is present. For example, in the widget report with both concept core dimensions WidgetsSold and PricePerWidget, PricePerWidget requires a value for WidgetsSold.
+>4.	Similar-tuples - This relationship is operationally the same as the essence-alias definition but reserved for usage with tuples. Tuples are not commonly used.  
+>
+>Additionally, the XBRL Dimensions Specification allows for more definition types. These types are used to define the relationships pertaining to the components of a dimension in XBRL. The definitions exist between a concept and a taxonomy-defined dimension to define the hierarchical relationship between them. Examples of each can be seen in Figure 3-10.
+>
+>1.	Dimension-default - This relationship indicates that the concept is the default value for the taxonomy-defined dimension.
+>2.	Dimension-domain - This relationship indicates that the concept represents the domain of the taxonomy-defined dimension.
+>3.	Domain-member - This relationship indicates that one concept is a member of the domain of the other concept that is part of a taxonomy-defined dimension. This relationship can exist between many concepts. For example, a Northeast member may belong to a GeographicLocation axis, but comprising this Northeast member is a group of northeastern states in the US. These each have the domain-member relationship with the Northeast concept.
+>`r tufte::quote_footer('--- [TDH section 3.4.4.3 page 50](https://xbrlus.github.io/docs/tdh.html)')`
+
+In addition to the above, XBRL Dimensions Specifications defines the following relations:  
+
+* `all and notAll`: together also referred to as `has hypercube` is a relation between a primary item declaration and a hypercube item, the `all` relations means that the primary item can be used with all the dimensions included in the hypercube, `notAll` means that the primary item cannot be used with any dimension in the hypercube. In addition to defining dimensional relation
+
+* The `@closed` attribute of a hypercube that takes a true/false value, if true it specifies that all taxonomy-defined dimensions in the hypercube must intersect on a fact in order for that fact to be part of the hypercube, if false any of the taxonomy-defined dimensions in the hypercube can intersect on a fact in order for that fact to be part of the hypercube.  
+
+* `hypercube-dimension` a relation between a hypercube and a dimension.  
+
+* Sometimes authors of an extension taxonomy may want to prohibit the use of some primary items from an imported taxonomy, one of the ways to so is by linking the prohibited items to an empty hypercube (a hypercube with one dimension that does not have any members), and this will result in a validation error if any of these concepts is used.
+
+In our example, definition linkbase contains only dimensional relationship to create the income statement table with Product And Service dimensions.  
+
+Definition linkbase XML file:([see file](xml_files/incomeStatementExample/is_def.xml){target=_blank})  
+```{r is_example_def_link, echo=FALSE}
+fn_CodeChunkOut(lang='xml', File = here::here(post_path,'xml_files/incomeStatementExample/is_def.xml'))
+```
+  
+##### roleRef and arcroleRef  
+Element `<roleRef>` references the `<roleType>` declaration in the schema and is repeated for each `roleType` declared, following is the `roleRef`` from our example:  
+```{r is_def_roleType, echo=FALSE}
+is_def <- xml2::read_xml(here::here(post_path,'xml_files/incomeStatementExample/is_def.xml'))
+
+roleRef <- xml2::xml_find_all(is_def,'.//*[local-name()="roleRef" or local-name()="arcroleRef"]') %>%
+  map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x))
+  }) %>% bind_rows()
+
+knitr::kable(roleRef, escape = F) %>% 
+  kableExtra::kable_classic() %>% 
+  htmltools::HTML() %>% 
+  htmltools::div(style="overflow-x:auto;white-space: nowrap;")
+```
+_Note_ `arcroleRef` is used to reference arcroles declared in XBRL Dimensions specifications.
+
+##### Relations (arcs)  
+In this example only relations from XBRL dimensions are used in the definition linkbase for the linkrole `http://xyz.abc/role/IncomeStatement`. The dimensional relations are somewhat similar to presentation relations in form, but with different processing instructions. The root element is also `Income Statement [Abstract]` that is meant to group together all Income statement hypercubes, the network can be described in a table as follows (`@from` and `@to` refers to locators ids):  
+```{r is_def_network, echo=FALSE}
+network <- xml2::xml_find_all(is_def,'.//*[local-name()="definitionArc"]') %>%
+  map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x))
+  }) %>% bind_rows() %>% arrange(from, order)
+
+knitr::kable(network, escape = F) %>% kableExtra::kable_classic() %>% 
+  htmltools::HTML() %>% htmltools::div(style="overflow-x:auto;white-space: nowrap;")
+```
+
+_Notes_  
+
+* `<definitionArc>` is used to establish dimensional relationships.  
+* `arcroles` used are defined in XBRL Dimensions specifications.
+* `@closed` and `@contexElement` on `<definitionArc>` relation between `example_StatementLineItems` and `example_IncomeStatementTable` with role `http://xbrl.org/int/dim/arcrole/all` are used to specify that all taxonomy-defined dimensions in the hypercube must intersect on a fact in order for that fact to be part of the hypercube, and the dimensions must be `segment` dimensions (i.e. linked through context segment). 
+* `@order` is used on `definitionArc` to determine the order of appearance of concept when presented.  
+
+##### Hierarchical View  
+**A hierarchical view of presentation link (Concepts labels are used)**: 
+```{r is_def_network_hier, echo=FALSE}
+
+list(
+c('10000 - Statement - Income Statement', '', 'Container'),
+c('Income Statement [Abstract]', '', 'Root'),
+c('Statement [Line Items]', 'domain-member', '1'),
+c('Income Statement [Table]', 'all', '2'),
+c('Product And Service [Axis]', 'hypercube-dimension', '3'),
+c('Product And Service [Domain]', 'dimension-domain', '4'),
+c('Product [Member]', 'domain-member', '5'),
+c('Service [Member]', 'domain-member', '5'),
+c('Revenue', 'domain-member', '2'),
+c('Cost of Revenue', 'domain-member', '2'),
+c('Gross Profit', 'domain-member', '2'),
+c('Expenses', 'domain-member', '2'),
+c('Net Profit', 'domain-member', '2')
+
+) %>% map(function(x){names(x) <- c('Concept Lable', 'arcrole', 'depth'); return(x)}) %>% 
+  bind_rows() %>% 
+knitr::kable(col.names = c(paste0('Concept Label', kableExtra::footnote_marker_symbol(1)),'arcrole', 'depth'), align = c('l', 'l', 'r'), escape = F) %>% kableExtra::kable_classic() %>% 
+  kableExtra::add_indent(positions = 2, level_of_indent =1 ) %>% 
+  kableExtra::add_indent(positions = 3, level_of_indent =2 ) %>% 
+  kableExtra::add_indent(positions = c(4,9:13), level_of_indent =3 ) %>% 
+  kableExtra::add_indent(positions = 5, level_of_indent =4) %>% 
+  kableExtra::add_indent(positions = 6, level_of_indent =5) %>% 
+  kableExtra::add_indent(positions = c(7,8), level_of_indent =6) %>% 
+  kableExtra::footnote(symbol="Concepts preferred labels are used in this table")
+
+
+```
+
+#### Instance Document  
+Instance document is where current report data is reported using XBRL syntax ([see section 3.7.3.4](#ins-doc)). In our example we can analyze the components of our instance document as follows:([see instance file](xml_files/incomeStatementExample/instance.xml){target=_blank})  
+
+##### References  
+In our example, the instance document has only on reference `<schemaRef>`, whih is a mandatory element that must exist atleast once as child to `<xbrl>` element.
+```{r example_inst_doc, echo=FALSE}
+inst <- xml2::read_xml(here::here(post_path,'xml_files/incomeStatementExample/instance.xml'))
+
+refs <- xml2::xml_find_all(inst,'.//*[contains(local-name(), "Ref")]') %>%
+  map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x))
+  }) %>% bind_rows()
+
+knitr::kable(refs, escape = F) %>% 
+  kableExtra::kable_classic() %>% 
+  htmltools::HTML() %>% 
+  htmltools::div(style="overflow-x:auto;white-space: nowrap;")
+
+```
+
+##### contexts 
+As mentioned, `<context>` is an element used only in XBRL instance document, it acts as a container for some core dimension and taxonomy defined dimensions, and it is referenced by facts in an instance document to give contextual meaning to the fact.  
+
+In our example, following contexts were defined in the instance document:
+```{r example_inst_contexts, echo=FALSE}
+
+contexts <- xml2::xml_find_all(inst,'.//*[local-name()="context"]') %>%
+  map(function(x) {
+    c(tag=xml2::xml_name(x), 
+      id=xml2::xml_attr(x, 'id'),
+      `Entity Identifier`= as.character(xml2::xml_find_first(x, './/*[local-name()="identifier"]/text()')),
+      `Entity Identifier Schema`=as.character(xml2::xml_attr(xml2::xml_find_first(x, './/*[local-name()="identifier"]'), 'scheme')),
+      `Entity Segment Dim`=as.character(xml2::xml_attr(xml2::xml_find_first(x, './/*[local-name()="explicitMember"]'), 'dimension')),
+      `Entity Segment Member`=as.character(xml2::xml_find_first(x, './/*[local-name()="explicitMember"]/text()')),
+      `Period startDate`=as.character(xml2::xml_find_first(x, './/*[local-name()="startDate"]/text()')),
+      `Period endDate`=as.character(xml2::xml_find_first(x, './/*[local-name()="endDate"]/text()')),
+      `Period Instant`=as.character(xml2::xml_find_first(x, './/*[local-name()="instant"]/text()'))
+      )
+  }) %>% bind_rows()
+
+knitr::kable(contexts, escape = F) %>% 
+  kableExtra::kable_classic() %>% 
+  htmltools::HTML() %>% 
+  htmltools::div(style="overflow-x:auto;white-space: nowrap;")
+
+```
+_Notes_  
+* Each context must have unique ID.  
+* Each context must contain one `<entity>` element that identifies the reporting entity, `<entity>` element may contain a segment element that references a dimension and a domain member for dimensional relations.  
+* Each context must have a `<period>` element that identifies the instant or duration for a reported fact, also note there is a period type `forever` used for facts that do not have a specific period dimension, for example, the name of the founder of a company can be a fact that does not have specific period.  
+
+##### Units  
+XBRL specification requires all numeric facts to have a unit of measurement ([see XBRL specifications section 4.6.2](https://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html#_4.6.2)). In our instance document, following units were declared to be referenced by facts:  
+```{r example_inst_units, echo=FALSE}
+
+xunits <- xml2::xml_find_all(inst,'.//*[local-name()="unit"]') %>%
+    map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x), 
+      measure=as.character(xml2::xml_find_first(x, './*[local-name()="measure"]/text()')),
+      `Divide Numerator` = as.character(xml2::xml_find_first(x, './/*[local-name()="unitNumerator"]/*[local-name()="measure"]/text()')),
+      `Divide Denominator`=as.character(xml2::xml_find_first(x, './/*[local-name()="unitDenominator"]/*[local-name()="measure"]/text()'))
+      
+      )
+  }) %>% bind_rows()
+
+knitr::kable(xunits, escape = F) %>% 
+  kableExtra::kable_classic() %>% 
+  htmltools::HTML() %>% 
+  htmltools::div(style="overflow-x:auto;white-space: nowrap;")
+
+```
+_Note:_ The unit referenced by a fact needs to be compatible with the the type of that fact, for example `EarningsPerShare` concept will usually have a `perShareItemType` and the unit should be a per share also.  
+
+##### Facts 
+Details of facts in the instance is as follows:  
+```{r example_inst_facts, echo=FALSE}
+fact <-  xml2::xml_find_all(inst,'./*[not(local-name()="unit" or local-name()="context" or local-name()="schemaRef" or local-name()="footnoteLink")]') %>% 
+  map(function(x) {
+    c(tag=xml2::xml_name(x), xml2::xml_attrs(x), value=xml2::xml_text(x))
+  }) %>% bind_rows()
+
+knitr::kable(fact, escape = F) %>% 
+  kableExtra::kable_classic() %>% 
+  htmltools::HTML() %>% 
+  htmltools::div(style="overflow-x:auto;white-space: nowrap;")
+
+```
+_Notes of fact attributes `@decimal` and `@precision`:_  
+
+>A Numeric Item MUST have either a @precision attribute or a @decimals attribute unless it is of the fractionItemType or of a type that is derived by restriction from fractionItemType or has a nil value, in which case, it MUST NOT have either a @precision attribute or a @decimals attribute. `r tufte::quote_footer('--- [XBRL Specifications 4.6.3](https://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html#_4.6.3)')`  
+
+* `@decimal`: This attribute MUST be an integer or the value "INF" that specifies the number of decimal places to which the value of the fact represented may be considered accurate, possibly as a result of rounding or truncation, a negative integer means that the value is truncated, for example if `@decimal=-6` then the value is in Millions. ([See XBRL Specifications 4.6.5](https://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html#_4.6.5)).  
+* `@precision`: This attribute MUST be a non-negative integer or the string "INF" that conveys the arithmetic precision of a measurement. If a numeric fact has a @precision attribute that has the value "n" then it is correct to "n" significant figures ([See XBRL Specifications 4.6.4](https://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html#_4.6.4)).  
+
+[Also see support recommendation for precision and decimal](https://www.xbrl.org/WGN/precision-decimals-units/WGN-2017-01-11/precision-decimals-units-WGN-2017-01-11.html). 
+
+### XBRL Validation{#xbrl-validation}  
+
+#### Validation in XBRL Specification  
+XBRL Specifications requires that `XBRL Instance`, `XBRL Linkbases` and `XBRL Taxonomy Schema` must comply with the specifications, and this compliance is ensured through `Validation process` XBRL [specifications section 3.4](https://www.xbrl.org/Specification/XBRL-2.1/REC-2003-12-31/XBRL-2.1-REC-2003-12-31+corrected-errata-2013-02-20.html#_3.4). 
+
+Many of XBRL syntax is expressed using XML Schema, as a result, a part of the validation process can be performed using XML Schema validation, other parts must be handled by other validation technologies.  
+
+#### Two layers of validation
+Generally speaking there are two layers of validation, `Basic Validation` and `Business Rules validation` _(terminology may differ here, but meaning will remains the same)_.
+
+##### Basic Vaildation  
+Checks for syntax and XBRL specifications rules compliance, the basic validation rules will be the same in all situations, since it just checking for compliance with XBRL specifications. Basic validation includes many facets as follows:  
+
+* `Syntax Validation`: Checks if validity of format and validity against a schema.  
+* `Data Type Validation`: checks the data type of the value matches the data type of its concept core dimension. For example, ensuring that strings are not reported against concepts which should take numeric values.  
+* `Concept Relationship-based Validation`: These are validation based on XBRL links, as described in _TDH section 6.1.3 page 87_:  
+
+>These include, but are not limited to, relationships defined by calculation, definition, and presentation linkbases. The relationship arcs connecting concepts can aid developers (and preparers) in ensuring both the semantic logic of the relationship and that the concepts involved are used properly.`r tufte::quote_footer('--- [TDH section 6.1.3 page 87](https://xbrlus.github.io/docs/tdh.html)')`  
+
+##### Business Rules Validation
+On the other hand `Business Rules Validation` checks for compliance with rules specific to the taxonomy, and those will differ depending on the taxonomy authors' objectives and rules. This makes it necessary to come up with custom validations that checks for compliance with specific business rules. 
+
+Custom rule validation can be built into validation software, as an example, `Arelle` has multiple plugins that validates different sets of specific business rules, such as `Edgar Filing Manual (EFM)` rules (SEC rules), `IFRS` rules, `Eurpean Banking Authority (EBA)` rules, ... etc. 
+<div>
+<center>
+![Arelle Validation Options](`r here::here(post_path, 'images/arelleDSValidation.png')`)
+</center>
+<p style="text-align:center">
+**Arelle Validation Options**
+</p>
+</div>
+
+XBRL provides standardized tools to help in setting custom rules, these are `XBRL Formulae`, and `XULE` ([based on XBRL Formula specifications](https://specifications.xbrl.org/work-product-index-formula-formula-1.0.html)).
+
+**XBRL Formula**  
+XBRL Formula specifications provide XBRL constructs that instructs XBRL processor to preform certain procedures on an XBRL Instance. TDH section 6.2.1 page 88 describes XBRL Formula as follows:  
+
+>XBRL formulas provide a standardized method for defining validation rules for XBRL reports that go beyond what is provided through calculations and other concept relationships. Through formulas, the validation rules can be embedded in the taxonomy itself. This allows the taxonomy to be easily disseminated with its validation rules, which reduces the chance for preparers to misinterpret them or have difficulty locating them. XBRL formula rules are placed in their own linkbase, often termed the assertion or formula linkbase. XBRL software capable of reading and interpreting this linkbase can apply the rules and display the results to preparers.`r tufte::quote_footer('--- [TDH section 6.2.1 page 88](https://xbrlus.github.io/docs/tdh.html)')` 
+
+So in addition to the linkbases we talked about previously, a taxonomy can have a `Formula Linkbase`. XBRL formula can do four things (four processing models):  
+
+* `Value assertion`: Checks fact variable against some criteria, for example, Cash balance is greater than zero.  
+* `Existence Assertion`: Checks for the existence for specific fact exist in an XBRL Instance, for example, when there is a rule to report a specific fact, such as company identification number.  
+* `Formula`: Formulas are constructs in a formula linkbase that cause production of fact items, for example calculate liquidity ratio. This useful in data extraction from an instance document even though this is not the intended use of formula.  
+* `Consistency Assertion`: A consistency assertion specifies how to determine whether an output fact, produced by the associated formula matches reported facts, for example is Liabilities \$10 and Equity is \$5, we expect Assets to be \$15 (equality is determined within a tolerance margin).  
+
+[Figures 2 and 3 in XBRL Formula Overview](https://www.xbrl.org/wgn/xbrl-formula-overview/pwd-2011-12-21/xbrl-formula-overview-wgn-pwd-2011-12-21.html#figure-formula-processing-models) summarizes the processing models as follows:  
+<div>
+<center>
+![Four processing models effects](`r here::here(post_path, 'images/processing-models.png')`)
+</center>
+<p style="text-align:center">
+**Four processing models effects **[source XBRL Formula overview](https://www.xbrl.org/wgn/xbrl-formula-overview/pwd-2011-12-21/xbrl-formula-overview-wgn-pwd-2011-12-21.html#figure-formula-processing-models)
+</p>
+</div>
+<div>
+<center>
+![Examples for each processing model](`r here::here(post_path, 'images/processing-model-examples.png')`)
+</center>
+<p style="text-align:center">
+**Examples for each processing model **[source XBRL Formula overview](https://www.xbrl.org/wgn/xbrl-formula-overview/pwd-2011-12-21/xbrl-formula-overview-wgn-pwd-2011-12-21.html#figure-formula-processing-models)
+</p>
+</div>
+
+`IFRS Taxonomy` is an example of a taxonomy that uses formula to validate custom rules for XBRL filings based on the IFRS Taxonomy. [IFRS formula linkbase guide found here](https://www.ifrs.org/content/dam/ifrs/standards/taxonomy/general-resources/formula-documentation-2020.pdf).  
+
+**XULE**  
+XULE is an expression syntax that allows the querying of XBRL reports and taxonomies using a XULE processor, it is described in **[TDH section 6.2.2 page 99]** as follows:  
+
+>Developed by XBRL US, XULE is an expression syntax that allows the querying of XBRL reports and taxonomies using a XULE processor. The primary purpose of XULE is to provide a user-friendly syntax to query and manipulate XBRL data. This can be helpful in a multitude of ways, including aiding consumers in quickly extracting specific facts from reports and supporting developers in querying XBRL taxonomies to render them as open API schemas or as iXBRL forms.`r tufte::quote_footer('--- [TDH section 6.2.2 page 99](https://xbrlus.github.io/docs/tdh.html)')`  
+
+Example of the syntax for `XULE`:
+```c++
+namespace http://xyz.abc/IncomeStatementExample
+
+// Calculate gross margin by dimension
+output gross-margin
+$gross-profit=@GrossProfitConcept
+$revenue = @RevenueConcept
+$dims = $revenue.dimensions-explicit
+$lab = if (length($dims.values.label(None,'en').text)>0)
+		 ($dims.values.label(None,'en').text)[1]
+		else "Total"
+		
+// Print output
+"Gross Margin for {$revenue.period} {$lab} = {round( $gross-profit / $revenue, 3 )}%"
+
+// Query all facts with value more than EGP 2000
+output big-facts
+{@concept where $fact > 2000}
+```
+
+[Full guide for XULE is available here](https://xbrl.us/wp-content/uploads/2019/10/XuleV1.1.pdf).  
+
+
+### XBRL Table Linkbase  
+XBRL [Table Linkbase specifications](https://specifications.xbrl.org/spec-group-index-table-linkbase.html) provides a mechanism for taxonomy authors to define a tabular layout of facts. The resulting tables can be used for both presentation and data entry.  
+
+Table linkbase is logically similar to Presentation Linkbase but with a lot more features. It allows for a standard way for defining views of concepts defined in a taxonomy, as mentioned in the specification overview: 
+
+>Table linkbase enables the definition of tables with multiple axes. The components of these axes are not limited to individual items; instead, they can be defined in terms of a combination of dimensions, time period references, units, entities or any other property that can be used to identify the financial facts represented by taxonomies.`r tufte::quote_footer('--- [XBRL Table Linkbase Overview](https://www.xbrl.org/wgn/table-linkbase-overview/wgn-2014-03-18/table-linkbase-overview-wgn-2014-03-18.html#introduction)')`  
+
+#### Table Models  
+Table linkbase specifications define 3 models `Structural Model`, `Definition Model` and `layout model`.`Definition Model` defines the content of a table in terms of concepts and aspects using relationships in DTS, Definition Model is transformed to Structural model through process of `resolution`, the syntax provides a direct description of the definition model. `Structural Model` defines the the shape of the table in terms of hierarchical breakdowns of fact space, while  `layout Model` is the direct representation of the structure and content. 
+
+<div>
+<center>
+![Table Models](`r here::here(post_path, 'images/table-models.png')`)
+</center>
+<p style="text-align:center">
+**Table Models **[(Source: Table Linkbase Overview 1.0)](https://www.xbrl.org/wgn/table-linkbase-overview/wgn-2014-03-18/table-linkbase-overview-wgn-2014-03-18.html#figure-models)
+</p>
+</div>
+
+The basic idea of XBRL Table is that it filters and presents facts in specific layout according to the table definition and structure. 
+
+Terms relevant for the XBRL table linkbase:  
+
+`Fact Source`: A fact source is a container for XBRL facts, for example it maybe an existing XBRL instance, fact source contains the set of facts that are to be considered for inclusion in the table.  
+
+`Domain of a Table`: Is the restricted fact space defined by the combination of constraints from all of the table's breakdowns, along with any additional global constraints specified using table filters.
+
+`Axis`: An axis defines an ordered mapping of XBRL fact space onto a line.  
+
+  * The x-axis SHOULD be interpreted as a horizontal arrangement of columns in a table. Columns MAY be laid out from left to right, or right to left, according to the language conventions.  
+  * The y-axis SHOULD be interpreted as a vertical progression of rows in a table. Rows SHOULD be laid out from top to bottom.  
+  * The z-axis MAY be interpreted as multiple two-dimensional tables and MAY be laid out on a two-dimensional display by presenting each table in series or by supplying controls for the user to select the data to be presented.  
+
+`Breakdown`: A breakdown defines a logically distinct breakdown of the fact space by sets of constraints. A breakdown is modeled as an ordered tree of `structural nodes`. Each of these nodes contributes zero or more constraints to the breakdown.  
+
+  * A closed breakdown is defined as a breakdown whose sequence of constraint sets can be determined independently of the facts to be included.  
+  * An open breakdown is defined as a breakdown whose sequence of constraint sets changes dynamically with the facts included and thus cannot be completely determined without knowledge of those facts.  
+  
+`Structural Node`: A structural node is a node in a breakdown tree. Each node contributes zero or more constraints to the breakdown.  
+
+  * A closed structural node is a structural node with constraints fully determined by its definition and the DTS.  
+  * An open structural node is a structural node that does not fully define aspect value constraints and does not necessarily have a one-to-one relationship with layout nodes produced during resolution.
+
+`Definition node`: A definition node is a definition of zero or more structural nodes in the structural model.  
+
+  * A closed definition node is a definition node which resolves to one or more closed structural nodes.  
+  * An open definition node is a definition node which resolves to an open structural node.  
+  
+`Table`: represents a breakdown of XBRL fact space for the purpose of defining a reference view of XBRL data.  
+
+  * A closed table is defined as a table that consists only of closed breakdowns.  
+  * An open table is defined as a table whose constituent breakdowns include at least one open breakdown.  
+  
+#### Table linkbase components 
+Table linkbase define a table in terms of relationships between components defined in table linkbase. Table linkbase uses `generic link` as the container link, within the generic link, a table is defined using relationships `arcs` and elements defined in table linkbase.  
+
+Table linkbase uses link syntax to define a table element, then links that table to an x (rows) and y (columns) axes, each axis is then linked to a breakdown element, which acts a container for filter elements that filters the facts to be shown in the table. This logic can be visualized as follows:  
+
+
+<div>
+<center>
+![Table Definition Model](`r here::here(post_path, 'images/definition-model.png')`)
+</center>
+<p style="text-align:center">
+**Table Definition Model **[(Source: Table Linkbase Specifications 1.0)](https://www.xbrl.org/Specification/table-linkbase/REC-2014-03-18+errata-2018-07-17/table-linkbase-REC-2014-03-18+corrected-errata-2018-07-17.html#figure-xbrl-definition-model)
+</p>
+</div>
+
+
+Following is a table linkbase that creates a table from the Income Statement example, the table memics exactly the income statement:([see Table Linkbase file](xml_files/incomeStatementExample/is_tab.xml){target=_blank}) 
+```{r tab_lb, echo=FALSE} 
+fn_CodeChunkOut(lang = 'XML', File = here::here(post_path,'xml_files/incomeStatementExample/is_tab.xml'))
+```
+
+When the `income statement instance` is loaded by arelle and a table is rendered as HTML, it the output is [here](xml_files/incomeStatementExample/output-table.html){target=_blank}.  
+
+### Inline XBRL (iXBRL)  
+
+[Inline XBRL specifications](https://specifications.xbrl.org/spec-group-index-inline-xbrl.html) provide a mechanism for embedding XBRL tags in HTML documents (xHTML is required by the specifications). This allows the XBRL benefits of tagged data to be combined with a human-readable presentation of a report, which is under the control of the preparer. 
+
+The Inline XBRL `Document Set` is a group of one or more Inline XBRL Documents which when comprising sufficient metadata results in one or more Target Documents when transformed according to the mapping rules prescribed in inlineXBRL specifications.
+
+In practical terms, inline XBRL specifications define XBRL elements in the namespace `{http://www.xbrl.org/2013/inlineXBRL}`, these elements are used from within xHTML and form the metadata necessary to describe an XBRL instance document which is referred to as `Target Document`, in this context a `Target Document` is defined as `valid XBRL instance document represented by metadata in the Inline XBRL Document Set`. The target document need not to physically exist, but the metadata must be sufficient to construct the target document when transformed according to the mapping rules prescribed in inline XBRL Specification. 
+
+<div>
+<center>
+![Inline XBRL](`r here::here(post_path, 'images/inlineXBRL.png')`)
+</center>
+<p style="text-align:center">
+**Inline XBRL**
+</p>
+</div>
+
+#### Inline XBRL elements  
+As mentioned, XBRL and Inline XBRL instance documents are usually created using specialized software that takes care of the form and sytanx and provide tools to help authors, but it is important to have some knowledge of the elements defined within the specifications.
+
+Inline XBRL specifications define elements in namespace `{xi=http://www.xbrl.org/2013/inlineXBRL}`:
+```{r ixbrl_elements, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+data.frame(
+  element=c("ix:continuation",
+            "ix:denominator",
+            "ix:exclude",
+            "ix:footnote",
+            "ix:fraction",
+            "ix:header",
+            "ix:hidden",
+            "ix:nonFraction",
+            "ix:nonNumeric",
+            "ix:numerator",
+            "ix:references",
+            "ix:relationship",
+            "ix:resources",
+            "ix:tuple"),
+  description=c(
+    'used to define data that is to be treated as part of ix:footnote or ix:nonNumeric.',
+    'denotes an XBRL denominator element; used with ix:fraction mapped element. see ix:fraction',
+    'used to encapsulate data that is to be excluded from the processing of ix:footnote or ix:nonNumeric elements, The purpose of the ix:exclude element is to prevent text content from being included in the {value} properties of ix:footnote or ix:nonNumeric. It has no other use.',
+    'represents the link:footnote element in XBRL instance,',
+    'denotes an XBRL fact which is an element of type, or derived from type, fractionItemType;',
+    'contains the non-displayed portions of the Target Document, it contains xi:hidden.',
+    'used to contain XBRL facts that are not to be displayed in the browser',
+    'element denotes an XBRL numeric item which is an element which is not of type, nor derived from type, fractionItemType.',
+    'element denotes an XBRL non-numeric item',
+    'denotes an XBRL numerator element',
+    'used to contain reference elements which are required by a given Target Document (schemaRef, linbaseRef)',
+    'used to define relationships between XBRL facts or between XBRL facts and footnote resources. The type of relationship is indicated by the value of the arcrole attribute, such as http://www.xbrl.org/2009/arcrole/fact-explanatoryFact for fact to fact relationships',
+    'used to contain resource elements which are required by one or more Target Documents (ix:relationship, link:roleRef, link:arcroleRef, xbrli:context, xbrli:unit)',
+    'denotes an XBRL tuple'
+  )
+) %>% 
+  knitr::kable('html') %>% 
+  kableExtra::kable_classic(full_width = F) %>% 
+  kableExtra::row_spec(1:14, extra_css = "border-bottom: 1px solid lightgray") %>% 
+  htmltools::HTML() #%>% 
+  # htmltools::div(style="overflow-x:auto;white-space: nowrap;")
+
+```
+
+The best way to understand what inline XBRL is, is actually to see it, below are three links to one and the same inline XBRL filing for `Microsoft` form `10-Q` for the 9 months ended `2021-03-31`:  
+
+* [Usual Form without inline XBRL Viewer](https://www.sec.gov/Archives/edgar/data/789019/000156459021020891/msft-10q_20210331.htm){target=_blank}  
+* With the above link open, right click anywhere and select `View page source` (if using Chrome), that will show the source code for the form, not the use of the above elements embedded in the xHTML.    
+* [Form viewed using EDGAR inline XBRL viewer](https://www.sec.gov/ix?doc=/Archives/edgar/data/789019/000156459021020891/msft-10q_20210331.htm){target=_blank}  
+
+#### Inline XBRL Transformations  
+Inline XBRL is embedded in a human readable document, which means that the values are also included in the the document in human readable form that might not comply with the data types formats required by XBRL specifications, XBRL transformations deals with this problem by associating the human readable values with a format that can be translated to a machine readable value, this is done using the `@format` attribute for each XBRL fact in an inline XBRL document. 
+
+For example, if we have a date value of `Mar. 31, 2021`, this date is human readable but does not comply with XBRL required format for date `ISO 8601` (YYY-MM-DD), so an `@format=ixt:datemonthdayyearen` is add to the fact and then XBRL processor will know how to translate this date to the `ISO 8601` format. Below is the above example processed by `Arelle Transformation Tester plugin`:  
+
+<div>
+<center>
+![Inline XBRL Transformations](`r here::here(post_path, 'images/arelleTransform.png')`)
+</center>
+<p style="text-align:center">
+**Inline XBRL Transformations**
+</p>
+</div>  
+
+**Transformations Registries**  
+[The XBRL Transformation Registry](https://specifications.xbrl.org/spec-group-index-inline-xbrl.html) contains the rules and metrics by which transformations in Inline XBRL are performed. These rules describe how descriptive text in Inline XBRL documents can be represented as XBRL data types.  
+
+Following is a sample of transformations from [transformation registry 2](https://www.xbrl.org/Specification/inlineXBRL-transformationRegistry/REC-2011-07-31+errata-2019-04-17/inlineXBRL-transformationRegistry-REC-2011-07-31+corrected-errata-2019-04-17.html):  
+```{r trans_reg, echo=FALSE, message=FALSE}
+htmltab::htmltab('https://www.xbrl.org/Specification/inlineXBRL-transformationRegistry/REC-2011-07-31+errata-2019-04-17/inlineXBRL-transformationRegistry-REC-2011-07-31+corrected-errata-2019-04-17.html', which = '//*[@id="ex-transformations"]//table')[1:5, 1:2] %>% 
+    knitr::kable('html',row.names = FALSE) %>% kableExtra::kable_classic_2(full_width = F) %>% 
+  htmltools::HTML() %>% 
+  htmltools::div(style="overflow-x:auto;white-space: nowrap;")
+
+```
+
+### Style Guides  
+Style guides are one of the supporting documents that accompany an XBRL Taxonomy. Style guides helps	in	achieving	consistency	while	creating,	maintaining	or	extending the	taxonomy.  
+
+Style guides set the rules for consistent language and naming conventions, styles and organization. For example a style guide rule my set the whether to use camel case or pascal case, what characters are allowed or disallowed in labels, and so on.   
+
+**Examples of style guides:**  
+
+* [**IFRS Taxonomy Style Guide** _(The IFRS Taxonomy Architecture - Appendix A - page 33)_](https://www.ifrs.org/content/dam/ifrs/standards/taxonomy/general-resources/ifrs-taxonomy-architecture/ifrs-taxonomy-architecture-2020.pdf){target=_blank}  
+
+* [**XBRL US Style Guide**](https://xbrl.us/wp-content/uploads/2017/09/style-guide-20170907.pdf){target=_blank}
+
+
+### Three Taxonomies  
+In this Final section we look at three different taxonomies and have overview on the choices the taxonomy authors made, there three taxonomies are:  
+
+* **IFRS Taxonomy (2020)**
+* **US GAAP Taxonomy (2021)**  
+* **European Banking Authority (EBA) Taxonomy (Framework 3.1)**  
+
+```{r three_taxonomy_table, echo=FALSE, results='asis'}  
+
+titles <- c(
+  '',
+  'IFRS Taxonomy (2020)',
+  'US GAAP Taxonomy (2021)',
+  'EBA Taxonomy (Framework 3.1)'
+)
+
+l <- list(
+  c(
+    `1`='Link',
+    `2`=htmltools::a('IFRS Taxonomy Resources', href='https://www.ifrs.org/issued-standards/ifrs-taxonomy/#general-resources', target='_blank') %>% as.character(),
+    `3`=htmltools::a('FASB 2021 Taxonomy', href='https://www.fasb.org/jsp/FASB/Page/SectionPage&cid=1176175721628', target='_blank') %>% as.character(),
+    `4`=htmltools::a('EBA Reporting Frame 3.1', href='https://www.eba.europa.eu/risk-analysis-and-data/reporting-frameworks/reporting-framework-3.1', target='_blank') %>% as.character()
+  ),
+  c(
+    `1`='Design Approach',
+    `2`='<b>Standard Based Approach:</b> For each IFRS Standard, elements reflecting disclosure requirements are identified and modeled and organized into a taxonomy',
+    `3`='<b>Domain Model:</b> Partitions business concepts so to meet US GAAP Financial Reporting Taxonomy ("UGT") Requirements that defined the content scope, stakeholders, users, user goals, use cases functional requirments, technical requirments and design goals.',
+    `4`='<b>Data Point Model (DPM):</b> DPM is a structured representation of the data, identifying all the business concepts and its relations, as well as validation rules. It contains all the relevant technical specifications necessary for developing an IT reporting solution. The XBRL Taxonomies presents the data items, business concepts, relations and validation rules described by the DPM in the technical format of an XBRL taxonomy.'
+  ),
+  c(
+    `1`= 'Type of reporting',
+    `2`= 'GAAP Reporting',
+    `3`= 'GAAP Reporting',
+    `4`= 'Regulatory Reporting'
+  ),
+  c(
+    `1`= 'Extensibility',
+    `2`= '<b>Unrestricted	extensions:</b> The purpose is to provide a framework, general principles are set out and it is left to users to determine specific extensions applying to their case',
+    `3`= '<b>Restricted/Limited extensions:</b> Extension is allowed with strict set of rules',
+    `4`= '<b>Limited extensions:</b> Extension is limited to labels in specific language or introducing specific assertions, the complete set of data points is defined in base taxonomy'
+  )
+  
+) %>% bind_rows()
+
+  knitr::kable(l, format = 'html', col.names = titles, escape = F) %>% 
+  kableExtra::kable_classic() %>% 
+  kableExtra::row_spec(1:4, extra_css = "border-bottom: 1px solid lightgray")
+
+  
+
+
+```
+
+# Taxonomy Development Project  
+In this section we explore taxonomy development projects based on the XBRL US experience laid out in TDH starting section 4 page 59. 
+
+TDH breaks down the development process into 6 main components:  
+
+* Assessing over all project scope (and defining goals)  
+* Building Transport Data Model  
+* Validation 
+* The Mechanics of Taxonomy Development
+* Documenting a Taxonomy  
+* Taxonomy Governance  
+
+<div>
+<center>
+![Taxonomy Development](`r here::here(post_path, 'images/TaxDevFW.png')`)
+</center>
+<p style="text-align:center">
+**Taxonomy Development**
+</p>
+</div> 
+
+## Assess Scope and Define Goals
+The goal of XBRL taxonomy is to facilitate the structured reporting of data from preparer to consumer. Project scope and goals should consider factors that enables preparers to produce the data and consumer should be able to use the data for its intended purpose.  
+
+`Functional requirements` represents what a taxonomy is meant to do, while `Non-functional` requirements imposes constraints on system design. The main focus in this stage is to identify the effect of requirements (functional and non-functional requirements) on the scope and design goals.  
+
+**Factors to consider when scoping and defining goals:**
+
+* Policy decision, such as extensibility.  
+* Functional requirements vs Non-functional requirement  
+* Understand use cases, how users interact with the systems to achieve their goals.  
+* Identify data to be transported, and systems that produce and consume the data.  
+* Stakeholders.  
+* Scope of the taxonomy (industry/sector wide or limited implementation).  
+* Resources required for the project.
+* Support, maintenance requirements and change management
+* Documentation and communication
+* Balancing and prioritizing requirements from stakeholders and considering cost-benefits.
+* Measures for success, such as accuracy and timeliness of data. 
+
+## Building Transport Model  
+To build the taxonomy (Transport model), current datasets and dimensionality should be described. Again functional requirements and non-functional requirements should be mapped to the data.
+
+During the process of building the model, `minimum dataset` should be determined, `minumim dataset` is the dataset free of redundant or extraneous information while representing all the necessary data. Current and legacy system may be a good source for determining minimum dataset(s). 
+
+Data is modeled based on o the minimum dataset, redundant and repetitive information should be reduced to minimum, contextual information for a data point and relationships between data points are explored.  
+
+A data model is transformed to a transport model (XBRL Taxonomy), during this process data types are determined, core concept dimensions defined, choices like using explicit vs typed dimensions are made, model relationships are translated to XBRL linkbases.  
+
+Extensibility decision should be reflected in the taxonomy design and in determining allowable methods that users can extend a taxonomy, and how extensibility affects Comparability.  
+
+Other considerations include, reporting system (system receiving and processing reports), transport format.  
+
+## Validation 
+Validation ensure robust and accurate data. There are two levels of validation in XBRL:  
+
+* Basic Validation: Ensures reports are syntax valid, valid data types used and valid relationships used. 
+* Regulatory/Industry Requirements: Ensures that business rules are applied, methods used include software validation, XBRL Formula Validation, XULE validation and Data Quality Committees (issues and maintain data quality rules).  
+
+[See XBRL Validation](#xbrl-validation).  
+
+
+## The Mechanics of Taxonomy Development  
+_Workflow_  
+Multiple groups performing different tasks are needed to create a taxonomy, and workflow should be organized, TDH gives examples of the groups as follows:  
+
+* Group responsible for creating data model and transforming it to taxonomy.  
+* Group responsible for overseeing incorporation of regulatory/governance rules and changes.  
+* Group responsible for reading reviewers' comments and making recommendations for modifications.  
+
+The work flow might look as follows:  
+
+
+<div>
+<center>
+![Taxonomy Dev Workflow](`r here::here(post_path, 'images/workflow.jpg')`)
+</center>
+<p style="text-align:center">
+**Taxonomy Dev Workflow**
+</p>
+</div> 
+
+_Preparing and Generating the Taxonomy_  
+Determine the software to be used for generating the taxonomy, and perform the following steps:  
+
+* Determine concepts' labels: important for human readability and understanding taxonomy.  
+* Building a taxonomy spreadsheet: spreadsheet containing concept, relations, and other information about the taxonomy, some software packages can use this spreadsheet to generate taxonomy files.  
+
+_The Importance of Public Exposure_  
+Taxonomy should undergo significant public review (where anyone can see and comment on the taxonomy), word 'public' here is relative to the size and scope of the taxonomy, and feedback and comments should be collected and analyzed.  
+
+
+## Documenting a Taxonomy  
+Taxonomy is a powerful tool, and it can only fulfill its purpose if users know how to use it. Taxonomy documentation is extremely important, it communicates the goals of the taxonomy and means to achieve those goals to all stakeholders.  
+
+Documentation include:  
+
+* Taxonomy White Paper: can be considered as an announcement of the taxonomy, with explanation of its purpose and justification for its development.  
+* Taxonomy guide: explains the taxonomy it self and logic behind it.  
+* Repairer's guide: provides preparers with information about the taxonomy's concepts and structures as needed to build XBRL reports.  
+* Data Consumer Guide: provides information and common use cases for data consumers. 
+TDH provide detailed examples of documentation in section 8 page 111.  
+
+## Taxonomy Governance  
+The TDH recognizes four governance roles in the taxonomy development life cycle which spans over four phases.  
+
+_Governance Roles_:  
+
+* `Sponsor`: Champions the development process and is able to bring together stakeholders successfully, could be a regulatory agency or standards organization.  
+* `Working Group`: Includes representation of all stakeholders (regulator, preparers, developers, consumers...), this group perform the tasks to develop the taxonomy deliverables.  
+* `Steering Committee`: highest committee and is led by the sponsor, provides oversight, evaluates major milestones, reviews and approves deliverables, and serves as "tie breaker" on major decisions concerning the taxonomy.  
+* `Taxonomy Manager`: is the project manager, maintains detailed knowledge of the taxonomy and the project as a whole and provides day-to-day staff support for the taxonomy working group. Also interacts with feedback and reviews and comments, and reports to the steering committee and working group.  
+* Working group and taxonomy steering committee can be consolidated and streamlined into a `taxonomy committee`. 
+
+The interaction of the above roles can be viewed as follows:  
+
+<div>
+<center>
+![Governance structure](`r here::here(post_path, 'images/gov1.jpg')`)
+</center>
+<p style="text-align:center">
+**Governance structure**
+</p>
+</div> 
+
+_Taxonomy development Life cycle Phases_:  
+The TDH recognizes four phases in the the taxonomy development life cycle, the goals and roles for each phase are as follows:  
+
+<div>
+<center>
+![The lifecycle of taxonomy development and governance](`r here::here(post_path, 'images/lifeCycle.jpg')`)
+</center>
+<p style="text-align:center">
+**The lifecycle of taxonomy development and governance**
+</p>
+</div>  
+
+---
+# Links and Resources  
+```{r res_table, echo=FALSE, results='asis', message=FALSE, warning=FALSE}
+resources_links <- readr::read_csv(here::here(post_path,"resources_links.csv"), 
+                                   col_types = cols(
+                                                    text = col_character(),
+                                                    url = col_character(),
+                                                    attr = col_character(),
+                                                    Description = col_character()
+                                                  )) %>% 
+                                                   
+  mutate(Link=pmap(., ~htmltools::HTML(as.character(htmltools::a(href=..2, target=..3, ..1)))) %>% unlist()) %>% 
+  select(Link, Description)
+DT::datatable(resources_links, rownames = FALSE, escape = FALSE, 
+              elementId = 'res-links-table',
+              options = list(paging=FALSE)
+              )
+```
+
+
